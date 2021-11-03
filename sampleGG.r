@@ -37,3 +37,4 @@ ggplot(a, aes(x = Disposition)) + geom_bar(fill = "red", color = "green", size =
 
 sum(a$Returned, na.rm = T)
 sum(a$Returned.1, na.rm = T)
+
