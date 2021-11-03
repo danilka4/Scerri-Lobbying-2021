@@ -1,12 +1,9 @@
-# Going to try to add behavior for bills that get amended/returned
-a <- read.csv("sample/2017a.csv")
-
+library(plotly)
 library(dplyr)
 library(ggsankey)
-library(ggplot2)
-
 # First lets separate all the different scenarios
 ## Scenario 1: it's a normal bill
+a <- read.csv("sample/2017a.csv")
 a <- mutate(a, Intro.Com = 1)
 normal_a <- a %>% filter(is.na(Returned) | Returned == 0) %>% 
   filter(is.na(Returned.1) | Returned.1 == 0) 
@@ -21,7 +18,7 @@ one_a[,c("Returned", "Returned.1")]
 two_a <- a %>% filter(Returned.1 == 1)
 two_a[,c("Returned", "Returned.1")]
 
-# Now to turn the data into something that can be read easily
+# Now to turn the data into something that can be read by the ggsankey
 normal_df <- normal_a %>% 
   make_long(Intro.Com,
             Pass.Com,
@@ -66,14 +63,17 @@ two_df <- rbind(
 
 
 total_df <- rbind(normal_df, one_df, two_df)
-ggplot(total_df, aes(x = x,
-               next_x = next_x,
-               node = node,
-               next_node = next_node,
-               fill = factor(x),
-               label = x)) +
-  geom_sankey(flow_alpha = 0.5, node.color = 1, width = 0.3, smooth = 10, node.color = 1) + 
-  geom_sankey_label(size = 3.5, color = 1, fill = "white") +
-  theme_sankey(base_size = 16) +
-  theme(legend.position = "none") + 
-  xlab(NULL)
+label <- levels(total_df$x)
+new_total_df <- total_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n())
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = label,
+    x = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8),
+    y = c(0.5, 0.5, 0.5, 0.3, 0.4, 0.5, 0.3),
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(new_total_df$x) - 1,
+    target = as.numeric(new_total_df$next_x) - 1,
+    value = new_total_df$n/10))%>% layout(title = "Sankey Sample Diagram with Plotly")
