@@ -38,3 +38,10 @@ ggplot(a, aes(x = Disposition)) + geom_bar(fill = "red", color = "green", size =
 sum(a$Returned, na.rm = T)
 sum(a$Returned.1, na.rm = T)
 
+
+data.frame(x = json_data$data[[1]]$link$source, 
+           next_x = json_data$data[[1]]$link$target, 
+           color = json_data$data[[1]]$link$color, 
+           lab = json_data$data[[1]]$link$label, 
+           val = json_data$data[[1]]$link$value) %>% 
+  filter(x == 35)
