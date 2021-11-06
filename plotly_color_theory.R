@@ -42,3 +42,11 @@ p <- plot_ly(
     yaxis = list(showgrid = F, zeroline = F)
   )
 p
+vals <- data.frame(
+  source = json_data$data[[1]]$link$source,
+  target = json_data$data[[1]]$link$target,
+  value =  json_data$data[[1]]$link$value,
+  color =  json_data$data[[1]]$link$color,
+  label =  json_data$data[[1]]$link$label
+)
+filter(vals, source == 35)

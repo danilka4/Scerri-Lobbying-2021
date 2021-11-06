@@ -65,7 +65,8 @@ two_df <- rbind(
 total_df <- rbind(normal_df, one_df, two_df)
 label <- levels(total_df$x)
 new_total_df <- total_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>% filter(!is.na(next_x))
-new_total_df <- rbind(new_total_df, data.frame(x = "To.Gov", next_x = "Pass.Floor", n = 16))
+new_total_df <- rbind(new_total_df, data.frame(x = as.factor("To.Gov"), next_x = as.factor("Pass.Floor"), n = 16)) #%>% 
+levels(new_total_df$next_x) <- levels(new_total_df$x)
 cols <- c("red", "orange", "yellow", "green", "blue", "indigo", "violet")
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -77,13 +78,14 @@ plot_ly(
     label = labs,
     x = c(0.1, 0.23, 0.4, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
-    color = c(rep("gray", 10), "blue", "green"),
-    line = list(color = "black", width = 0.5),
+    color = "gray",
     pad = 10), # 10 Pixel
   link = list(
     source = as.numeric(new_total_df$x) - 1,
     target = as.numeric(new_total_df$next_x) - 1,
-    value = new_total_df$n/10
+    value = new_total_df$n/10,
+    color = c(rep("white", 9), "red", "blue", "green"),
+    line = list(color = "black", width = 0.5)
     ))%>% 
   layout(title = "Sankey Sample Diagram with Plotly",
          xaxis = list(showgrid = F, zeroline = F),
