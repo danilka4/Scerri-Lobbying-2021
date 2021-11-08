@@ -56,6 +56,10 @@ data_creator <- function(csv, color_id) {
     make_long(two_a,
               To.Gov,
               Pass.Floor,
+              #Passed.Floor.2,
+              Signed.by.Gov),
+    make_long(two_a,
+              To.Gov,
               Passed.Floor.2,
               Signed.by.Gov)) %>% 
     na_if(0) %>% 
@@ -75,6 +79,9 @@ data_creator <- function(csv, color_id) {
     make_long(both_a,
               To.Gov,
               Pass.Floor,
+              Signed.by.Gov) %>% filter(!is.na(next_node)),
+    make_long(both_a,
+              To.Gov,
               Passed.Floor.2,
               Signed.by.Gov) %>% filter(!is.na(next_node))
   )

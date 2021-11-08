@@ -1,6 +1,6 @@
 source("plotly_function.R")
 # Example: 
-csv <- read.csv("sample/2017a.csv")
+csv2017 <- read.csv("sample/2017a.csv")
 ##c49c94
 new_total_df <- rbind(data_creator(csv, "rgba(196,156,148,0.6)"), data_creator(csv, "rgba(31,119,180,0.6)"))
 
@@ -16,7 +16,6 @@ plot_ly(
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     pad = 10), # 10 Pixel
-  hoverlabel = list(bordercolor = "red", size = 5),
   link = list(
     source = as.numeric(new_total_df$x) - 1,
     target = as.numeric(new_total_df$next_x) - 1,
