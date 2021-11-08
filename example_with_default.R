@@ -1,12 +1,21 @@
+# Makes the created functions usable
 source("plotly_function.R")
-# Example: 
-csv<- read.csv("sample/2017b.csv")
-##c49c94
-new_total_df <- rbind(data_creator(csv, "rgba(196,156,148,0.6)"), data_creator(csv, "rgba(31,119,180,0.6)"))
 
+
+# Reads in the csv file
+csv<- read.csv("sample/2017b.csv")
+#csv<- read.csv("<csv file here>")
+
+
+# Creates the dataframe in the desired format with a given rgb + opacity value
+new_total_df <- data_creator(csv, "rgba(196,156,148,0.6)", split = FALSE)
+
+# Makes labels for plotly pretty
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed into Law")
+
+# Plotting machinery
 plot_ly(
   type = "sankey",
   arrangement = "snap",
@@ -27,10 +36,3 @@ plot_ly(
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
-# Valid attributes include:
-#'arrangement', 'customdata', 'customdatasrc', 'domain', 'hoverinfo', 
-#'hoverlabel', 'ids', 'idssrc', 'legendgrouptitle', 'legendrank', 
-#'link', 'meta', 'metasrc', 'name', 'node', 'orientation', 'selectedpoints', 
-#'stream', 'textfont', 'type', 'uid', 'uirevision', 'valueformat',
-#'valuesuffix', 'visible', 'key', 'set', 'frame', 'transforms', 
-#'_isNestedKey', '_isSimpleKey', '_isGraticule', '_bbox'
