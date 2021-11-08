@@ -3,12 +3,12 @@ source("plotly_function.R")
 
 
 # Reads in the csv file
-csv<- read.csv("sample/2017b.csv")
-#csv<- read.csv("<csv file here>")
+#csv<- read.csv("sample/2017b.csv")
+csv<- read.csv("<csv file here>")
 
 
 # Creates the dataframe in the desired format with a given rgb + opacity value
-new_total_df <- data_creator(csv, "rgba(196,156,148,0.6)", split = FALSE)
+new_total_df <- data_creator(csv, "rgba(31,119,180,0.6)", split = FALSE)
 
 # Makes labels for plotly pretty
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
