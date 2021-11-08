@@ -88,30 +88,3 @@ data_creator <- function(csv, color_id) {
   
 }
 
-# Example: 
-csv <- read.csv("sample/2017a.csv")
-
-new_total_df <- data_creator(csv, "black")
-
-labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
-          "Passed Committee 2", "Passed Floor 2", 
-          "Delivered to Governor", "Signed into Law")
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labs,
-    x = c(0.1, 0.23, 0.4, 0.5, 0.6, 0.75, 0.9),
-    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
-    color = "gray",
-    pad = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(new_total_df$x) - 1,
-    target = as.numeric(new_total_df$next_x) - 1,
-    value = new_total_df$n/10,
-    color = new_total_df$color,
-    line = list(color = "black", width = 0.5)
-    ))%>% 
-  layout(title = "Sankey for 2017a Data",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F))
