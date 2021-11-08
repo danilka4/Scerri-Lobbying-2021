@@ -84,7 +84,7 @@ plot_ly(
     source = as.numeric(new_total_df$x) - 1,
     target = as.numeric(new_total_df$next_x) - 1,
     value = new_total_df$n/10,
-    color = c(rep("white", 9), "red", "blue", "green"),
+    color = new_total_df$color,
     line = list(color = "black", width = 0.5)
     ))%>% 
   layout(title = "Sankey Sample Diagram with Plotly",
