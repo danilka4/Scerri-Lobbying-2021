@@ -1,17 +1,19 @@
 # Makes the created functions usable
 source("plotly_function.R")
 
+
 # Reads in the csv file
 #csv<- read.csv("sample/2017b.csv")
 csv<- read.csv("<csv file here>")
 
-# Turns the data.frame into one that's usable by plotly with distinction between opposed/supported lobbying efforts
-sierra_df <- sierra_data(csv, split = FALSE)
+
+# Creates the dataframe in the desired format with a given rgb + opacity value
+new_total_df <- data_creator(csv, "rgba(31,119,180,0.6)", split = FALSE)
 
 # Makes labels for plotly pretty
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
-          "Delivered to Governor", "Signed into Law")
+          "Delivered to Governor", "Signed by Governor", "Law")
 
 # Plotting machinery
 plot_ly(
@@ -24,10 +26,10 @@ plot_ly(
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(sierra_df$x) - 1,
-    target = as.numeric(sierra_df$next_x) - 1,
-    value = sierra_df$n,
-    color = sierra_df$color,
+    source = as.numeric(new_total_df$x) - 1,
+    target = as.numeric(new_total_df$next_x) - 1,
+    value = new_total_df$n,
+    color = new_total_df$color,
     line = list(color = "black", width = 0.5)
     ))%>% 
   layout(title = "Sankey for 2017b Data",

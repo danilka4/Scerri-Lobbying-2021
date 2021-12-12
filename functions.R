@@ -1,0 +1,263 @@
+
+library(plotly)
+library(dplyr)
+library(ggsankey)
+
+data_creator <- function(csv, color_id, split = FALSE) {
+  a <- mutate(csv, Intro.Com = 1, Law = Signed.by.Gov)
+  normal_a <- a %>% filter(is.na(Amended) | Amended == 0) %>% 
+    filter(is.na(Returned) | Returned == 0) 
+  
+  # Separate all the data with the initial return
+  one_a <- a %>% filter(Amended == 1, Returned == 0)
+  
+  # Separate all the data with the second return
+  two_a <- a %>% filter(Amended == 0, Returned == 1)
+  
+  # Separate all the data with both returns
+  both_a <- a %>% filter(Amended == 1, Returned == 1)
+  
+  # Now to turn the data into something that can be read by the ggsankey
+  normal_df <- normal_a %>% 
+    make_long(Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2,
+              To.Gov,
+              Signed.by.Gov,
+              Law) %>% 
+    na_if(0) %>% 
+    filter(!is.na(node)) 
+  
+  one_df <- rbind(
+    make_long(one_a,
+              Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2) %>% filter(!is.na(next_node)),
+    make_long(one_a,
+              Pass.Floor.2,
+              Pass.Floor.1,
+              To.Gov,
+              Signed.by.Gov,
+              Law)) %>% 
+    na_if(0) %>% 
+    filter(!is.na(node)) 
+  two_df <- NULL
+  both_df <- NULL
+ if (split) {
+  two_df <- rbind(
+    make_long(two_a,
+              Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2, 
+              To.Gov) %>% filter(!is.na(next_node)),
+    make_long(two_a,
+              To.Gov,
+              Pass.Floor.1,
+              Signed.by.Gov),
+    make_long(two_a,
+              To.Gov,
+              Pass.Floor.2,
+              Signed.by.Gov,
+              Law)) %>% 
+    na_if(0) %>% 
+    filter(!is.na(node)) 
+  
+  both_df <- rbind(
+    make_long(both_a,
+              Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2) %>% filter(!is.na(next_node)),
+    make_long(both_a,
+              Pass.Floor.2,
+              Pass.Floor.1,
+              To.Gov) %>% filter(!is.na(next_node)),
+    make_long(both_a,
+              To.Gov,
+              Pass.Floor.1,
+              Signed.by.Gov) %>% filter(!is.na(next_node)),
+    make_long(both_a,
+              To.Gov,
+              Pass.Floor.2,
+              Signed.by.Gov,
+              Law) %>% filter(!is.na(next_node))
+  )
+ } else {
+  two_df <- rbind(
+    make_long(two_a,
+              Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2, 
+              To.Gov) %>% filter(!is.na(next_node)),
+    make_long(two_a,
+              To.Gov,
+              Pass.Floor.1,
+              Pass.Floor.2,
+              Signed.by.Gov,
+              Law)
+    ) %>% 
+    na_if(0) %>% 
+    filter(!is.na(node)) 
+  
+  both_df <- rbind(
+    make_long(both_a,
+              Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2) %>% filter(!is.na(next_node)),
+    make_long(both_a,
+              Pass.Floor.2,
+              Pass.Floor.1,
+              To.Gov) %>% filter(!is.na(next_node)),
+    make_long(both_a,
+              To.Gov,
+              Pass.Floor.1,
+              Pass.Floor.2,
+              Signed.by.Gov,
+              Law) %>% filter(!is.na(next_node))
+  )
+ 
+ }
+  
+  total_df <- rbind(normal_df, one_df, two_df)
+  label <- levels(total_df$x)
+  new_total_df <- total_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>% 
+    filter(!is.na(next_x)) %>% 
+    mutate(color = color_id)
+  return(new_total_df)
+  
+}
+
+sierra_data <- function(csv, split = FALSE) {
+  supported <- filter(csv, SC.Position == 1)
+  neutral <- filter(csv, SC.Position == 0)
+  opposed <- filter(csv, SC.Position == -1)
+  supported_df <- data_creator(supported, "rgba(154,205,50,1.0)", split)
+  neutral_df <- data_creator(neutral, "rgba(176,224,230,1.0)", split)
+  opposed_df <- data_creator(opposed, "rgba(255,69,0,1.0)", split)
+  return(rbind(supported_df, neutral_df, opposed_df))
+}
+
+
+
+data_creator_dead <- function(csv, color_id, color_black = TRUE) {
+  a <- mutate(csv, Intro.Com = 1, Law = Signed.by.Gov)
+  normal_df <- a %>% 
+    make_long(Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2,
+              To.Gov,
+              Signed.by.Gov,
+              Law) %>% 
+    na_if(0) %>% 
+    filter(!is.na(node))
+  
+  label <- levels(normal_df$x)
+  
+  new_total_df <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>% 
+    mutate(color = color_id) %>% filter(!is.na(next_x))
+  dead <- (new_total_df$n - lead(new_total_df$n))[1:6]
+  new_total_df <- rbind(
+    new_total_df, 
+    data.frame(
+      x = as.factor(c("Pass.Com.1", "Pass.Floor.1", "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Signed.by.Gov")), 
+      next_x = as.factor(rep("Dead", 6)), 
+      n = dead, 
+      color = color_id))
+  if (color_black) {
+    new_total_df <- color_dead(new_total_df)
+  }
+  return(new_total_df)
+}
+
+sierra_data_dead <- function(csv, color_black = TRUE) {
+  supported <- filter(csv, SC.Position == 1)
+  neutral <- filter(csv, SC.Position == 0)
+  opposed <- filter(csv, SC.Position == -1)
+  supported_df <- data_creator_dead(supported, "rgba(154,205,50,1.0)", color_black)
+  neutral_df <- data_creator_dead(neutral, "rgba(176,224,230,1.0)", color_black)
+  opposed_df <- data_creator_dead(opposed, "rgba(255,69,0,1.0)", color_black)
+  output <- rbind(supported_df, neutral_df, opposed_df)
+  if (color_black) {
+    output <- color_dead(output)
+  }
+  return(output)
+}
+
+color_dead <- function(df) {
+  non_dead <- filter(df, next_x != "Dead")
+  dead <- filter(df, next_x == "Dead")
+  dead_comb <- group_by(dead, x, next_x) %>% 
+    summarise(n = sum(n), color = "black")
+  return(rbind(non_dead, dead_comb))
+}
+
+
+
+no_return_sierra_data <- function(csv, shell = FALSE) {
+  supported <- filter(csv, SC.Position == 1)
+  neutral <- filter(csv, SC.Position == 0)
+  opposed <- filter(csv, SC.Position == -1)
+  supported_df <- no_return_data_creator(supported, "rgba(154,205,50,1.0)")
+  neutral_df <- no_return_data_creator(neutral, "rgba(176,224,230,1.0)")
+  opposed_df <- no_return_data_creator(opposed, "rgba(255,69,0,1.0)")
+  if (shell) {
+    opposed_df <- rbind(opposed_df, data.frame(x = as.factor(c("Pass.Floor.2", "To.Gov", "To.Gov", "Pass.Floor.1", "Pass.Floor.2")),
+                                                   next_x = as.factor(c("Pass.Floor.1", "Pass.Floor.1", "Pass.Floor.2","Signed.by.Gov", "Signed.by.Gov")),
+                                                   n = 3, color = "gray"))
+  }
+  return(rbind(supported_df, neutral_df, opposed_df))
+}
+
+no_return_data_creator <- function(csv, color_id, shell = FALSE) {
+  a <- mutate(csv, Intro.Com = 1, Law = Signed.by.Gov)
+  normal_df <- a %>% 
+    make_long(Intro.Com,
+              Pass.Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2,
+              To.Gov,
+              Signed.by.Gov,
+              Law) %>% 
+    na_if(0) %>% 
+    filter(!is.na(node)) 
+  
+  label <- levels(normal_df$x)
+  
+  new_total_df <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>% 
+    filter(!is.na(next_x)) %>% 
+    mutate(color = color_id)
+  if (shell) {
+    new_total_df <- rbind(new_total_df, data.frame(x = as.factor(c("Pass.Floor.2", "To.Gov", "To.Gov", "Pass.Floor.1", "Pass.Floor.2")),
+                                                   next_x = as.factor(c("Pass.Floor.1", "Pass.Floor.1", "Pass.Floor.2","Signed.by.Gov", "Signed.by.Gov")),
+                                                   n = new_total_df[1,3] / 15, color = "gray"))
+  }
+  return(new_total_df)
+  
+}
+
+
+# ggplot identifiers
+add_identifiers <- function(x) {
+x %>% mutate(Dis = factor(if_else(Disposition == "DiC", "Died in Committee", if_else(Disposition == "PiL", "Passed into Law", "Died Elsewhere")),
+                             levels = c("Died in Committee", "Died Elsewhere", "Passed into Law")), 
+                        Pos = if_else(SC.Position == 1, "Supported", if_else(SC.Position == 0, "Neutral", "Opposed")))
+}
+
+# obtain columns we care about
+col_care <- function(x) {
+  x %>% select(SC.Position, Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, To.Gov, Signed.by.Gov, Disposition, Amended, Returned)
+}

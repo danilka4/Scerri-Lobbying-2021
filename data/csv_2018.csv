@@ -1,0 +1,115 @@
+Bill,SC Position,Com 1,Pass Com 1,Incorporated,Pass Floor 1,Com 2,Pass Com 2,Pass Floor 2,Amended,To Gov,Returned,Signed by Gov,Disposition
+HJ12,1,H-PE,0,0,,,,,,,,,DiC
+HJ4,1,H-PE,0,0,,,,,,,,,DiC
+HJ26,1,H-R; H-A,1,0,,S-R,1,1,0,,,,JRP
+HJ27,1,H-R,0,0,,,,,,,,,DiC
+HJ32,1,H-R,0,0,,,,,,,,,DiC
+HJ74,1,H-R,0,0,,,,,,,,,DiC
+HJ101,1,H-R; H-A,1,0,0,,,,,,,,DiH
+HB33,1,H-CL ,0,0,,,,,,,,,DiC
+HB54,1,H-F,0,0,,,,,,,,,DiC
+HB58,1,H-GL; H-A,0,0,,,,,,,,,DiC
+HB96,1,H-CL,0,0,,,,,,,,,DiC
+HB182,1,H-CL,0,0,,,,,,,,,DiC
+HB204,1,H-CCT,0,0,,,,,,,,,DiC
+HB345,1,H-R; H-A,1,0,1,S-GLT; S-F,1,1,1,1,0,1,PiL
+HB358,1,H-ACNR,1,0,1,S-ACNR; S-F,1,1,0,1,0,1,PiL
+HB377,1,H-ACNR,1,0,1,S-ACNR,1,1,0,1,0,1,PiL
+HB392,1,H-CL,0,0,,,,,,,,,DiC
+HB393,1,H-CL,0,0,,,,,,,,,DiC
+HB421,1,H-CL,0,0,,,,,,,,,DiC
+HB436,1,H-CL,0,0,,,,,,,,,DiC
+HB469,1,H-F,0,0,,,,,,,,,DiC
+HB508,1,H-CCT,1,0,1,S-LG,1,1,1,1,0,1,PiL
+HB560,1,H-CL,0,0,,,,,,,,,DiC
+HB782,1,H-CL,0,0,,,,,,,,,DiC
+HB921,1,H-GL,0,0,,,,,,,,,DiC
+HB922,1,H-GL,1,0,1,S-T; S-CL,1,1,1,1,0,1,PiL
+HB930,1,H-CL,0,0,,,,,,,,,DiC
+HB963,1,H-CL,0,0,,,,,,,,,DiC
+HB964,1,H-CL,0,0,,,,,,,,,DiC
+HB965,1,H-CL,0,0,,,,,,,,,DiC
+HB975,1,H-CL,0,0,,,,,,,,,DiC
+HB979,1,H-HWI,0,0,,,,,,,,,DiC
+HB981,1,H-F,0,0,,,,,,,,,DiC
+HB1018,1,H-F; H-A,0,0,,,,,,,,,DiC
+HJ129,1,H-PE,0,0,,,,,,,,,DiC
+HB1060,1,H-CL,0,0,,,,,,,,,DiC
+HB1141,1,H-r; H-ACNR,0,0,,,,,,,,,DiC
+HB1150,1,H-ACNR,0,0,,,,,,,,,DiC
+HB1155,1,H-CL,0,0,,,,,,,,,DiC
+HB1185,1,H-ACNR,0,0,,,,,,,,,DiC
+HB1186,1,H-ACNR,0,0,,,,,,,,,DiC
+HB1187,1,H-R; H-CL,0,0,,,,,,,,,DiC
+HB1188,1,H-R; H-ACNR,0,0,,,,,,,,,DiC
+HB1253,1,H-CL,0,0,,,,,,,,,DiC
+HB1273,1,H-CL,0,0,,,,,,,,,DiC
+HB1294,1,H-R; H-ACNR,0,0,,,,,,,,,DiC
+HB1344,1,H-R,0,0,,,,,,,,,DiC
+HB1451,1,H-CL,1,0,1,S-CL,1,1,1,1,0,1,PiL
+HB1490,1,H-CL,0,0,,,,,,,,,Inc
+HB1503,1,H-CL,0,0,,,,,,,,,DiC
+HB1528,1,H-CL,0,0,,,,,,,,,DiC
+HB1573,1,H-CL,0,0,,,,,,,,,DiC
+HB1590,1,H-CL,0,0,,,,,,,,,DiC
+SJ4,1,S-R,0,0,,,,,,,,,DiC
+SJ19,1,S-R,1,0,1,H-R,1,1,0,,,,JRP
+SB9,1,S-CL,0,0,,,,,,,,,DiC
+SB82,1,S-CL,0,0,,,,,,,,,DiC
+SB83,1,S-CL,0,0,,,,,,,,,DiC
+SB139,1,S-F,0,0,,,,,,,,,DiC
+SB191,1,S-CL,1,0,1,H-CL,0,,,,,,DiH/DiC
+SB193,1,S-LG,0,0,,,,,,,,,DiC
+SB265,1,S-GLT; S-ACNR; S-F,1,0,1,H-A,1,1,1,1,0,1,PiL
+SB278,1,S-CJ,1,0,1,H-CJ,1,1,1,1,1,1,PiL
+SB311,1,S-CL,0,0,,,,,,,,,DiC
+SB313,1,S-CL,0,0,,,,,,,,,DiC
+SB324,1,S-CL,0,0,,,,,,,,,DiC
+SB429,1,S-GLT; S-LG,1,0,1,H-CCT,1,1,0,1,0,1,PiL
+SB587,1,S-CJ,1,0,1,H-ACNR,1,1,0,1,0,1,PiL
+SB646,1,S-CL,0,0,,,,,,,,,DiC
+SB696,1,S-ACNR,0,0,,,,,,,,,DiC
+SB697,1,S-CL,0,0,,,,,,,,,DiC
+SB698,1,S-ACNR,1,0,1,H-ACNR,1,1,1,1,1,1,PiL
+SB699,1,S-ACNR,1,0,1,H-ACNR,1,1,1,1,1,1,PiL
+SB708,1,S-ACNR; S-CL,0,1,,,,,,,,,Inc
+SB711,1,S-CL,0,0,,,,,,,,,DiC
+SB750,1,S-LG,1,0,1,H-CCT,1,1,0,1,0,1,PiL
+SB765,1,S-ACNR; S-CL,0,0,,,,,,,,,DiC
+SB766,1,S-ACNR; S-CL,0,0,,,,,,,,,DiC
+SB767,1,S-ACNR; S-CL,0,0,,,,,,,,,DiC
+SB768,1,S-CL,0,0,,,,,,,,,DiC
+SB807,1,S-CL,1,0,1,H-CL,1,1,1,1,0,1,PiL
+SB809,1,S-CJ; S-F,1,0,1,H-CJ,1,1,0,1,0,1,PiL
+SB837,1,S-CL,0,0,,,,,,,,,DiC
+SB855,1,S-CL,0,1,,,,,,,,,Inc
+SB894,1,S-F,1,0,1,H-CL,1,0,,,,,DiH
+SB908,1,S-CL,1,0,1,H-GL,1,1,1,1,0,1,PiL
+SB950,1,S-ACNR; S-F,1,0,1,H-ACNR,1,1,0,1,0,1,PiL
+SB951,1,S-ACNR; S-F,0,0,,,,,,,,,DiC
+SB955,1,S-CL,0,0,,,,,,,,,DiC
+HB23,-1,H-GL,0,0,,,,,,,,,DiC
+HB665,-1,H-F,1,0,1,S-F,1,1,1,1,1,1,PiL
+HB668,-1,H-R,0,0,,,,,,,,,DiC
+HB904,-1,H-GL,0,0,,,,,,,,,DiC
+HJ111,-1,H-PE,0,0,,,,,,,,,DiC
+HB1082,-1,H-ACNR,0,0,,,,,,,,,DiC
+HB1213,-1,H-PE,0,0,,,,,,,,,DiC
+HB1270,-1,H-CL,1,0,1,S-CL,1,1,0,1,0,0,V
+HB1493,-1,H-CL,0,0,,,,,,,,,DiC
+SB378,-1,S-F,1,0,1,H-F,1,1,1,1,1,1,PiL
+SJ69,-1,S-PE,0,0,,,,,,,,,DiC
+SB826,-1,S-PE,0,0,,,,,,,,,DiC
+SB966,-1,S-CL,1,0,1,H-CL,1,1,1,1,0,1,PiL
+SB967,-1,S-CL,0,1,,,,,,,,,Inc
+HB474,0,H-CL,0,0,,,,,,,,,DiC
+HB509,0,H-CCT,1,0,1,S-LG,1,1,0,1,0,1,PiL
+HB723,0,H-ACNR,0,0,,,,,,,,,DiC
+HB1374,0,H-ACNR,0,0,,,,,,,,,DiC
+HB1558,0,H-CL,1,0,1,S-CL,1,1,1,0,,,DiS
+SB179,0,S-LG,1,0,1,H-CCT,1,1,0,1,0,1,PiL
+SB344,0,S-ACNR,1,0,1,H-ACNR,1,1,1,1,0,1,PiL
+SB662,0,S-CL,0,0,,,,,,,,,DiC
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,

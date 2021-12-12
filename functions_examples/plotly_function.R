@@ -4,7 +4,7 @@ library(ggsankey)
 
 
 data_creator <- function(csv, color_id, split = FALSE) {
-  a <- mutate(csv, Intro.Com = 1)
+  a <- mutate(csv, Intro.Com = 1, Law = Signed.by.Gov)
   normal_a <- a %>% filter(is.na(Amended.2) | Amended.2 == 0) %>% 
     filter(is.na(Returned) | Returned == 0) 
   
@@ -25,7 +25,8 @@ data_creator <- function(csv, color_id, split = FALSE) {
               Pass.Com.2,
               Pass.Floor.2,
               To.Gov,
-              Signed.by.Gov) %>% 
+              Signed.by.Gov,
+              Law) %>% 
     na_if(0) %>% 
     filter(!is.na(node)) 
   
@@ -40,7 +41,8 @@ data_creator <- function(csv, color_id, split = FALSE) {
               Pass.Floor.2,
               Pass.Floor.1,
               To.Gov,
-              Signed.by.Gov)) %>% 
+              Signed.by.Gov,
+              Law)) %>% 
     na_if(0) %>% 
     filter(!is.na(node)) 
   two_df <- NULL
@@ -61,7 +63,8 @@ data_creator <- function(csv, color_id, split = FALSE) {
     make_long(two_a,
               To.Gov,
               Pass.Floor.2,
-              Signed.by.Gov)) %>% 
+              Signed.by.Gov,
+              Law)) %>% 
     na_if(0) %>% 
     filter(!is.na(node)) 
   
@@ -83,7 +86,8 @@ data_creator <- function(csv, color_id, split = FALSE) {
     make_long(both_a,
               To.Gov,
               Pass.Floor.2,
-              Signed.by.Gov) %>% filter(!is.na(next_node))
+              Signed.by.Gov,
+              Law) %>% filter(!is.na(next_node))
   )
  } else {
   two_df <- rbind(
@@ -98,7 +102,8 @@ data_creator <- function(csv, color_id, split = FALSE) {
               To.Gov,
               Pass.Floor.1,
               Pass.Floor.2,
-              Signed.by.Gov)
+              Signed.by.Gov,
+              Law)
     ) %>% 
     na_if(0) %>% 
     filter(!is.na(node)) 
@@ -118,7 +123,8 @@ data_creator <- function(csv, color_id, split = FALSE) {
               To.Gov,
               Pass.Floor.1,
               Pass.Floor.2,
-              Signed.by.Gov) %>% filter(!is.na(next_node))
+              Signed.by.Gov,
+              Law) %>% filter(!is.na(next_node))
   )
  
  }
@@ -131,12 +137,13 @@ data_creator <- function(csv, color_id, split = FALSE) {
   return(new_total_df)
   
 }
+
 sierra_data <- function(csv, split = FALSE) {
   supported <- filter(csv, SC.Position == 1)
   neutral <- filter(csv, SC.Position == 0)
   opposed <- filter(csv, SC.Position == -1)
-  supported_df <- data_creator(supported, "rgba(158,203,50,1.0)", split)
-  neutral_df <- data_creator(neutral, "rgba(102,149,237,1.0)", split)
+  supported_df <- data_creator(supported, "rgba(154,205,50,1.0)", split)
+  neutral_df <- data_creator(neutral, "rgba(176,224,230,1.0)", split)
   opposed_df <- data_creator(opposed, "rgba(255,69,0,1.0)", split)
   return(rbind(supported_df, neutral_df, opposed_df))
 }

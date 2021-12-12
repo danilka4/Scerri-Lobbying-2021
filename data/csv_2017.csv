@@ -1,0 +1,92 @@
+﻿Bill,SC Position,Com 1,Sub 1,VV,Pass Com 1,Incorporated,Amended 1,Pass Floor 1,Com 2,Sub 2,Pass Com 2,Pass Floor 2,Amended 2,To Gov,Returned,Signed by Gov,Disposition
+HJ572,1,H-R,,1,0,0,,,,,,,,,,,DiC
+HJ672,1,H-R,,1,0,0,,,,,,,,,,,DiC
+HB575,1,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB576,1,H-CL ,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB908,1,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1285,1,H-CL ,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1286,1,H-CL ,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1454,1,H-ACNR,,0,1,0,0,1,S-ACNR,,1,1,1,1,0,1,PiL
+HB1465,1,H-CL ,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1619,1,H-ACNR,Chesapeake,0,1,0,0,1,S-ACNR,,1,1,0,1,0,1,PiL
+HB1632,1,H-F,#2,1,0,0,,,,,,,,,,,DiC
+HB1636,1,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1703,1,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1712,1,H-GL,#2,0,1,0,1,1,S-GLT,,1,1,0,1,0,1,PiL
+HB1800,1,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1859,1,H-ACNR,Chesapeake,1,0,0,,,,,,,,,,,DiC
+HB1860,1,H-ACNR,Chesapeake,1,0,0,,,,,,,,,,,DiC
+HB1861,1,H-ACNR,Natural Resources,1,0,0,,,,,,,,,,,DiC
+HB1870,1,H-ACNR,Chesapeake,0,0,0,,,,,,,,,,,DiC
+HB1891,1,H-F,#1,1,0,0,,,,,,,,,,,DiC
+HB1964,1,H-GL; H-A,#4; General Government & Capital Outlay,1,0,0,,,,,,,,,,,DiC
+HB1988,1,H-GL; H-A,#4; General Government & Capital Outlay,1,0,0,,,,,,,,,,,DiC
+HB1993,1,H-T,#4,0,1,0,1,1,S-T,,1,1,0,1,0,1,PiL
+HB2005,1,H-T,#1,0,0,0,,,,,,,,,,,DiC
+HB2018,1,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB2089,1,H-E,Elementary and Secondary Education,1,0,0,,,,,,,,,,,DiC
+HB2112,1,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+SJ297,1,S-R,,1,0,0,,,,,,,,,,,DiC
+SB140,1,S-CL,,0,0,0,,,,,,,,,,,DiC
+SB142,1,S-F,,0,0,0,,,,,,,,,,,DiC
+SB910,1,S-ACNR,,0,1,0,0,1,H-ACNR,,1,1,0,1,0,1,PiL
+SB911,1,S-ACNR,,0,1,0,0,1,H-ACNR,,1,1,0,1,0,1,PiL
+SB917,1,S-CL,Renewable Energy,0,0,1,,,,,,,,,,,Inc
+SB918,1,S-CL,Renewable Energy,0,0,0,,,,,,,,,,,DiC
+SB925,1,S-F,,0,0,0,,,,,,,,,,,DiC
+SB990,1,S-CL,,0,1,0,0,1,H-CL,,1,1,0,1,0,1,PiL
+SB1095,1,S-CL,,0,0,0,,,,,,,,,,,DiC
+SB1184,1,S-T,,0,0,0,,,,,,,,,,,DiC
+SB1208,1,S-CL,Renewable Energy,0,0,1,,,,,,,,,,,Inc
+SB1258,1,S-CL,,0,1,0,0,1,H-CL,,1,1,0,1,1,1,PiL
+SB1349,1,S-ACNR; S-F,,0,1,0,1,0,,,,,,,,,DiS
+SB1359,1,S-EH,,0,1,0,1,1,H-E,Elementary and Secondary Education,1,1,1,1,0,1,PiL
+SB1392,1,S-F,,0,0,0,,,,,,,,,,,DiC
+SB1393,1,S-CL,Renewable Energy,0,1,0,1,1,H-CL,,1,1,1,1,0,1,PiL
+SB1395,1,S-ACNR,,0,1,0,1,1,H-CL,,1,1,0,1,0,1,PiL
+SB1398,1,S-ACNR,,0,1,0,1,1,H-ACNR,Agriculture,1,1,1,1,1,1,PiL
+SB1399,1,S-ACNR,,0,0,0,,,,,,,,,,,DiC
+SB1471,1,S-ACNR,,0,0,0,,,,,,,,,,,DiC
+SB1496,1,S-ACNR,,0,0,1,,,,,,,,,,,Inc
+HB1389,-1,H-GL,#2,1,0,0,,,,,,,,,,,DiC
+HB1438,-1,H-CL,#2,1,0,0,,,,,,,,,,,DiC
+HB1573,-1,H-ACNR,Chesapeake,0,1,0,1,1,S-ACNR,,1,1,0,1,0,1,PiL
+HB1575,-1,H-ACNR,Chesapeake,1,0,0,,,,,,,,,,,DiC
+HB1678,-1,H-GL,#2,0,1,0,1,1,S-GLT,,0,,,,,,DiS/DiC
+HB1679,-1,H-ACNR,Natural Resources,0,1,0,1,1,S-ACNR,,0,,,,,,DiS/DiC
+HB1766,-1,H-CL,,0,1,0,0,1,S-CL,,1,1,1,1,0,1,PiL
+HB1917,-1,H-F,#3,1,0,0,,,,,,,,,,,DiC
+HB1974,-1,H-CL; H-A,"; Commerce, Agriculture, Natural Resources and Technology",0,1,0,0,1,S-ACNR; S-F,,1,1,1,0,,,DiH
+HB2008,-1,H-ACNR,Chesapeake,1,0,0,,,,,,,,,,,DiC
+HB2198,-1,H-F,,0,1,0,1,1,S-F,,1,1,0,1,0,0,V
+HB2291,-1,H-CL,,0,1,0,1,1,S-CL,,1,1,1,1,0,1,PiL
+HB2303,-1,H-CL,Special Subcommittee on Energy,0,1,0,1,1,S-CL,,1,1,0,1,0,1,PiL
+HB2390,-1,H-CL,Special Subcommittee on Energy,0,1,0,1,1,S-CL,,1,1,0,1,1,1,PiL
+SB1110,-1,S-CL,,0,1,0,0,1,H-CL,,1,0,,,,,DiH/DiC
+SB1291,-1,S-ACNR; S-GLT; S-F,; #1;,0,0,0,,,,,,,,,,,DiC
+SB1292,-1,S-GLT; S-F,#1;,0,0,0,,,,,,,,,,,DiC
+SB1394,-1,S-CL,Renewable Energy,0,1,0,1,1,H-CL,,1,1,0,1,0,1,PiL
+SB1470,-1,S-F,,0,1,0,0,1,H-F,,1,1,0,1,0,0,V
+HB618,0,H-CL,Special Subcommittee on Energy,1,0,0,,,,,,,,,,,DiC
+HB1509,0,H-ACNR,Natural Resources,0,1,0,1,1,S-ACNR,,1,1,0,1,0,1,PiL
+HB1574,0,H-ACNR,Chesapeake,0,1,0,1,1,S-ACNR,,1,1,0,1,0,1,PiL
+HB1600,0,H-ACNR,Natural Resources,0,1,0,1,1,S-ACNR,,1,1,0,1,0,1,PiL
+HB1671,0,H-CL,,0,1,0,1,1,S-CL,,1,1,0,1,1,1,PiL
+HB1760,0,H-CL,,0,1,0,0,1,S-CL,,1,1,1,1,1,1,PiL
+HB2124,0,H-CL; H-CJ,; Civil Law,1,0,0,,,,,,,,,,,DiC
+HB2169,0,H-F,#2,0,1,0,0,1,S-F,,1,1,0,1,0,1,PiL
+HB2200,0,H-ACNR,Natural Resources,0,1,0,0,1,S-ACNR,,1,1,0,1,0,1,PiL
+HB2320,0,H-ACNR,Chesapeake,1,0,0,,,,,,,,,,,DiC
+HB2349,0,H-ACNR,Agriculture,1,0,0,,,,,,,,,,,DiC
+HB2384,0,H-HWI,#3,1,0,0,,,,,,,,,,,DiC
+SB875,0,S-F,,0,1,0,0,1,H-F,,1,1,0,1,0,1,PiL
+SB886,0,S-F,,0,1,0,0,1,H-F,,1,1,0,1,0,1,PiL
+SB1197,0,S-CL,Renewable Energy,0,0,0,,,,,,,,,,,DiC
+SB1226,0,S-GLT,#1,0,1,0,0,1,H-GL,#2,1,1,1,1,0,1,PiL
+SB1289,0,S-CL,,0,1,0,1,1,H-CL,,1,1,0,1,1,1,PiL
+SB1383,0,S-ACNR,,0,0,0,,,,,,,,,,,DiC
+SB1388,0,S-CL,Renewable Energy,0,0,0,,,,,,,,,,,DiC
+SB1418,0,S-CL,Renewable Energy,0,1,0,1,1,H-CL,,1,1,1,1,1,1,PiL
+SB1423,0,S-Cl,,0,0,0,,,,,,,,,,,DiC
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,

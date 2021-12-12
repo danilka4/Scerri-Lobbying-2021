@@ -1,0 +1,9 @@
+Issue 1: MA keeps track of significant bill changes by changing the bill number. VA legislature does not have this. Worth looking into?
+
+Does VA legislature allow written testimony?
+
+
+
+TODO for me:
+Create Sankey that has dead bills pointed at a separate node for dead bills
+Create Sankey that has 1 observation going to return paths

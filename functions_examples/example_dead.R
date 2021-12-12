@@ -1,19 +1,19 @@
-source("plotly_function.R")
+source("function_dead.R")
 # Example: 
 csv<- read.csv("sample/2017b.csv")
 ##c49c94
-new_total_df <- rbind(data_creator(csv, "rgba(196,156,148,0.6)"), data_creator(csv, "rgba(31,119,180,0.6)"))
+new_total_df <- sierra_data_dead(csv, FALSE)
 
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
-          "Delivered to Governor", "Signed into Law")
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
     label = labs,
-    x = c(0.1, 0.23, 0.4, 0.5, 0.6, 0.75, 0.9),
-    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.5, 0.8, 0.82, 0.85, 0.87, 0.87, 0.9, 0),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
