@@ -61,7 +61,7 @@ ggplot(alluvial_data, aes(x = x,
                next_node = next_node,
                fill = factor(node),
                label = node)) +
-  geom_alluvial(flow_alpha = 0.5, node.color = 1, node.fill = "gray") + 
+  geom_alluvial(flow_alpha = 0.7, node.color = 1, node.fill = "gray") + 
   geom_alluvial_label(size = 3.5, color = 1, fill = "white") +
   theme_alluvial(base_size = 16) + 
   scale_x_discrete(labels = c("Position", "Fate")) +

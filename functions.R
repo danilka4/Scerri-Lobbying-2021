@@ -200,7 +200,10 @@ color_dead <- function(df) {
   non_dead <- filter(df, next_x != "Dead")
   dead <- filter(df, next_x == "Dead")
   dead_comb <- group_by(dead, x, next_x) %>% 
-    summarise(n = sum(n), color = "black")
+    summarise(n = sum(n), color = "6a5d5d")
+  #2c1e1e
+  #6a5d5d
+  #c06666
   return(rbind(non_dead, dead_comb))
 }
 
