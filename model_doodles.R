@@ -15,6 +15,7 @@ ggplot(csv_total) +
   geom_smooth(aes(SC.Position, as.numeric(Becomes.Law), color = "2"), se = F) + 
   theme_minimal() +
   labs(title = "Bills that Pass Key Milestones Based on SC Position", x = "SC Position", y = "Portion") + 
+  scale_y_continuous(limits = c(0,NA), breaks = seq(0, 0.5, 0.1)) + 
   scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
 
 
