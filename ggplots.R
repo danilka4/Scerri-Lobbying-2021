@@ -1,10 +1,13 @@
 source("functions.r")
 
-csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017, Year_dis = paste(Year, Dis, sep = ""))
+csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% mutate(Amended = Amended.2) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017, Year_dis = paste(Year, Dis, sep = ""))
 csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018, Year_dis = paste(Year, Dis, sep = ""))
-csv_total <- rbind(csv17, csv18)
+csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019, Year_dis = paste(Year, Dis, sep = ""))
+csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2020, Year_dis = paste(Year, Dis, sep = ""))
+csv_total <- rbind(csv17, csv18, csv19, csv20)
 
-colors <- c("rgba(196,156,148,0.6)", "rgba(31,119,180,0.6)")
+colors <- list("y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y2020" = "118ab2", "y2021" = "073b4c",
+               "dead" = "6a5d5d")
 
 gg17 <- ggplot(csv17, aes(Dis, fill = Pos)) + geom_bar() +
   scale_fill_manual(

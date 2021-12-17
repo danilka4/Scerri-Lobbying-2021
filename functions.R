@@ -219,7 +219,7 @@ no_return_sierra_data <- function(csv, shell = FALSE) {
   if (shell) {
     opposed_df <- rbind(opposed_df, data.frame(x = as.factor(c("Pass.Floor.2", "To.Gov", "To.Gov", "Pass.Floor.1", "Pass.Floor.2")),
                                                    next_x = as.factor(c("Pass.Floor.1", "Pass.Floor.1", "Pass.Floor.2","Signed.by.Gov", "Signed.by.Gov")),
-                                                   n = 3, color = "gray"))
+                                                   n = as.numeric(floor(nrow(csv) / 50)), color = "gray"))
   }
   return(rbind(supported_df, neutral_df, opposed_df))
 }
