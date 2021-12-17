@@ -264,3 +264,24 @@ x %>% mutate(Dis = factor(if_else(Disposition == "DiC", "Died in Committee", if_
 col_care <- function(x) {
   x %>% select(SC.Position, Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, To.Gov, Signed.by.Gov, Disposition, Amended, Returned)
 }
+
+average <- function(x) {
+  group_by(x, SC.Position) %>% summarize(Becomes.Law = mean(Becomes.Law), Leaves.Committee = mean(Leaves.Committee))
+}
+
+plot_avg <- function(csv, name, show.legend = TRUE) {
+gg <- ggplot(average(csv)) +
+  geom_smooth(aes(SC.Position, Leaves.Committee, color = "1"), method = "loess") + 
+  geom_smooth(aes(SC.Position, Becomes.Law, color = "2"), method = "loess") + 
+  geom_point(aes(SC.Position, Leaves.Committee, color = "1")) + 
+  geom_point(aes(SC.Position, Becomes.Law, color = "2")) + 
+  theme_minimal() +
+  labs(title = paste("Bills that Pass Key Milestones Based on SC Position in", name), x = "SC Position", y = "Portion") + 
+  scale_y_continuous(limits = c(0,NA), breaks = seq(0, 1, 0.1)) + 
+  scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
+ggsave(paste("plots2/", name, "_gg_curve.png", sep = ""), plot = gg, bg = "white")
+if (!show.legend) {
+  gg <- gg + theme(legend.position = "none")
+}
+return(gg)
+}
