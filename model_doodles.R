@@ -14,10 +14,26 @@ ggplot(csv_total) +
   geom_smooth(aes(SC.Position, as.numeric(Leaves.Committee), color = "1"), se = F) +
   geom_smooth(aes(SC.Position, as.numeric(Becomes.Law), color = "2"), se = F) + 
   theme_minimal() +
-  labs(title = "Bills that Pass Key Milestones Based on SC Position", x = "SC Position", y = "Portion") + 
+  labs(title = "Bills that Pass Key Milestones Based on SC Position in 2017-2018", x = "SC Position", y = "Portion") + 
   scale_y_continuous(limits = c(0,NA), breaks = seq(0, 0.5, 0.1)) + 
   scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
 
+ggplot(csv17) +
+  geom_smooth(aes(SC.Position, as.numeric(Leaves.Committee), color = "1"), se = F) +
+  geom_smooth(aes(SC.Position, as.numeric(Becomes.Law), color = "2"), se = F) + 
+  theme_minimal() +
+  labs(title = "Bills that Pass Key Milestones Based on SC Position in 2017", x = "SC Position", y = "Portion") + 
+  scale_y_continuous(limits = c(0,NA), breaks = seq(0, 0.5, 0.1)) + 
+  scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
+
+ggplot(csv18) +
+  geom_point(aes(SC.Position, as.numeric(Leaves.Committee))) +
+  geom_smooth(aes(SC.Position, as.numeric(Leaves.Committee), color = "1"), se = F) +
+  geom_smooth(aes(SC.Position, as.numeric(Becomes.Law), color = "2"), se = F) + 
+  theme_minimal() +
+  labs(title = "Bills that Pass Key Milestones Based on SC Position in 2018", x = "SC Position", y = "Portion") + 
+  scale_y_continuous(limits = c(0,NA), breaks = seq(0, 0.5, 0.1)) + 
+  scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
 
 # Year
 mod_law_year <- glm(Becomes.Law ~ Year, csv_total, family = binomial)
