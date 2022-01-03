@@ -1,4 +1,4 @@
-source("functions.r")
+source("functions.R")
 
 csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% mutate(Amended = Amended.2) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017, Year_dis = paste(Year, Dis, sep = ""))
 csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018, Year_dis = paste(Year, Dis, sep = ""))
