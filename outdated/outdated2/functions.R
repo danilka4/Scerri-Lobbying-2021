@@ -272,7 +272,7 @@ average <- function(x) {
 plot_avg <- function(csv, name, show.legend = TRUE) {
 gg <- ggplot(average(csv)) +
   geom_smooth(aes(SC.Position, Leaves.Committee, color = "1"), method = "loess") + 
-  geom_smooth(aes(SC.Position, Becomes.Law, color = "2"), method = "loess") +
+  geom_smooth(aes(SC.Position, Becomes.Law, color = "2"), method = "loess") + 
   geom_point(aes(SC.Position, Leaves.Committee, color = "1")) + 
   geom_point(aes(SC.Position, Becomes.Law, color = "2")) + 
   theme_minimal() +
