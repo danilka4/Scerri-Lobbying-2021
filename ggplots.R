@@ -87,5 +87,5 @@ all <- ggplot(alluvial_data, aes(x = x,
   labs(title = "Alluvial Diagram for 2017-2021", x = "", fill = "Sierra Club Position")
 plot(all)
 
-ggpubr::ggarrange(gg17, gg18, gg19, gg20, gg21, all + guides(fill = "none"), ncol = 3, nrow = 2)
+ggpubr::ggarrange(gg17, gg18, gg19, gg20, gg21, ncol = 3, nrow = 2)
 
