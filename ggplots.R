@@ -11,7 +11,7 @@ colors <- list("y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y202
                "dead" = "6a5d5d")
 
 labels <- c("DiC", "DE", "PiL")
-labels <- c("Died in Committee", "Died Elsewhere", "Passed into Law")
+#labels <- c("Died in Committee", "Died Elsewhere", "Passed into Law")
 gg17 <- ggplot(csv17, aes(Dis, fill = Pos)) + geom_bar() +
   scale_fill_manual(
                      values = c("Supported" = "#00ba38", "Neutral" = "#619cff", "Opposed" = "#f8766d")) +
@@ -50,7 +50,7 @@ gg21 <- ggplot(csv21, aes(Dis, fill = Pos)) + geom_bar() +
   scale_fill_manual(
                      values = c("Supported" = "#00ba38", "Neutral" = "#619cff", "Opposed" = "#f8766d")) +
   theme_minimal() +
-  scale_x_discrete(breaks = c("Died in Committee","Died Elsewhere","Passed into Law"),labels = labels) + 
+  scale_x_discrete(breaks = c("Died in Committee", "Died Elsewhere", "Passed into Law"), labels = labels) +
   labs(title = "",
        x = "", y = "",
        fill = "Sierra Club Position") + guides(fill = "none")
