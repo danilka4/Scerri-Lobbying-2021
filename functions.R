@@ -55,42 +55,62 @@ sierra_data <- function(csv, include_joint = TRUE) {
 
 
 
-data_creator_dead <- function(csv, color_id, color_black = TRUE) {
-  a <- mutate(csv, Intro.Com = 1, Law = Passed)
-  normal_df <- a %>% 
-    make_long(Intro.Com,
-              Pass.Com.1,
-              Pass.Floor.1,
-              Pass.Com.2,
-              Pass.Floor.2,
-              To.Gov,
-              Passed,
-              Law) %>% 
-    na_if(0) %>% 
-    filter(!is.na(node))
-  
+data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint = TRUE) {
+    csv <- mutate(csv, Intro.Com = 1, Law = Passed)
+    normal <- filter(csv, Disposition != "JRP")
+    jrps <- filter(csv, Disposition == "JRP")
+    normal_df <- normal %>% 
+        make_long(Intro.Com,
+            Pass.Com.1,
+            Pass.Floor.1,
+            Pass.Com.2,
+            Pass.Floor.2,
+            To.Gov,
+            Passed,
+            Law
+            ) %>%
+        na_if(0) %>%
+        filter(!is.na(node))
+    jrps_df <- jrps %>%
+        make_long(Intro.Com,
+            Pass.Com.1,
+            Pass.Floor.1,
+            Pass.Com.2,
+            Pass.Floor.2,
+            Passed,
+            Law
+            ) %>%
+        na_if(0) %>%
+        filter(!is.na(node)) %>%
+        select(x, next_x) %>%
+        group_by(x, next_x) %>%
+        summarize(n = n()) %>%
+        mutate(color = color_id) %>% filter(!is.na(next_x))
   label <- levels(normal_df$x)
-  
-  new_total_df <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>% 
+  new_total_df <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
     mutate(color = color_id) %>% filter(!is.na(next_x))
   dead <- (new_total_df$n - lead(new_total_df$n))[1:6]
   new_total_df <- rbind(
     new_total_df, 
     data.frame(
-      x = as.factor(c("Pass.Com.1", "Pass.Floor.1", "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")), 
+      x = as.factor(c("Pass.Com.1", "Pass.Floor.1", "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")),
       next_x = as.factor(rep("Dead", 6)), 
       n = dead, 
       color = color_id))
+  if (include_joint) {
+    new_total_df <- rbind(new_total_df, jrps_df) %>%
+        group_by(x, next_x, color) %>% summarize(n = sum(n))
+  }
   if (color_black) {
     new_total_df <- color_dead(new_total_df)
   }
   return(new_total_df)
 }
 
-sierra_data_dead <- function(csv, color_black = TRUE) {
-  supported <- filter(csv, SC.Position == 1)
-  neutral <- filter(csv, SC.Position == 0)
-  opposed <- filter(csv, SC.Position == -1)
+sierra_data_dead <- function(csv, color_black = TRUE, include_joint = TRUE) {
+  supported <- filter(csv, SC.Position == 1, include_joint)
+  neutral <- filter(csv, SC.Position == 0, include_joint = TRUE)
+  opposed <- filter(csv, SC.Position == -1, include_joint = TRUE)
   supported_df <- data_creator_dead(supported, "rgba(154,205,50,1.0)", color_black)
   neutral_df <- data_creator_dead(neutral, "rgba(176,224,230,1.0)", color_black)
   opposed_df <- data_creator_dead(opposed, "rgba(255,69,0,1.0)", color_black)
@@ -171,20 +191,20 @@ col_care <- function(x) {
 }
 
 average <- function(x) {
-  group_by(x, SC.Position) %>% summarize(Becomes.Law = mean(Becomes.Law), Leaves.Committee = mean(Leaves.Committee))
+  group_by(x, SC.Position) %>% summarize(Passed = mean(Passed), Pass.Com.1 = mean(Pass.Com.1))
 }
 
 plot_avg <- function(csv, name, show.legend = TRUE) {
 gg <- ggplot(average(csv)) +
-  geom_smooth(aes(SC.Position, Leaves.Committee, color = "1"), method = "loess") + 
-  geom_smooth(aes(SC.Position, Becomes.Law, color = "2"), method = "loess") +
-  geom_point(aes(SC.Position, Leaves.Committee, color = "1")) + 
-  geom_point(aes(SC.Position, Becomes.Law, color = "2")) + 
+  geom_smooth(aes(SC.Position, Pass.Com.1, color = "1"), method = "loess") + 
+  geom_smooth(aes(SC.Position, Passed, color = "2"), method = "loess") +
+  geom_point(aes(SC.Position, Pass.Com.1, color = "1")) + 
+  geom_point(aes(SC.Position, Passed, color = "2")) + 
   theme_minimal() +
   labs(title = paste("Bills that Pass Key Milestones Based on SC Position in", name), x = "SC Position", y = "Portion") + 
   scale_y_continuous(limits = c(0,NA), breaks = seq(0, 1, 0.1)) + 
   scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
-ggsave(paste("plots2/", name, "_gg_curve.png", sep = ""), plot = gg, bg = "white")
+ggsave(paste("images/", name, "_gg_curve.png", sep = ""), plot = gg, bg = "white")
 if (!show.legend) {
   gg <- gg + theme(legend.position = "none")
 }
