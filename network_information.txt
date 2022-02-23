@@ -1,0 +1,24 @@
+Networks of influence
+LittleSis.org
+https://littlesis.org/
+https://powerlines101.org/
+Open Secrets
+https://www.opensecrets.org/federal-lobbying
+Follow the Money
+https://www.followthemoney.org/
+Corporate Mapping Project (Canada only but useful training and ideas)
+https://www.corporatemapping.ca/database/
+ProPublica
+https://www.propublica.org/local-initiatives/
+The Swamp Index
+https://www.coalitionforintegrity.org/swamp2020/
+Energy Policy Institute
+https://www.energyandpolicy.org/
+InfoMappers (very techy, includes Python script etc.!!!)
+https://www.mapequation.org/infomap/
+https://pypi.org/project/infomap/
+https://towardsdatascience.com/infomap-algorithm-9b68b7e8b86
+MapLight
+http://classic.maplight.org/
+Center for Public Integrity
+https://publicintegrity.org/
