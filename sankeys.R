@@ -21,28 +21,17 @@ labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 
-sierra_joint <- sierra_data(csv_total)
+generic_joint <- data_creator(csv_total, "black")
+print(generic_joint)
 
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labs,
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
-    color = "gray",
-    pad = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(sierra_joint$x) - 1,
-    target = as.numeric(sierra_joint$next_x) - 1,
-    value = sierra_joint$n,
-    color = ~as.factor(sierra_joint$color),
-    line = list(color = "black", width = 0.5)
-    ))%>%
-  layout(title = "Sierra Sankey with Joint Resolutions 2017-2021",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
+sankeyNetwork(Links = generic_joint[[1]], Nodes = generic_joint[[2]],
+    Source = "x",
+    Target = "next_x",
+    Value = "n",
+    NodeID = "label",
+    fontSize = 32,
+    unit = "Bills"
+)
 
 
 sierra_no_joint <- sierra_data(csv_total, include_joint = FALSE)

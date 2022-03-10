@@ -1,2 +1,0 @@
-Recolor bar graph
-Add final node to each sankey diagram

@@ -1,4 +1,4 @@
-library(plotly)
+library(networkD3)
 library(dplyr)
 library(ggsankey)
 
@@ -34,9 +34,15 @@ data_creator <- function (csv, color_id, include_joint = TRUE) {
     }
     label <- levels(normal_df$x)
     new_normal <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
-        filter(!is.na(next_x)) %>% 
+        filter(!is.na(next_x)) %>%
         mutate(color = color_id)
-    return(new_normal)
+    labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+    nodes <- tibble(label = labs[1:length(levels(new_normal$x))], id = as.integer(seq(1, length(levels(new_normal$x)))) - 1)
+    links <- new_normal %>%
+        mutate(x = as.integer(x), next_x = as.integer(next_x)) %>% mutate(x = x - 1, next_x = next_x - 1)
+    return(list(links, nodes))
 }
 
 sierra_data <- function(csv, include_joint = TRUE) {
