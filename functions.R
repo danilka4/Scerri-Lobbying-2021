@@ -1,6 +1,7 @@
 library(plotly)
 library(dplyr)
 library(ggsankey)
+library(tidyr)
 
 data_creator <- function (csv, color_id, include_joint = TRUE) {
     csv <- mutate(csv, Intro.Com = 1, Law = Passed)
@@ -339,4 +340,23 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
     filter(!is.na(next_x)) %>% 
     mutate(color = color_id)
   return(new_total_df)
+}
+
+
+isolate_committees <- function(csv, first = TRUE, second = TRUE) {
+    csv <- add_identifiers(csv)
+    base_committees <- NULL
+    if (first) {
+        base_committees <- select(csv, Committee = Com.1, Pos)
+    }
+    if (second) {
+        sec <- select(csv, Committee = Com.2, Pos) %>%
+            filter(Committee != "")
+        base_committees <- rbind(base_committees, sec)
+    }
+    base_committees$Committee <- gsub('\\s+', '', base_committees$Committee)
+    base_committees <- separate_rows(base_committees, Committee, sep = ";") %>%
+        separate_rows(Committee, sep = ",") %>%
+        separate(Committee, into = c("Chamber", "Committee"), sep = "-")
+    return(base_committees)
 }

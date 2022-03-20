@@ -39,3 +39,22 @@ ggplot(csv_total, aes(Year, as.numeric(Passed))) + geom_point() + geom_smooth()
 # Law and Year
 summary(glm(Passed ~ Year + SC.Position, csv_total, family = binomial))
 summary(glm(Leaves.Committee ~ Year + SC.Position, csv_total, family = binomial))
+
+unique(csv_total$Com.2)
+
+head(csv_total)
+com <- isolate_committees(csv_total)
+head(com)
+dim(com)
+View(unique(com$Committee))
+
+unite(com, Chamber, Committee, sep = "-", col = "Combined") %>%
+    mutate(Combined = factor(Combined)) %>%
+    ggplot(aes(Combined, fill = Pos)) +
+    geom_histogram(stat = "count") + 
+    scale_fill_manual(
+                       values = c("Supported" = "#00ba38", "Neutral" = "#619cff", "Opposed" = "#f8766d")) +
+    theme_minimal() +
+    labs(title = "Fate of Different Bills in Relation to Sierra Club's Position between 2017 and 2021",
+         x = "Final Outcome of Bill", y = "Number of Bills",
+         fill = "Sierra Club Position") + guides(fill = "none")
