@@ -126,3 +126,24 @@ plot_ly(
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 
+single <- data_creator(csv21, colors$y2021)
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.20, 0.17, 0.17, 0),
+    color = "gray",
+    pad = 10), 
+  link = list(
+    source = as.numeric(single$x) - 1,
+    target = as.numeric(single$next_x) - 1,
+    value = single$n,
+    color = ~as.factor(single$color),
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Annual Sankey 2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)

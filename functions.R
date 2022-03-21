@@ -1,10 +1,16 @@
+# Imports all the necessary libraries
 library(plotly)
 library(dplyr)
 library(ggsankey)
 library(tidyr)
 
+# Creates a data frame with the associated color id. There is an option to include joint resolutions
 data_creator <- function (csv, color_id, include_joint = TRUE) {
+    # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
+    # Added law for similar reasons as well
     csv <- mutate(csv, Intro.Com = 1, Law = Passed)
+
+    # Creation of data frames for JR's and non-JR's
     normal <- filter(csv, Disposition != "JRP")
     jrps <- filter(csv, Disposition == "JRP")
     normal_df <- normal %>% 
@@ -30,16 +36,22 @@ data_creator <- function (csv, color_id, include_joint = TRUE) {
             ) %>%
         na_if(0) %>%
         filter(!is.na(node))
+
+    # Adds on joint resolutions if that is true
     if (include_joint) {
         normal_df <- rbind(normal_df, jrps_df)
     }
     label <- levels(normal_df$x)
+
+    # Coerces the above dataframe into one that is usable by plotly
+    #   This is because the make_long function was made with a different library in mind
     new_normal <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
         filter(!is.na(next_x)) %>% 
         mutate(color = color_id)
     return(new_normal)
 }
 
+# Calls the previous function and colors in based on whether Sierra Club approved of the bill
 sierra_data <- function(csv, include_joint = TRUE) {
   supported <- filter(csv, SC.Position == 1)
   neutral <- filter(csv, SC.Position == 0)
@@ -56,6 +68,8 @@ sierra_data <- function(csv, include_joint = TRUE) {
 
 
 
+# Creates a dataframe that includes all the dead bills
+#   In the original function the dead bills just disappear
 data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint = TRUE) {
     csv <- mutate(csv, Intro.Com = 1, Law = Passed)
     normal <- filter(csv, Disposition != "JRP")
@@ -90,7 +104,11 @@ data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint =
   label <- levels(normal_df$x)
   new_total_df <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
     mutate(color = color_id) %>% filter(!is.na(next_x))
+
+    # Creates dead bills based off how many bills fell off per step in legislative process
   dead <- (new_total_df$n - lead(new_total_df$n))[1:6]
+
+  # Adds on dead bills to the dataframe
   new_total_df <- rbind(
     new_total_df, 
     data.frame(
@@ -102,12 +120,14 @@ data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint =
     new_total_df <- rbind(new_total_df, jrps_df) %>%
         group_by(x, next_x, color) %>% summarize(n = sum(n))
   }
+  # Colors in the dead bills black if the option is selected
   if (color_black) {
     new_total_df <- color_dead(new_total_df)
   }
   return(new_total_df)
 }
 
+# Creates data colored based on Sierra opinion + can make dead bills black
 sierra_data_dead <- function(csv, color_black = TRUE, include_joint = TRUE) {
   supported <- filter(csv, SC.Position == 1, include_joint)
   neutral <- filter(csv, SC.Position == 0, include_joint = TRUE)
@@ -116,12 +136,17 @@ sierra_data_dead <- function(csv, color_black = TRUE, include_joint = TRUE) {
   neutral_df <- data_creator_dead(neutral, "rgba(176,224,230,1.0)", color_black)
   opposed_df <- data_creator_dead(opposed, "rgba(255,69,0,1.0)", color_black)
   output <- rbind(supported_df, neutral_df, opposed_df)
+  # Color-black has a secondary purpose here of combining all the separate dead bills coming out of a node into one
+  #     ie what usually happens is you would have a separate "dead flow" for each of the sierra opinions (supported/opposed)
+  #     and since you are coloring in the dead bills in the same color it is useful to just combine these flows, otherwise
+  #     they are needlessly separated
   if (color_black) {
     output <- color_dead(output)
   }
   return(output)
 }
 
+# Colors all dead bills black and combines them if multiple dead connections have identical nodes
 color_dead <- function(df) {
   non_dead <- filter(df, next_x != "Dead")
   dead <- filter(df, next_x == "Dead")
@@ -135,6 +160,7 @@ color_dead <- function(df) {
 
 
 
+# Probably needs a name change, but these functions are similar to data creator without jr's that add a return path so we can see where returned bills would be sent off to
 no_return_sierra_data <- function(csv, shell = FALSE) {
   supported <- filter(csv, SC.Position == 1)
   neutral <- filter(csv, SC.Position == 0)
@@ -179,39 +205,10 @@ no_return_data_creator <- function(csv, color_id, shell = FALSE) {
 }
 
 
-# ggplot identifiers
-add_identifiers <- function(x) {
-x %>% mutate(Dis = factor(if_else(Disposition == "DiC", "Died in Committee", if_else(Disposition == "PiL", "Passed into Law", "Died Elsewhere")),
-                             levels = c("Died in Committee", "Died Elsewhere", "Passed into Law")), 
-                        Pos = if_else(SC.Position == 1, "Supported", if_else(SC.Position == 0, "Neutral", "Opposed")))
-}
 
-# obtain columns we care about
-col_care <- function(x) {
-  x %>% select(SC.Position, Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
-}
-
-average <- function(x) {
-  group_by(x, SC.Position) %>% summarize(Passed = mean(Passed), Pass.Com.1 = mean(Pass.Com.1))
-}
-
-plot_avg <- function(csv, name, show.legend = TRUE) {
-gg <- ggplot(average(csv)) +
-  geom_smooth(aes(SC.Position, Pass.Com.1, color = "1"), method = "loess") + 
-  geom_smooth(aes(SC.Position, Passed, color = "2"), method = "loess") +
-  geom_point(aes(SC.Position, Pass.Com.1, color = "1")) + 
-  geom_point(aes(SC.Position, Passed, color = "2")) + 
-  theme_minimal() +
-  labs(title = paste("Bills that Pass Key Milestones Based on SC Position in", name), x = "SC Position", y = "Portion") + 
-  scale_y_continuous(limits = c(0,NA), breaks = seq(0, 1, 0.1)) + 
-  scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
-ggsave(paste("images/", name, "_gg_curve.png", sep = ""), plot = gg, bg = "white")
-if (!show.legend) {
-  gg <- gg + theme(legend.position = "none")
-}
-return(gg)
-}
-
+# OG function that actually shows all the bills being returned instead of just a small path showing where returned bills go
+#   Has a few options for how complicated you want to make the splits (more complicated is more realistic but the issue is
+#   obviously that it will be more complicated, so have to deal with a trade off there)
 data_creator_shell <- function(csv, color_id, split = FALSE) {
   a <- mutate(csv, Intro.Com = 1, Law = Passed)
   normal_a <- a %>% filter(is.na(Amended) | Amended == 0) %>%
@@ -343,20 +340,66 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
 }
 
 
+# Helper function that gets all the first committee, second committee, or both in addition to sierra club position
 isolate_committees <- function(csv, first = TRUE, second = TRUE) {
+
+    # Obtains the sierra club position
     csv <- add_identifiers(csv)
     base_committees <- NULL
+
+    # Gets first committee
     if (first) {
         base_committees <- select(csv, Committee = Com.1, Pos)
     }
+
+    # Gets second committee
     if (second) {
         sec <- select(csv, Committee = Com.2, Pos) %>%
             filter(Committee != "")
         base_committees <- rbind(base_committees, sec)
     }
+    # Regex to strip whitespace from committees left in there by author
     base_committees$Committee <- gsub('\\s+', '', base_committees$Committee)
+    # Some bills go through multiple committees, this line separates those committees into multiple rows
+    #   ex. a bill goes through the following committees: H-CL;H-A. Originally these are on one row
+    #   and the function separates that bill into 2 observations, one with H-CL and the other with H-A so
+    #   we can easily look at committees individually
     base_committees <- separate_rows(base_committees, Committee, sep = ";") %>%
         separate_rows(Committee, sep = ",") %>%
         separate(Committee, into = c("Chamber", "Committee"), sep = "-")
     return(base_committees)
+}
+# ggplot identifiers, also turns SC Position into a string form
+add_identifiers <- function(x) {
+x %>% mutate(Dis = factor(if_else(Disposition == "DiC", "Died in Committee", if_else(Disposition == "PiL", "Passed into Law", "Died Elsewhere")),
+                             levels = c("Died in Committee", "Died Elsewhere", "Passed into Law")), 
+                        Pos = if_else(SC.Position == 1, "Supported", if_else(SC.Position == 0, "Neutral", "Opposed")))
+}
+
+# obtain columns we care about
+col_care <- function(x) {
+  x %>% select(SC.Position, Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
+}
+
+# ggplot + line graph helper function
+average <- function(x) {
+  group_by(x, SC.Position) %>% summarize(Passed = mean(Passed), Pass.Com.1 = mean(Pass.Com.1))
+}
+
+# More ggplot stuff
+plot_avg <- function(csv, name, show.legend = TRUE) {
+gg <- ggplot(average(csv)) +
+  geom_smooth(aes(SC.Position, Pass.Com.1, color = "1"), method = "loess") + 
+  geom_smooth(aes(SC.Position, Passed, color = "2"), method = "loess") +
+  geom_point(aes(SC.Position, Pass.Com.1, color = "1")) + 
+  geom_point(aes(SC.Position, Passed, color = "2")) + 
+  theme_minimal() +
+  labs(title = paste("Bills that Pass Key Milestones Based on SC Position in", name), x = "SC Position", y = "Portion") + 
+  scale_y_continuous(limits = c(0,NA), breaks = seq(0, 1, 0.1)) + 
+  scale_color_manual(name = "Portion of Bills that", labels = c("Leave Committee","Become Law"), values = c("orange", "green"))
+ggsave(paste("images/", name, "_gg_curve.png", sep = ""), plot = gg, bg = "white")
+if (!show.legend) {
+  gg <- gg + theme(legend.position = "none")
+}
+return(gg)
 }

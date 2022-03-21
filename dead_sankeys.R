@@ -1,5 +1,7 @@
+# Sources functions for dataframe creation
 source("functions.R")
 
+# Obtains the different years. Unsure how many of those pipes are necessary but they are used at some point in the various plotly's and ggplots
 csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017, Year_dis = paste(Year, Dis, sep = ""))
 csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018, Year_dis = paste(Year, Dis, sep = ""))
 csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019, Year_dis = paste(Year, Dis, sep = ""))
@@ -10,15 +12,12 @@ csv_total <- rbind(csv17, csv18, csv19, csv20, csv21)
 
 
 
-#ef476f
-#ffd166
-#06d6a0
-#118ab2
-#073b4c
+# Creates the list of all the colors that will be used for each of the years
 colors <- list("y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y2020" = "118ab2", "y2021" = "073b4c",
                "dead" = "6a5d5d")
+# New labels, since the old ones have underscores and dots instead of spaces
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
-          "Passed Committee 2", "Passed Floor 2", 
+          "Passed Committee 2", "Passed Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 
 
@@ -26,15 +25,22 @@ labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
 
 dead_sierra_joint <- sierra_data_dead(csv_total)
 plot_ly(
+    # sets a type for plotly
   type = "sankey",
   arrangement = "snap",
+  # sets up node behavior
   node = list(
+    # makes labels not ugly
     label = labs,
+    # sets up node coordinates. Note that (1,1) is bottom right
     x = c(0, 0.13, 0.2, 0.35, 0.45, 0.64, 0.75, 1, 1),
     y = c(0, 0.43, 0.76, 0.77, 0.83, 0.81, 0.83, 0.82, 0),
+    # Node color
     color = "gray",
     pad = 10), # 10 Pixel
+    # Sets up flow behavior
   link = list(
+    # Subtract 1 from node index because we want index 0
     source = as.numeric(dead_sierra_joint$x) - 1,
     target = as.numeric(dead_sierra_joint$next_x) - 1,
     value = dead_sierra_joint$n,
