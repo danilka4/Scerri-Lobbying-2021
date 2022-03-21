@@ -1,0 +1,294 @@
+---
+title: "Climate Legislature Visualizations"
+author: "Daniel Palamarchuk"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    source_code: embed
+    theme: united
+    
+---
+
+```{r setup, include=FALSE}
+library(bslib)
+library(flexdashboard)
+library(plotly)
+library(ggplot2)
+library(plyr)
+
+source("functions.R")
+
+csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017, Year_dis = paste(Year, Dis, sep = ""))
+csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018, Year_dis = paste(Year, Dis, sep = ""))
+csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019, Year_dis = paste(Year, Dis, sep = ""))
+csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2020, Year_dis = paste(Year, Dis, sep = ""))
+csv21 <- read.csv("data/csv_2021.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2021, Year_dis = paste(Year, Dis, sep = ""))
+
+csv_total <- rbind(csv17, csv18, csv19, csv20, csv21)
+
+colors <- list("y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y2020" = "118ab2", "y2021" = "073b4c",
+               "dead" = "6a5d5d")
+labs <- c("Introduced", "Committee 1", "Floor 1",
+          "Committee 2", "Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+```
+
+
+General Overview
+=====================================
+
+These graphs provide a general overview of the overall data in VA between 2017-2021.
+The graph on the left shows how the different bills move through the legislative process by year.
+The graph on the right shows the same bills, except color-coded based on Sierra Club's position on the bill.
+
+Column
+-------------------------------------
+
+### A kinda cool map
+
+```{r}
+joint_year <- rbind(
+                    data_creator(csv17, colors$y2017),
+                    data_creator(csv18, colors$y2018),
+                    data_creator(csv19, colors$y2019),
+                    data_creator(csv20, colors$y2020),
+                    data_creator(csv21, colors$y2021)
+                )
+
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    color = "gray",
+    pad = 10), 
+  link = list(
+    source = as.numeric(joint_year$x) - 1,
+    target = as.numeric(joint_year$next_x) - 1,
+    value = joint_year$n,
+    color = ~as.factor(joint_year$color),
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Annual Sankey with Joint Resolutions 2017-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+Column
+-------------------------------------
+
+### Legend
+
+```{r}
+library(cowplot)
+library(grid)
+library(gridExtra)
+library(ggpubr)
+base_graph <- ggplot(csv_total, aes(Year_dis, fill = as.character(Year))) + geom_bar() + 
+  scale_fill_manual(
+                     values = c(paste("#",colors$y2017, sep = ""),paste("#",colors$y2018, sep = ""),paste("#",colors$y2019, sep = ""),
+                                paste("#",colors$y2020, sep = ""),paste("#",colors$y2021, sep = ""))) +
+  theme_minimal() +
+  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
+       x = "Final Outcome of Bill", y = "Number of Bills",
+       fill = "Year") + 
+    theme(legend.text = element_text(size = 15),
+          legend.title = element_text(size = 20),
+          legend.key.size = unit(2, "cm"))
+legend_year <- get_legend(base_graph)
+
+gg17 <- ggplot(csv17, aes(Dis, fill = Pos)) + geom_bar() +
+  scale_fill_manual(
+                     values = c("Supported" = "#00ba38", "Neutral" = "#619cff", "Opposed" = "#f8766d")) +
+  theme_minimal() +
+  scale_x_discrete(limits = c("Died in Committee", "Died Elsewhere", "Passed into Law")) + 
+  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
+       x = "Final Outcome of Bill", y = "Number of Bills",
+       fill = "Sierra Club Position") + 
+    theme(legend.text = element_text(size = 15),
+          legend.title = element_text(size = 20),
+          legend.key.size = unit(2, "cm"))
+legend_sierra <- get_legend(gg17)
+
+ggarrange(legend_year, legend_sierra, ncol = 2)
+```
+
+### Sierra Club Sankey
+
+```{r}
+sierra_joint <- sierra_data(csv_total)
+
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(sierra_joint$x) - 1,
+    target = as.numeric(sierra_joint$next_x) - 1,
+    value = sierra_joint$n,
+    color = ~as.factor(sierra_joint$color),
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Sierra Sankey with Joint Resolutions 2017-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+
+
+Annual Analysis
+=====================================
+
+```{r}
+joint17 <- data_creator(csv17, colors$y2017)
+joint18 <- data_creator(csv18, colors$y2018)
+joint19 <- data_creator(csv19, colors$y2019)
+joint20 <- data_creator(csv20, colors$y2020)
+joint21 <- data_creator(csv21, colors$y2021)
+```
+
+Column {.tabset}
+-------------------------------------
+### 2017
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.2, 0.37, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.20, 0.17, 0.2, 0),
+    color = "gray",
+    pad = 10), 
+  link = list(
+    source = as.numeric(joint17$x) - 1,
+    target = as.numeric(joint17$next_x) - 1,
+    value = joint17$n,
+    color = ~as.factor(joint17$color),
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Annual Sankey without Joint Resolutions 2017-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+
+### 2018
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.2, 0.37, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.10, 0.10, 0.10, 0.15, 0.07, 0.15, 0),
+    color = "gray",
+    pad = 10), 
+  link = list(
+    source = as.numeric(joint18$x) - 1,
+    target = as.numeric(joint18$next_x) - 1,
+    value = joint18$n,
+    color = ~as.factor(joint18$color),
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Annual Sankey without Joint Resolutions 2017-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### 2019
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.2, 0.37, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.20, 0.17, 0.2, 0),
+    color = "gray",
+    pad = 10), 
+  link = list(
+    source = as.numeric(joint19$x) - 1,
+    target = as.numeric(joint19$next_x) - 1,
+    value = joint19$n,
+    color = ~as.factor(joint19$color),
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Annual Sankey without Joint Resolutions 2019-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### 2020
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.25, 0.38, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.28, 0.18, 0.26, 0),
+    color = "gray",
+    pad = 10), 
+  link = list(
+    source = as.numeric(joint20$x) - 1,
+    target = as.numeric(joint20$next_x) - 1,
+    value = joint20$n,
+    color = ~as.factor(joint20$color),
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Annual Sankey without Joint Resolutions 2020-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### 2021
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.25, 0.38, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.37, 0.18, 0.31, 0),
+    color = "gray",
+    pad = 10),
+  link = list(
+    source = as.numeric(joint21$x) - 1,
+    target = as.numeric(joint21$next_x) - 1,
+    value = joint21$n,
+    color = ~as.factor(joint21$color),
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Individual Joint Graphs for 2017-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+
+Column
+-------------------------------------
+### General Overview
+
+Over here we plot each year individually, showing the general structure in addition to how well received the bills were by climate activists.
+An interesting and rather unsurprising trend is that 2020 and 2021 saw a huge increase in the amount of bills passed.
+This can most likely be associated with Democratic control of both houses and the governorship, allowing democrats to push through more climate-favorable legislature more easily.
