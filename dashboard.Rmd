@@ -151,11 +151,11 @@ Annual Analysis
 =====================================
 
 ```{r}
-joint17 <- data_creator(csv17, colors$y2017)
-joint18 <- data_creator(csv18, colors$y2018)
-joint19 <- data_creator(csv19, colors$y2019)
-joint20 <- data_creator(csv20, colors$y2020)
-joint21 <- data_creator(csv21, colors$y2021)
+joint17 <- sierra_data(csv17)
+joint18 <- sierra_data(csv18)
+joint19 <- sierra_data(csv19)
+joint20 <- sierra_data(csv20)
+joint21 <- sierra_data(csv21)
 ```
 
 Column {.tabset}
@@ -180,7 +180,7 @@ plot_ly(
     color = ~as.factor(joint17$color),
     line = list(color = "black", width = 0.5)
     )) %>%
-  layout(title = "Annual Sankey without Joint Resolutions 2017-2021",
+  layout(title = "Annual Sankey with Joint Resolutions 2017",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -207,7 +207,7 @@ plot_ly(
     color = ~as.factor(joint18$color),
     line = list(color = "black", width = 0.5)
     )) %>%
-  layout(title = "Annual Sankey without Joint Resolutions 2017-2021",
+  layout(title = "Annual Sankey with Joint Resolutions 2018",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -233,7 +233,7 @@ plot_ly(
     color = ~as.factor(joint19$color),
     line = list(color = "black", width = 0.5)
     )) %>%
-  layout(title = "Annual Sankey without Joint Resolutions 2019-2021",
+  layout(title = "Annual Sankey with Joint Resolutions 2019",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -259,7 +259,7 @@ plot_ly(
     color = ~as.factor(joint20$color),
     line = list(color = "black", width = 0.5)
     )) %>%
-  layout(title = "Annual Sankey without Joint Resolutions 2020-2021",
+  layout(title = "Annual Sankey with Joint Resolutions 2020",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -285,7 +285,7 @@ plot_ly(
     color = ~as.factor(joint21$color),
     line = list(color = "black", width = 0.5)
     )) %>%
-  layout(title = "Individual Joint Graphs for 2017-2021",
+  layout(title = "Individual Joint Graph for 2021",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)

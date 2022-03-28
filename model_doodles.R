@@ -1,9 +1,9 @@
 source("functions.R")
-csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% add_identifiers() %>% mutate(Year = 2017, Year_dis = paste(Year, Dis, sep = ""))
-csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% add_identifiers() %>% mutate(Year = 2018, Year_dis = paste(Year, Dis, sep = ""))
-csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% add_identifiers() %>% mutate(Year = 2019, Year_dis = paste(Year, Dis, sep = ""))
-csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% add_identifiers() %>% mutate(Year = 2020, Year_dis = paste(Year, Dis, sep = ""))
-csv21 <- read.csv("data/csv_2021.csv", nrows = 92) %>% add_identifiers() %>% mutate(Year = 2021, Year_dis = paste(Year, Dis, sep = ""))
+csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% add_identifiers() %>% mutate(Year = 2017)
+csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% add_identifiers() %>% mutate(Year = 2018)
+csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% add_identifiers() %>% mutate(Year = 2019)
+csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% add_identifiers() %>% mutate(Year = 2020)
+csv21 <- read.csv("data/csv_2021.csv", nrows = 92) %>% add_identifiers() %>% mutate(Year = 2021)
 
 csv_total <- rbind(csv17, csv18, csv19, csv20, csv21)
 
@@ -43,13 +43,15 @@ summary(glm(Leaves.Committee ~ Year + SC.Position, csv_total, family = binomial)
 unique(csv_total$Com.2)
 
 head(csv_total)
-com <- isolate_committees(csv_total, second = FALSE)
-head(com)
+com <- remove_extra_com(csv17)
+
+table(com$Com.1, com$Pos)
+
 dim(com)
+filter(csv_total, Com.1 == "NA")
 View(unique(com$Committee))
 
-unite(com, Chamber, Committee, sep = "-", col = "Combined") %>%
-    mutate(Combined = factor(Combined)) %>%
+mutate(com, Combined = factor(Com.1)) %>%
     ggplot(aes(Combined, fill = Pos)) +
     geom_histogram(stat = "count") + 
     scale_fill_manual(
@@ -58,4 +60,55 @@ unite(com, Chamber, Committee, sep = "-", col = "Combined") %>%
     labs(title = "Bills Passed Per Committee",
          x = "Congressional Committee", y = "Number of Bills",
          fill = "Sierra Club Position") + guides(fill = "none")
-# We can see here which committees will be of most interest
+# H-CL 19, H-ACNR 16, S-CL 15, S-ACNR 8, S-F 6, H-F 5
+# H-CL 24, S-CL 19, H-ACNR 7, H-PE 5, H-R 5
+# H-CL 24, H-ACNR 16, S-CL 10, H-R 6, H-CCT 5
+# H-LC 13, S-CL 11, H-ACNR 11, H-F 5, S-GLT 5
+# H-LC 16, H-PE 12, H-ACNR 7, S-ACNR 7, S-PE 6, H-R 5
+# Going to try to have all the committees with 10+ bills as separate
+
+memes <- remove_extra_com(csv_total) %>% consolidate_com()
+
+test <- com_creator(csv17, "black")
+head(test, n = 20)
+
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    color = "gray",
+    pad = 10), 
+  link = list(
+    source = as.numeric(meme$x) - 1,
+    target = as.numeric(meme$next_x) - 1,
+    value = meme$n,
+    color = ~as.factor("black"),
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Annual Sankey with Joint Resolutions 2017-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+
+meme <- csv17 %>%
+    mutate(Intro.Com = 1, Law = Passed) %>%
+    remove_extra_com() %>% consolidate_com() %>%
+    make_long(
+              Intro.Com,
+              Com.1,
+              Pass.Floor.1,
+              Pass.Com.2,
+              Pass.Floor.2,
+              To.Gov,
+              Passed,
+              Law
+    ) %>%
+na_if(0) %>%
+filter(!is.na(node))
+
+ggplot(meme, aes(x = x, next_x = next_x,
+                 node = node, next_node = next_node,
+                 label = node)) + 
+geom_sankey() + 
+  geom_sankey_label(size = 3, color = "white", fill = "gray40")

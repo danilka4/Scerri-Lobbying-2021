@@ -339,6 +339,81 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
   return(new_total_df)
 }
 
+# Helper function that will take bills with multiple committees
+#   and remove the irrelevant ones
+remove_extra_com <- function(csv, fancy = FALSE) {
+    if (fancy) {
+    isolated_first <- isolate_committees(csv, second = FALSE) %>%
+        group_by(Committee) %>% summarize(n = n()) %>%
+        arrange((n))
+    csv$Com.1 <- gsub('\\s+', '', csv$Com.1)
+    csv$Com.2 <- gsub('\\s+', '', csv$Com.2)
+    extra_com_1 <- filter(csv, grepl(";", Com.1), !grepl(";", Com.2))
+    # Uninteresting committees are H-A, H-F, H-R, S-F, S-R
+    return(isolated_first)
+    } else {
+        csv$Com.1 <- gsub('\\s+', '', csv$Com.1)
+        csv$Com.2 <- gsub('\\s+', '', csv$Com.2)
+        return(filter(csv, !(grepl(";", Com.1) | grepl(";", Com.2))))
+    }
+}
+
+# Creates a data frame with the associated color id. There is an option to include joint resolutions
+com_creator <- function (csv, color_id, include_joint = TRUE) {
+    # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
+    # Added law for similar reasons as well
+    csv <- mutate(csv, Intro.Com = 1, Law = Passed) %>%
+        remove_extra_com() %>% consolidate_com()
+
+    # Creation of data frames for JR's and non-JR's
+    normal <- filter(csv, Disposition != "JRP")
+    jrps <- filter(csv, Disposition == "JRP")
+    normal_df <- normal %>% 
+        make_long(Intro.Com,
+            Com.1,
+            Pass.Floor.1,
+            Pass.Com.2,
+            Pass.Floor.2,
+            To.Gov,
+            Passed,
+            Law
+            ) %>%
+        na_if(0) %>%
+        filter(!is.na(node))
+    jrps_df <- jrps %>%
+        make_long(Intro.Com,
+            Com.1,
+            Pass.Floor.1,
+            Pass.Com.2,
+            Pass.Floor.2,
+            Passed,
+            Law
+            ) %>%
+        na_if(0) %>%
+        filter(!is.na(node))
+
+    # Adds on joint resolutions if that is true
+    if (include_joint) {
+        normal_df <- rbind(normal_df, jrps_df)
+    }
+    label <- levels(normal_df$x)
+
+    # Coerces the above dataframe into one that is usable by plotly
+    #   This is because the make_long function was made with a different library in mind
+    new_normal <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
+        filter(!is.na(next_x)) %>% 
+        mutate(color = color_id)
+    return(new_normal)
+}
+
+# Helper function that will isolate all committees with 10+ Primary bills
+consolidate_com <- function(csv) {
+    isolated_first <- isolate_committees(csv, second = FALSE) %>%
+        group_by(Committee) %>% summarize(n = n()) %>% arrange(desc(n))
+    new_csv <- mutate(csv, Com.1 = if_else(Com.1 %in% isolated_first$Committee[1:3], Com.1, "Other Committee")) %>%
+        mutate(Com.1 = factor(Com.1))
+    return(new_csv)
+}
 
 # Helper function that gets all the first committee, second committee, or both in addition to sierra club position
 isolate_committees <- function(csv, first = TRUE, second = TRUE) {
@@ -366,7 +441,7 @@ isolate_committees <- function(csv, first = TRUE, second = TRUE) {
     #   we can easily look at committees individually
     base_committees <- separate_rows(base_committees, Committee, sep = ";") %>%
         separate_rows(Committee, sep = ",") %>%
-        separate(Committee, into = c("Chamber", "Committee"), sep = "-")
+    #    separate(Committee, into = c("Chamber", "Committee"), sep = "-")
     return(base_committees)
 }
 # ggplot identifiers, also turns SC Position into a string form
