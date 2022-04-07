@@ -21,21 +21,16 @@ labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 
-
-head(committees <- com_sierra(csv18, FALSE), n = 20)
-(labels <- c(levels(committees$x), "Passed"))
-levels(committees$next_x)
-
-test <- data.frame(x = c("a", "b","c","d"), y = c(1,2,3,4))
-test[test$x == "a",2]
+committees <- com_sierra(csv_total, TRUE)
+labels <- c("Introduced", levels(committees$x)[2:5], "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
 
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
     label = labels,
-    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    #y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
@@ -45,7 +40,15 @@ plot_ly(
     color = ~as.factor(committees$color),
     line = list(color = "black", width = 0.5)
     ))%>%
-  layout(title = "Sierra Sankey with Joint Resolutions 2017-2021",
+  layout(title = "Sierra by Committee in Total",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
+
+csv177 <- separate(csv17, Com.1, into = c("Com.1", "Com.1.1", "Com.1.2", "Com.1.3"), sep = ";")
+nrow(csv177)
+csv177$Com.1
+head(group_by(csv177, Com.1) %>% summarize(n = n()), n = 20)
+filter(csv177, Com.1 == "H-CL")
+
+
