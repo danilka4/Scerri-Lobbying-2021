@@ -3,39 +3,75 @@ title: "Climate Legislature Visualizations"
 author: "Daniel Palamarchuk"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
     source_code: embed
     theme: united
     
 ---
 
-```{r setup, include=FALSE}
+```{r global, echo=FALSE}
 library(bslib)
 library(flexdashboard)
 library(plotly)
 library(ggplot2)
 library(plyr)
+library(reactable)
 
 source("functions.R")
 
-csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017, Year_dis = paste(Year, Dis, sep = ""))
-csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018, Year_dis = paste(Year, Dis, sep = ""))
-csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019, Year_dis = paste(Year, Dis, sep = ""))
-csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2020, Year_dis = paste(Year, Dis, sep = ""))
-csv21 <- read.csv("data/csv_2021.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2021, Year_dis = paste(Year, Dis, sep = ""))
+com_creator_updated(csv17, "black")
+
+csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017) %>%
+    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018) %>%
+    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019) %>%
+    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2020) %>%
+    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv21 <- read.csv("data/csv_2021.csv", nrows = 84) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2021) %>%
+    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+nrow(read.csv("data/csv_2020.csv"))
 
 csv_total <- rbind(csv17, csv18, csv19, csv20, csv21)
 
 colors <- list("y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y2020" = "118ab2", "y2021" = "073b4c",
                "dead" = "6a5d5d")
 labs <- c("Introduced", "Committee 1", "Floor 1",
-          "Committee 2", "Floor 2", 
+          "Committee 2", "Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+link_hover <- paste("Flow between %{source.label}<br />",
+                   "and %{target.label}<br />",
+                   "<br /><extra>%{value:.0f}</extra>")
+node_hover <- paste("%{label}<br />",
+                   "<extra>%{value:.0f}</extra>")
+# Stuff for General Overview
+joint_year <- rbind(
+                    data_creator(csv17, colors$y2017),
+                    data_creator(csv18, colors$y2018),
+                    data_creator(csv19, colors$y2019),
+                    data_creator(csv20, colors$y2020),
+                    data_creator(csv21, colors$y2021)
+                )
+# Adds committees
+csv_com_total <- separate(csv_total, Com.1, into = "Com.1", sep = ";") %>%
+    mutate(Com.1 = if_else(Com.1 == "H-CL" | Com.1 == "H-LC", "H-CL/LC", Com.1))
+committees_total <- com_sierra(csv_com_total, TRUE)
+labels_total <- c("Introduced", levels(committees_total$x)[2:5], "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
+
+com_17 <- com_sierra(csv17)
+com_18 <- com_sierra(csv18)
+com_19 <- com_sierra(csv19)
+com_20 <- com_sierra(csv20)
+com_21 <- com_sierra(csv21)
+labels_17 <- c("Introduced", levels(com_17$x)[2:5], "Passed Floor 1", com_17$x[7:10], "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
+labels_18 <- c("Introduced", levels(com_18$x)[2:5], "Passed Floor 1", com_18$x[7:10], "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
+labels_19 <- c("Introduced", levels(com_19$x)[2:5], "Passed Floor 1", com_19$x[7:10], "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
+labels_20 <- c("Introduced", levels(com_20$x)[2:5], "Passed Floor 1", com_20$x[7:10], "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
+labels_21 <- c("Introduced", levels(com_21$x)[2:5], "Passed Floor 1", com_21$x[7:10], "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
 ```
 
 
-General Overview
-=====================================
+# General Overview {data-orientation=columns}
 
 These graphs provide a general overview of the overall data in VA between 2017-2021.
 The graph on the left shows how the different bills move through the legislative process by year.
@@ -44,16 +80,9 @@ The graph on the right shows the same bills, except color-coded based on Sierra 
 Column
 -------------------------------------
 
-### A kinda cool map
+### Bill Lifetime per Year
 
 ```{r}
-joint_year <- rbind(
-                    data_creator(csv17, colors$y2017),
-                    data_creator(csv18, colors$y2018),
-                    data_creator(csv19, colors$y2019),
-                    data_creator(csv20, colors$y2020),
-                    data_creator(csv21, colors$y2021)
-                )
 
 plot_ly(
   type = "sankey",
@@ -64,14 +93,14 @@ plot_ly(
     y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
     color = "gray",
     pad = 10,
-    thickness = 10), 
+    thickness = 10),
   link = list(
     source = as.numeric(joint_year$x) - 1,
     target = as.numeric(joint_year$next_x) - 1,
     value = joint_year$n,
     color = ~as.factor(joint_year$color),
     line = list(color = "black", width = 0.5)
-    ))%>%
+    )) %>%
   layout(title = "Annual Sankey with Joint Resolutions 2017-2021",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
@@ -88,7 +117,7 @@ library(cowplot)
 library(grid)
 library(gridExtra)
 library(ggpubr)
-base_graph <- ggplot(csv_total, aes(Year_dis, fill = as.character(Year))) + geom_bar() + 
+base_graph <- ggplot(csv_total, aes(Year, fill = as.character(Year))) + geom_bar() + 
   scale_fill_manual(
                      values = c(paste("#",colors$y2017, sep = ""),paste("#",colors$y2018, sep = ""),paste("#",colors$y2019, sep = ""),
                                 paste("#",colors$y2020, sep = ""),paste("#",colors$y2021, sep = ""))) +
@@ -145,157 +174,259 @@ plot_ly(
          showlegend = T)
 ```
 
+# 2017 {data-navmenu="Committee Analysis" data-orientation=rows}
 
-
-Annual Analysis
-=====================================
-
-```{r}
-joint17 <- sierra_data(csv17)
-joint18 <- sierra_data(csv18)
-joint19 <- sierra_data(csv19)
-joint20 <- sierra_data(csv20)
-joint21 <- sierra_data(csv21)
-```
-
-Column {.tabset}
--------------------------------------
-### 2017
+Row
+----------------------------------
+### Graph
 
 ```{r}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    x = c(0, 0.13, 0.2, 0.37, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.20, 0.17, 0.2, 0),
+    label = labels_17,
+    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
-    pad = 10,
-    thickness = 10),
+    pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(joint17$x) - 1,
-    target = as.numeric(joint17$next_x) - 1,
-    value = joint17$n,
-    color = ~as.factor(joint17$color),
+    source = as.numeric(com_17$x) - 1,
+    target = as.numeric(com_17$next_x),
+    value = com_17$n,
+    color = ~as.factor(com_17$color),
     line = list(color = "black", width = 0.5)
-    )) %>%
-  layout(title = "Annual Sankey with Joint Resolutions 2017",
+    ))%>%
+  layout(title = "Sierra by Committee in 2017",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 ```
+Row
+---------------------------------
 
+### Table
 
-### 2018
+```{r}
+rtable(csv17)
+```
+
+### Description
+
+Here we see all the bills with various support levels separated by committee.
+H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
+
+# 2018 {data-navmenu="Committee Analysis" data-orientation=rows}
+
+Row
+---------------------------------
+### Graph
 
 ```{r}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    x = c(0, 0.13, 0.2, 0.37, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.10, 0.10, 0.10, 0.15, 0.07, 0.15, 0),
+    label = labels_18,
+    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
-    pad = 10,
-    thickness = 10),
+    pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(joint18$x) - 1,
-    target = as.numeric(joint18$next_x) - 1,
-    value = joint18$n,
-    color = ~as.factor(joint18$color),
+    source = as.numeric(com_18$x) - 1,
+    target = as.numeric(com_18$next_x),
+    value = com_18$n,
+    color = ~as.factor(com_18$color),
     line = list(color = "black", width = 0.5)
-    )) %>%
-  layout(title = "Annual Sankey with Joint Resolutions 2018",
+    ))%>%
+  layout(title = "Sierra by Committee in 2018",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 ```
+Row
+---------------------------------
+### Table
 
-### 2019
+```{r}
+rtable(csv18)
+```
+### Description
+
+Here we see all the bills with various support levels separated by committee.
+H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
+
+# 2019 {data-navmenu="Committee Analysis" data-orientation=rows}
+
+Row
+---------------------------------
+### Graph
 
 ```{r}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    x = c(0, 0.13, 0.2, 0.37, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.20, 0.17, 0.2, 0),
+    label = labels_19,
+    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
-    pad = 10,
-    thickness = 10),
+    pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(joint19$x) - 1,
-    target = as.numeric(joint19$next_x) - 1,
-    value = joint19$n,
-    color = ~as.factor(joint19$color),
+    source = as.numeric(com_19$x) - 1,
+    target = as.numeric(com_19$next_x),
+    value = com_19$n,
+    color = ~as.factor(com_19$color),
     line = list(color = "black", width = 0.5)
-    )) %>%
-  layout(title = "Annual Sankey with Joint Resolutions 2019",
+    ))%>%
+  layout(title = "Sierra by Committee in 2019",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 ```
 
-### 2020
+Row
+---------------------------------
+### Table
+
+```{r}
+rtable(csv19)
+```
+### Description
+
+Here we see all the bills with various support levels separated by committee.
+H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
+
+# 2020 {data-navmenu="Committee Analysis" data-orientation=rows}
+
+Row
+---------------------------------
+### Graph
 
 ```{r}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    x = c(0, 0.13, 0.25, 0.38, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.28, 0.18, 0.26, 0),
+    label = labels_20,
+    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
-    pad = 10,
-    thickness = 10), 
+    pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(joint20$x) - 1,
-    target = as.numeric(joint20$next_x) - 1,
-    value = joint20$n,
-    color = ~as.factor(joint20$color),
+    source = as.numeric(com_20$x) - 1,
+    target = as.numeric(com_20$next_x),
+    value = com_20$n,
+    color = ~as.factor(com_20$color),
     line = list(color = "black", width = 0.5)
-    )) %>%
-  layout(title = "Annual Sankey with Joint Resolutions 2020",
+    ))%>%
+  layout(title = "Sierra by Committee in 2020",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 ```
 
-### 2021
+Row
+---------------------------------
+### Table
+
+```{r}
+rtable(csv20)
+```
+### Description
+
+Here we see all the bills with various support levels separated by committee.
+H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
+
+# 2021 {data-navmenu="Committee Analysis" data-orientation=rows}
+
+Row
+---------------------------------
+### Graph
 
 ```{r}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    x = c(0, 0.13, 0.25, 0.38, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.37, 0.18, 0.31, 0),
+    label = labels_21,
+    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
-    pad = 10,
-    thickness = 10),
+    hovertemplate = node_hover,
+    pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(joint21$x) - 1,
-    target = as.numeric(joint21$next_x) - 1,
-    value = joint21$n,
-    color = ~as.factor(joint21$color),
+    source = as.numeric(com_21$x) - 1,
+    target = as.numeric(com_21$next_x),
+    value = com_21$n,
+    color = ~as.factor(com_21$color),
+    hovertemplate = link_hover,
+    hovertemplate = hovertemp,
     line = list(color = "black", width = 0.5)
-    )) %>%
-  layout(title = "Individual Joint Graph for 2021",
+    ))%>%
+  layout(title = "Sierra by Committee in 2021",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 ```
 
+Row
+---------------------------------
+### Table
 
-Column
--------------------------------------
-### General Overview
+```{r}
+rtable(csv21)
 
-Over here we plot each year individually, showing the general structure in addition to how well received the bills were by climate activists.
-An interesting and rather unsurprising trend is that 2020 and 2021 saw a huge increase in the amount of bills passed.
-This can most likely be associated with Democratic control of both houses and the governorship, allowing democrats to push through more climate-favorable legislature more easily.
+```
+### Description
+
+Here we see all the bills with various support levels separated by committee.
+H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
+
+# Total {data-navmenu="Committee Analysis" data-orientation=rows}
+
+Row
+---------------------------------
+### Graph
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_total,
+    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(committees_total$x) - 1,
+    target = as.numeric(committees_total$next_x),
+    value = committees_total$n,
+    color = ~as.factor(committees_total$color),
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Sierra by Committee in Total",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+Row
+---------------------------------
+### Table
+
+```{r}
+rtable(csv_com_total)
+```
+
+### Description
+
+Here we see all the bills with various support levels separated by committee.
+H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
+
+# Other States
+
+## Description
+
+This page is under construction and will be updated as more states are scoured and added.

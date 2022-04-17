@@ -1,10 +1,10 @@
 source("functions.R")
 
-csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017)
-csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018)
-csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019)
-csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2020)
-csv21 <- read.csv("data/csv_2021.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2021)
+csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2020) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv21 <- read.csv("data/csv_2021.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2021) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 
 csv_total <- rbind(csv17, csv18, csv19, csv20, csv21)
 
@@ -21,7 +21,10 @@ labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 
-committees <- com_sierra(csv_total, TRUE)
+csv_com_total <- separate(csv_total, Com.1, into = "Com.1", sep = ";") %>%
+    mutate(Com.1 = if_else(Com.1 == "H-CL" | Com.1 == "H-LC", "H-CL/LC", Com.1))
+colnames(csv_com_total)
+committees <- com_sierra(csv_com_total, TRUE)
 labels <- c("Introduced", levels(committees$x)[2:5], "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
 
 plot_ly(
@@ -52,3 +55,4 @@ head(group_by(csv177, Com.1) %>% summarize(n = n()), n = 20)
 filter(csv177, Com.1 == "H-CL")
 
 
+rtable(csv17)
