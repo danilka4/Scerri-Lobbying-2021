@@ -346,112 +346,112 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
 }
 
 # Creates a data frame with the associated color id. There is an option to include joint resolutions
-com_creator <- function (csv, color_id, include_joint = TRUE, consol = TRUE) {
-    # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
-    # Added law for similar reasons as well
-    csv <- mutate(csv, Intro.Com = 1, Law = Passed)
-
-    csv <- separate(csv, Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-    csv <- separate(csv, Com.2, into = c("Com.2", "Com.2.2", "Com.2.3", "Com.2.4"), sep = ";")
-    if (consol) {
-        csv <- consolidate_com(csv)
-    }
-    # Creation of data frames for JR's and non-JR's
-    normal <- filter(csv, Disposition != "JRP")
-    jrps <- filter(csv, Disposition == "JRP")
-    normal_df <- normal %>% 
-        make_long(Intro.Com,
-            Com.1,
-            Pass.Floor.1,
-            Pass.Com.2,
-            Pass.Floor.2,
-            To.Gov,
-            Passed,
-            Law
-            ) %>%
-        na_if(0) %>%
-        filter(!is.na(node))
-    jrps_df <- jrps %>%
-        make_long(Intro.Com,
-            Com.1,
-            Pass.Floor.1,
-            Pass.Com.2,
-            Pass.Floor.2,
-            Passed,
-            Law
-            ) %>%
-        na_if(0) %>%
-        filter(!is.na(node))
-
-    # Adds on joint resolutions if that is true
-    if (include_joint) {
-        normal_df <- rbind(normal_df, jrps_df)
-    }
-
-
-
-    # A bunch of code to reorder factors to correct order
-    #   First line orders non-other committees in increasing order
-    levs <- filter(normal_df, next_x == "Com.1", next_node != "Other.Committee") %>%
-        group_by(next_node) %>% summarize(n = n()) %>%
-        arrange(desc(n))
-    # This one attaches other committees + everything else to levels
-    levs <- c("Intro.Com", levs$next_node, "Other.Committee", "Pass.Floor.1",
-              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")
-
-
-    # Coerces the above dataframe into one that is usable by plotly
-    #   This is because the make_long function was made with a different library in mind
-    new_df <- normal_df %>%
-        mutate(x = as.character(x), node = as.character(node), next_x = as.character(next_x), next_node = as.character(next_node)) %>%
-        mutate(x = if_else(x == "Com.1", node, x), next_x = if_else(next_x == "Com.1", next_node, next_x)) %>%
-        group_by(x, next_x) %>% summarize(n = n()) %>%
-        mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)])) %>%
-        filter(!is.na(next_x))
-
-    # Fix amount of bills going from committee to floor
-    subt <- filter(csv, Pass.Com.1 == 1) %>%
-        group_by(Com.1) %>% summarize(n = n())
-    subt <- data.frame(x = subt$Com.1, next_x = "Pass.Floor.1", n = subt$n)
-
-
-    new_df <- filter(new_df, next_x != "Pass.Floor.1") %>%
-        rbind(subt) %>%
-        mutate(color = color_id)
-    # Don't necessarily want to level together different factors if doing it for Sierra club
-    if (consol) {
-            new_df <- mutate(new_df, x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
-    }
-
-    return(new_df)
-}
-
-com_sierra <- function(csv, include_joint = TRUE) {
-    csv <- consolidate_com(csv)
-
-    # Makes levels such that Other Committee is last
-    levs <- group_by(csv, Com.1) %>%
-        summarize(n = n()) %>%
-        arrange(desc(n))
-    levs$Com.1 <- as.character(levs$Com.1)
-    levs <- c(levs$Com.1[levs$Com.1 != "Other Committee"], "Other Committee")
-    csv$Com.1  <- factor(csv$Com.1, levels = levs)
-    levs <- c("Intro.Com", levs, "Pass.Floor.1",
-              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")
-
-
-
-    supported <- filter(csv, SC.Position == 1)
-    neutral <- filter(csv, SC.Position == 0)
-    opposed <- filter(csv, SC.Position == -1)
-    supported_df <- com_creator(supported, "rgba(154,205,50,1.0)", include_joint, FALSE)
-    neutral_df <- com_creator(neutral, "rgba(176,224,230,1.0)", include_joint, FALSE)
-    opposed_df <- com_creator(opposed, "rgba(255,69,0,1.0)", include_joint, FALSE)
-
-    # Makes levels check out
-    new_df <- rbind(supported_df, neutral_df, opposed_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
-    return(new_df)
-}
+#com_creator <- function (csv, color_id, include_joint = TRUE, consol = TRUE) {
+#    # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
+#    # Added law for similar reasons as well
+#    csv <- mutate(csv, Intro.Com = 1, Law = Passed)
+#
+#    csv <- separate(csv, Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+#    csv <- separate(csv, Com.2, into = c("Com.2", "Com.2.2", "Com.2.3", "Com.2.4"), sep = ";")
+#    if (consol) {
+#        csv <- consolidate_com(csv)
+#    }
+#    # Creation of data frames for JR's and non-JR's
+#    normal <- filter(csv, Disposition != "JRP")
+#    jrps <- filter(csv, Disposition == "JRP")
+#    normal_df <- normal %>% 
+#        make_long(Intro.Com,
+#            Com.1,
+#            Pass.Floor.1,
+#            Pass.Com.2,
+#            Pass.Floor.2,
+#            To.Gov,
+#            Passed,
+#            Law
+#            ) %>%
+#        na_if(0) %>%
+#        filter(!is.na(node))
+#    jrps_df <- jrps %>%
+#        make_long(Intro.Com,
+#            Com.1,
+#            Pass.Floor.1,
+#            Pass.Com.2,
+#            Pass.Floor.2,
+#            Passed,
+#            Law
+#            ) %>%
+#        na_if(0) %>%
+#        filter(!is.na(node))
+#
+#    # Adds on joint resolutions if that is true
+#    if (include_joint) {
+#        normal_df <- rbind(normal_df, jrps_df)
+#    }
+#
+#
+#
+#    # A bunch of code to reorder factors to correct order
+#    #   First line orders non-other committees in increasing order
+#    levs <- filter(normal_df, next_x == "Com.1", next_node != "Other.Committee") %>%
+#        group_by(next_node) %>% summarize(n = n()) %>%
+#        arrange(desc(n))
+#    # This one attaches other committees + everything else to levels
+#    levs <- c("Intro.Com", levs$next_node, "Other.Committee", "Pass.Floor.1",
+#              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")
+#
+#
+#    # Coerces the above dataframe into one that is usable by plotly
+#    #   This is because the make_long function was made with a different library in mind
+#    new_df <- normal_df %>%
+#        mutate(x = as.character(x), node = as.character(node), next_x = as.character(next_x), next_node = as.character(next_node)) %>%
+#        mutate(x = if_else(x == "Com.1", node, x), next_x = if_else(next_x == "Com.1", next_node, next_x)) %>%
+#        group_by(x, next_x) %>% summarize(n = n()) %>%
+#        mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)])) %>%
+#        filter(!is.na(next_x))
+#
+#    # Fix amount of bills going from committee to floor
+#    subt <- filter(csv, Pass.Com.1 == 1) %>%
+#        group_by(Com.1) %>% summarize(n = n())
+#    subt <- data.frame(x = subt$Com.1, next_x = "Pass.Floor.1", n = subt$n)
+#
+#
+#    new_df <- filter(new_df, next_x != "Pass.Floor.1") %>%
+#        rbind(subt) %>%
+#        mutate(color = color_id)
+#    # Don't necessarily want to level together different factors if doing it for Sierra club
+#    if (consol) {
+#            new_df <- mutate(new_df, x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+#    }
+#
+#    return(new_df)
+#}
+#
+#com_sierra <- function(csv, include_joint = TRUE) {
+#    csv <- consolidate_com(csv)
+#
+#    # Makes levels such that Other.Committee is last
+#    levs <- group_by(csv, Com.1) %>%
+#        summarize(n = n()) %>%
+#        arrange(desc(n))
+#    levs$Com.1 <- as.character(levs$Com.1)
+#    levs <- c(levs$Com.1[levs$Com.1 != "Other.Committee"], "Other.Committee")
+#    csv$Com.1  <- factor(csv$Com.1, levels = levs)
+#    levs <- c("Intro.Com", levs, "Pass.Floor.1",
+#              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")
+#
+#
+#
+#    supported <- filter(csv, SC.Position == 1)
+#    neutral <- filter(csv, SC.Position == 0)
+#    opposed <- filter(csv, SC.Position == -1)
+#    supported_df <- com_creator(supported, "rgba(154,205,50,1.0)", include_joint, FALSE)
+#    neutral_df <- com_creator(neutral, "rgba(176,224,230,1.0)", include_joint, FALSE)
+#    opposed_df <- com_creator(opposed, "rgba(255,69,0,1.0)", include_joint, FALSE)
+#
+#    # Makes levels check out
+#    new_df <- rbind(supported_df, neutral_df, opposed_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+#    return(new_df)
+#}
 
 # Helper function that will isolate all committees with 10+ Primary bills
 consolidate_com <- function(csv) {
@@ -462,8 +462,13 @@ consolidate_com <- function(csv) {
         group_by(Committee) %>% summarize(n = n()) %>% arrange(desc(n))
     csv <- separate(csv, Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")  %>%
         separate(Com.2, into = c("Com.2", "Com.2.2", "Com.2.3", "Com.2.4"), sep = ";")
-    new_csv <- mutate(csv, Com.1 = if_else(Com.1 %in% isolated_first$Committee[1:3], Com.1, "Other Committee"),
-                      Com.2 = if_else(Com.1 %in% isolated_second$Committee[1:3], paste(Com.2, "2", sep = "."), "Other Committee.2")) %>%
+    new_csv <- mutate(csv, Com.1 = if_else(Com.1 %in% isolated_first$Committee[1:3], Com.1, "Other.Committee"),
+                      Com.2 = case_when(
+                                        Com.2 %in% isolated_second$Committee[1:3] ~ paste(Com.2, "2", sep = "."),
+                                        is.na(Com.2) ~ NA_character_,
+                                        Com.2 == "" ~ NA_character_,
+                                        TRUE ~ "Other.Committee.2"
+                                        )) %>%
         mutate(Com.1 = factor(Com.1), Com.2 = factor(Com.2, exclude = ".2"))
     return(new_csv)
 }
@@ -563,7 +568,7 @@ rtable <- function(csv) {
            )
 }
 
-com_creator_updated <- function (csv, color_id, include_joint = TRUE, consol = TRUE) {
+com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol = TRUE) {
     # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
     # Added law for similar reasons as well
     csv <- mutate(csv, Intro.Com = 1, Law = Passed)
@@ -609,13 +614,15 @@ com_creator_updated <- function (csv, color_id, include_joint = TRUE, consol = T
 
     # A bunch of code to reorder factors to correct order
     #   First line orders non-other committees in increasing order
-    levs <- filter(normal_df, next_x == "Com.2", next_node != "Other.Committee") %>%
-        group_by(next_node) %>% summarize(n = n()) %>%
+    levs <- filter(normal_df, next_x == "Com.1", next_node != "Other.Committee") %>%
+        group_by(next_node) %>% summarize(n = n()) %>% filter(next_node != "Other.Committee") %>%
         arrange(desc(n))
-    levs_2 <- filter(normal_df, next_x == "Com.2", next_node != "Other.Committee.2")
+    levs_2 <- filter(normal_df, next_x == "Com.2", next_node != "Other.Committee.2") %>%
+        group_by(next_node) %>% summarize(n = n()) %>% filter(next_node != "Other.Committee.2") %>%
+        arrange(desc(n))
     # This one attaches other committees + everything else to levels
     levs <- c("Intro.Com", levs$next_node, "Other.Committee", "Pass.Floor.1",
-              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")
+        levs_2$next_node, "Other.Committee.2", "Pass.Floor.2", "To.Gov", "Passed")
 
 
     # Coerces the above dataframe into one that is usable by plotly
@@ -623,6 +630,7 @@ com_creator_updated <- function (csv, color_id, include_joint = TRUE, consol = T
     new_df <- normal_df %>%
         mutate(x = as.character(x), node = as.character(node), next_x = as.character(next_x), next_node = as.character(next_node)) %>%
         mutate(x = if_else(x == "Com.1", node, x), next_x = if_else(next_x == "Com.1", next_node, next_x)) %>%
+        mutate(x = if_else(x == "Com.2", node, x), next_x = if_else(next_x == "Com.2", next_node, next_x)) %>%
         group_by(x, next_x) %>% summarize(n = n()) %>%
         mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)])) %>%
         filter(!is.na(next_x))
@@ -630,40 +638,43 @@ com_creator_updated <- function (csv, color_id, include_joint = TRUE, consol = T
     # Fix amount of bills going from committee to floor
     subt <- filter(csv, Pass.Com.1 == 1) %>%
         group_by(Com.1) %>% summarize(n = n())
+    subt_2 <- filter(csv, Pass.Com.2 == 1) %>%
+        group_by(Com.2) %>% summarize(n = n())
     subt <- data.frame(x = subt$Com.1, next_x = "Pass.Floor.1", n = subt$n)
+    subt_2 <- data.frame(x = subt_2$Com.2, next_x = "Pass.Floor.2", n = subt_2$n)
 
 
-    new_df <- filter(new_df, next_x != "Pass.Floor.1") %>%
-        rbind(subt) %>%
+    new_df <- filter(new_df, next_x != "Pass.Floor.1", next_x != "Pass.Floor.2") %>%
+        rbind(subt, subt_2) %>%
         mutate(color = color_id)
     # Don't necessarily want to level together different factors if doing it for Sierra club
     if (consol) {
             new_df <- mutate(new_df, x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
     }
 
+    new_df <- filter(new_df, !is.na(x))
     return(new_df)
 }
 
-com_sierra_updated <- function(csv, include_joint = TRUE) {
+com_sierra <- function(csv, include_joint = TRUE) {
     csv <- consolidate_com(csv)
 
-    # Makes levels such that Other Committee is last
+    # Makes levels such that Other.Committee is last
     levs <- group_by(csv, Com.1) %>%
         summarize(n = n()) %>%
         arrange(desc(n))
     levs_2 <- group_by(csv, Com.2) %>%
         summarize(n = n()) %>%
-        arrange(desc(n))
+        arrange(desc(n)) %>% filter(!is.na(Com.2))
     levs$Com.1 <- as.character(levs$Com.1)
-    levs_2$Com.2 <- as.character(levs_2$Com.2)
-    levs <- c(levs$Com.1[levs$Com.1 != "Other Committee"], "Other Committee")
-    levs_2 <- c(levs$Com.2[levs_2$Com.2 != "Other Committee.2"], "Other Committee.2")
+    levs_2$Com.2 <- as.character(levs_2$Com.2) 
+    levs <- c(levs$Com.1[levs$Com.1 != "Other.Committee"], "Other.Committee")
+    levs_2 <- c(levs_2$Com.2[levs_2$Com.2 != "Other.Committee.2"], "Other.Committee.2")
+    levs_2 <- levs_2[!is.na(levs_2)]
     csv$Com.1  <- factor(csv$Com.1, levels = levs)
     csv$Com.2 <- factor(csv$Com.2, levels = levs_2)
     levs <- c("Intro.Com", levs, "Pass.Floor.1",
               levs_2, "Pass.Floor.2", "To.Gov", "Passed")
-
-
 
     supported <- filter(csv, SC.Position == 1)
     neutral <- filter(csv, SC.Position == 0)
