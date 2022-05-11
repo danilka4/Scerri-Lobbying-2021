@@ -18,6 +18,10 @@ library(reactable)
 
 source("functions.R")
 
+csv15 <- read.csv("data/csv_2015.csv") %>% col_care() %>% add_identifiers() %>% mutate(Year = 2015) %>%
+    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+csv16 <- read.csv("data/csv_2016.csv", nrows = 74) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2016) %>%
+    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017) %>%
     separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018) %>%
@@ -61,11 +65,11 @@ com_18 <- com_sierra(csv18)
 com_19 <- com_sierra(csv19)
 com_20 <- com_sierra(csv20)
 com_21 <- com_sierra(csv21)
-labels_17 <- c("Introduced", levels(com_17$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(com_17$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
-labels_18 <- c("Introduced", levels(com_18$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(com_18$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
-labels_19 <- c("Introduced", levels(com_19$x)[2:4], "Passed Floor 1",  "Passed Floor 1", gsub(".{2}$", "", levels(com_19$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
-labels_20 <- c("Introduced", levels(com_20$x)[2:4], "Passed Floor 1",  "Passed Floor 1", gsub(".{2}$", "", levels(com_20$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
-labels_21 <- c("Introduced", levels(com_21$x)[2:4], "Passed Floor 1",  "Passed Floor 1", gsub(".{2}$", "", levels(com_21$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Passed")
+labels_17 <- c("Introduced", levels(com_17$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(com_17$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_18 <- c("Introduced", levels(com_18$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(com_18$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_19 <- c("Introduced", levels(com_19$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_19$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_20 <- c("Introduced", levels(com_20$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_20$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_21 <- c("Introduced", levels(com_21$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_21$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
 ```
 
 
@@ -91,8 +95,8 @@ plot_ly(
     y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
     color = "gray",
     hovertemplate = node_hover,
-    pad = 10,
-    thickness = 10),
+    thickness = 10,
+    pad = 10),
   link = list(
     source = as.numeric(joint_year$x) - 1,
     target = as.numeric(joint_year$next_x) - 1,
@@ -176,222 +180,6 @@ plot_ly(
          showlegend = T)
 ```
 
-# 2017 {data-navmenu="Committee Analysis" data-orientation=rows}
-
-Row
-----------------------------------
-### Graph
-
-```{r}
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labels_17,
-    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
-    color = "gray",
-    hovertemplate = node_hover,
-    pad = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(com_17$x) - 1,
-    target = as.numeric(com_17$next_x),
-    value = com_17$n,
-    color = ~as.factor(com_17$color),
-    hovertemplate = link_hover,
-    line = list(color = "black", width = 0.5)
-    ))%>%
-  layout(title = "Sierra by Committee in 2017",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
-```
-Row
----------------------------------
-
-### Table
-
-```{r}
-rtable(csv17)
-```
-
-### Description
-
-Here we see all the bills with various support levels separated by committee.
-H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
-
-# 2018 {data-navmenu="Committee Analysis" data-orientation=rows}
-
-Row
----------------------------------
-### Graph
-
-```{r}
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labels_18,
-    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
-    color = "gray",
-    hovertemplate = node_hover,
-    pad = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(com_18$x) - 1,
-    target = as.numeric(com_18$next_x),
-    value = com_18$n,
-    color = ~as.factor(com_18$color),
-    hovertemplate = link_hover,
-    line = list(color = "black", width = 0.5)
-    ))%>%
-  layout(title = "Sierra by Committee in 2018",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
-```
-Row
----------------------------------
-### Table
-
-```{r}
-rtable(csv18)
-```
-### Description
-
-Here we see all the bills with various support levels separated by committee.
-H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
-
-# 2019 {data-navmenu="Committee Analysis" data-orientation=rows}
-
-Row
----------------------------------
-### Graph
-
-```{r}
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labels_19,
-    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
-    color = "gray",
-    hovertemplate = node_hover,
-    pad = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(com_19$x) - 1,
-    target = as.numeric(com_19$next_x),
-    value = com_19$n,
-    color = ~as.factor(com_19$color),
-    hovertemplate = link_hover,
-    line = list(color = "black", width = 0.5)
-    ))%>%
-  layout(title = "Sierra by Committee in 2019",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
-```
-
-Row
----------------------------------
-### Table
-
-```{r}
-rtable(csv19)
-```
-### Description
-
-Here we see all the bills with various support levels separated by committee.
-H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
-
-# 2020 {data-navmenu="Committee Analysis" data-orientation=rows}
-
-Row
----------------------------------
-### Graph
-
-```{r}
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labels_20,
-    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
-    color = "gray",
-    hovertemplate = node_hover,
-    pad = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(com_20$x) - 1,
-    target = as.numeric(com_20$next_x),
-    value = com_20$n,
-    color = ~as.factor(com_20$color),
-    hovertemplate = link_hover,
-    line = list(color = "black", width = 0.5)
-    ))%>%
-  layout(title = "Sierra by Committee in 2020",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
-```
-
-Row
----------------------------------
-### Table
-
-```{r}
-rtable(csv20)
-```
-### Description
-
-Here we see all the bills with various support levels separated by committee.
-H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
-
-# 2021 {data-navmenu="Committee Analysis" data-orientation=rows}
-
-Row
----------------------------------
-### Graph
-
-```{r}
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labels_21,
-    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
-    color = "gray",
-    hovertemplate = node_hover,
-    pad = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(com_21$x) - 1,
-    target = as.numeric(com_21$next_x),
-    value = com_21$n,
-    color = ~as.factor(com_21$color),
-    hovertemplate = link_hover,
-    line = list(color = "black", width = 0.5)
-    ))%>%
-  layout(title = "Sierra by Committee in 2021",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
-```
-
-Row
----------------------------------
-### Table
-
-```{r}
-rtable(csv21)
-
-```
-### Description
-
-Here we see all the bills with various support levels separated by committee.
-H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
-
 # Total {data-navmenu="Committee Analysis" data-orientation=rows}
 
 Row
@@ -404,10 +192,11 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_total,
-    x = c(0, 0.2, 0.2, 0.2, 0.2),#, 0.35, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.20, 0.40, 0.8),#, 0.5, 0.5, 0.5, 0.5),
+    x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
+    thickness = 10,
     pad = 10), # 10 Pixel
   link = list(
     source = as.numeric(committees_total$x) - 1,
@@ -436,8 +225,701 @@ rtable(csv_com_total)
 Here we see all the bills with various support levels separated by committee.
 H-CL/LC (Committee on Commerce & Labor) is consistently the committee that introduces the most amount of bills to the legislative process, only losing the lead once H-ACNR (Agriculture, Chesapeake & Natural Resources) in 2019.
 
+# Total {data-navmenu="Other Graphical Forms" data-orientation=rows}
+
+Row
+----------------------------
+
+### Return Sankey
+```{r}
+shell17 <- sierra_data_shell(csv_total)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2",
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(shell17$x) - 1,
+    target = as.numeric(shell17$next_x) - 1,
+    value = shell17$n,
+    color = ~as.factor(shell17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+Row
+-------------------
+
+### Dead Sankey
+```{r}
+dead17 <- sierra_data_dead(csv_total)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.07, 0.02, -0.2, 0.7),
+    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(dead17$x) - 1,
+    target = as.numeric(dead17$next_x) - 1,
+    value = dead17$n,
+    color = ~as.factor(dead17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+# 2015 {data-orientation=rows}
+
+
+
+# 2016 {data-orientation=rows}
+
+
+
+# 2017 {data-orientation=rows}
+
+```{r 2017 Setup}
+shell17 <- sierra_data_shell(csv17)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2",
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+dead17 <- sierra_data_dead(csv17)
+labs_dead <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2",
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+```
+
+Row {.tabset}
+----------------------------------
+
+### Graph
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_17,
+    x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.5, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(com_17$x) - 1,
+    target = as.numeric(com_17$next_x),
+    value = com_17$n,
+    color = ~as.factor(com_17$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Sierra by Committee in 2017",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Return Sankey
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(shell17$x) - 1,
+    target = as.numeric(shell17$next_x) - 1,
+    value = shell17$n,
+    color = ~as.factor(shell17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Dead Sankey
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs_dead,
+    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
+    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(dead17$x) - 1,
+    target = as.numeric(dead17$next_x) - 1,
+    value = dead17$n,
+    color = ~as.factor(dead17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+Row
+---------------------------------
+
+### Table
+
+```{r}
+rtable(csv17)
+```
+
+### Description
+
+<center>
+<span style="color:blue">Governor: Terry McAuliffe </span> - <span style="color:red">Senate Composition: 21R:19D </span> - <span style="color:red">House Composition: 66R:34D </span>
+</center>
+
+We start off in 2017 with a republican-controlled state congress and a democratic governor.
+Of note, the House of Commerce and Labor ended up with the highest amount of climate legislation.
+As will be shown, this will be the behavior of a lot of climate legislation up through 2021.
+
+Of more interesting note, there is another pattern that will be replicated most of the years.
+Most of the bills end up dying in committees.
+In this case especially, pro-climate legislation suffers a lot (none passed it through H-CL, to give the most obvious example).
+
+One unique characteristic to this year is it has a the smallest proportion of positive bills out of all the years studied.
+Only 55% of the bills were supported by Sierra Club.
+This is contrary to future sessions where 70+% of bills are supported by Sierra Club.
+
+# 2018 {data-orientation=rows}
+
+Row {.tabset}
+---------------------------------
+### Graph
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_18,
+    x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.55, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(com_18$x) - 1,
+    target = as.numeric(com_18$next_x),
+    value = com_18$n,
+    color = ~as.factor(com_18$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Sierra by Committee in 2018",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Return Sankey
+
+```{r}
+shell17 <- sierra_data_shell(csv18)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(shell17$x) - 1,
+    target = as.numeric(shell17$next_x) - 1,
+    value = shell17$n,
+    color = ~as.factor(shell17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Dead Sankey
+
+```{r}
+dead17 <- sierra_data_dead(csv18)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
+    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(dead17$x) - 1,
+    target = as.numeric(dead17$next_x) - 1,
+    value = dead17$n,
+    color = ~as.factor(dead17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+Row
+---------------------------------
+### Table
+
+```{r}
+rtable(csv18)
+```
+### Description
+
+<center>
+<span style="color:blue">Governor: Ralph Northam </span> - <span style="color:red">Senate Composition: 21R:19D </span> - <span style="color:red">House Composition: 51R:49D </span>
+</center>
+
+This year is more drastic than 2017.
+Control over congress and governorship has not changed, but there was a bit of reshuffling done through house elections, losing republicans their supermajority from the previous year.
+In addition, there was the election of Governor Northam, who presided over all future legislature we are currently analyzing.
+A higher proportion of bills ended up dying in their initial committees, with barely any dying afterwards.
+The difference in procedure between the initial committee hearings and debate held elsewhere is that committee hearings are public.
+This means it is impossible, through public means, to determine what exactly occured that caused the bill to die.
+The votes are secret, as well as the conversation that occurs between congresspeople.
+
+This is also the first year that joint resolutions are introduced, which involve passing both chambers but not needing the president's approval.
+As a result they are different from a "law," though it will still be treated as such for the sake of visualization.
+A joint resolution will be shown as going through the chambers and will "become a law," skipping the governor entirely.
+
+# 2019 {data-orientation=rows}
+
+Row {.tabset}
+---------------------------------
+### Graph
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_19,
+    x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.5, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(com_19$x) - 1,
+    target = as.numeric(com_19$next_x),
+    value = com_19$n,
+    color = ~as.factor(com_19$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Sierra by Committee in 2019",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Return Sankey
+
+```{r}
+shell17 <- sierra_data_shell(csv19)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(shell17$x) - 1,
+    target = as.numeric(shell17$next_x) - 1,
+    value = shell17$n,
+    color = ~as.factor(shell17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Dead Sankey
+
+```{r}
+dead17 <- sierra_data_dead(csv19)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
+    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(dead17$x) - 1,
+    target = as.numeric(dead17$next_x) - 1,
+    value = dead17$n,
+    color = ~as.factor(dead17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+
+Row
+---------------------------------
+
+### Table
+
+```{r}
+rtable(csv19)
+```
+### Description
+
+<center>
+<span style="color:blue">Governor: Ralph Northam </span> - <span style="color:red">Senate Composition: 21R:19D </span> - <span style="color:red">House Composition: 51R:49D </span>
+</center>
+
+The pattern from previous years is once again replicated in 2019!
+Deaths within the committee are numerous, while elsewhere they are not.
+Pro-Climate bills are still the most disproportionately affected, though climate-neutral and opposing bills are also affected.
+
+There are a couple of hypothesis that can be presented as to why this pattern has appeared again and again.
+The first is that a number of these bills are genuinely problematic and do not need to be considered on the Floor.
+The second hypothesis is more dire: the privacy of committee voting is intentionally being used to kill off legislation that officials do not want to go in public as being against.
+There are a couple of issues with the first line of thinking.
+On a more practical level, that legislation simply would not have been introduced in the first place were it problematic.
+On a more imperical level, were this hypothesis true then it would be expected to hold in the instance that there is a shift in party control.
+This shift in party ended up occuring in 2020.
+
+# 2020 {data-orientation=rows}
+
+Row {.tabset}
+---------------------------------
+
+### Graph
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_20,
+    x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.55, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(com_20$x) - 1,
+    target = as.numeric(com_20$next_x),
+    value = com_20$n,
+    color = ~as.factor(com_20$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Sierra by Committee in 2020",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Return Sankey
+
+```{r}
+shell17 <- sierra_data_shell(csv20)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(shell17$x) - 1,
+    target = as.numeric(shell17$next_x) - 1,
+    value = shell17$n,
+    color = ~as.factor(shell17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Dead Sankey
+
+```{r}
+dead17 <- sierra_data_dead(csv20)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.1, 0.02, 0, 0.7),
+    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(dead17$x) - 1,
+    target = as.numeric(dead17$next_x) - 1,
+    value = dead17$n,
+    color = ~as.factor(dead17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+Row
+---------------------------------
+### Table
+
+```{r}
+rtable(csv20)
+```
+### Description
+
+<center>
+<span style="color:blue">Governor: Ralph Northam </span> - <span style="color:blue">Senate Composition: 21D:19R </span> - <span style="color:blue">House Composition: 55D:45R </span>
+</center>
+
+2019 elections had democrats sweeping Virginian State Congress on account of anti-Trump rhetoric, giving democrats trifecta control for the first time in 20 years.
+This appears to have lead to sizably more pro-climate bills making it through the first committee.
+There were still proportionally the same amount of pro-climate bills being introduced compared to other years (with the exception of 2017) at ~80% positive.
+This demonstrates a strong correlation between control of the legislative bodies and whether those bodies choose to take advantage of the opaqueness of the committees to have bills thrown out in the initial committee overview.
+
+That aside, a lot of the bills still end up dying within that unaccountable committee.
+We have no public way of knowing the specific reason for why that is the case.
+We can only see that bills have been passing in a less discriminatory manner and make inferences from that.
+One inference that we cannot make is that the bills are simply just problematic and not worth considering on the floor.
+If that were the case, the bills this year would have been targetted much more in the committee level.
+As a result, a more likely inference is that the legislative structure is being taken advantage of to varying degrees depending on the party control.
+
+In addition, there was a lot more action with various bills (amendments/recommendations, close votes, etc.) that cannot be shown within the restraints of the current graphic and will be shown in more detail in the "Other graphic forms" tab.
+
+
+# 2021 {data-orientation=rows}
+
+Row {.tabset}
+---------------------------------
+### Graph
+
+```{r}
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_21,
+    x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
+    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.6, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(com_21$x) - 1,
+    target = as.numeric(com_21$next_x),
+    value = com_21$n,
+    color = ~as.factor(com_21$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    ))%>%
+  layout(title = "Sierra by Committee in 2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Return Sankey
+
+```{r}
+shell17 <- sierra_data_shell(csv21)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(shell17$x) - 1,
+    target = as.numeric(shell17$next_x) - 1,
+    value = shell17$n,
+    color = ~as.factor(shell17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Dead Sankey
+
+```{r}
+dead17 <- sierra_data_dead(csv21)
+labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
+          "Passed Committee 2", "Passed Floor 2", 
+          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.3, 0.02, 0, 0.7),
+    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(dead17$x) - 1,
+    target = as.numeric(dead17$next_x) - 1,
+    value = dead17$n,
+    color = ~as.factor(dead17$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+Row
+---------------------------------
+### Table
+
+```{r}
+rtable(csv21)
+
+```
+### Description
+
+<center>
+<span style="color:blue">Governor: Ralph Northam </span> - <span style="color:blue">Senate Composition: 21D:19R </span> - <span style="color:blue">House Composition: 55D:45R </span>
+</center>
+
+This year was exceptional for Sierra Club-supported legislation.
+Not only were ~90% of the bills supported by the organization, but an unprecedented amount of bills ended up passing the initial hurdle of the first committee.
+In addition, there are a sizable amount of joint resolutions this year, which as stated are not laws but still abide by a legislative process and are included as such.
+
+That congratulatory news aside, it is even in this favored environment still has most dead bills die in the committee.
+There are no public voting records, not much in general to go off why they were rejected.
+This becomes problematic within a democratic society where an active citizen would want to know which congresspeople voted for what and what their specific opinion on a bill was.
+Sure, the amount killed off this year has been smaller, but we still do not know the reason why or much of anything.
+
+# Total
+
 # Other States
 
 ## Description
 
 This page is under construction and will be updated as more states are scoured and added.
+Currently the team is working on North Carolina.
+
+<center>
+**Thank you for your time in viewing this dashboard!**
+</center>
+
+# Test
+
+```{r}
+line17 <- c(nrow(csv17), sum(csv17$Pass.Com.1, na.rm = TRUE), sum(csv17$Pass.Floor.1, na.rm = TRUE), sum(csv17$Pass.Com.2, na.rm = TRUE), sum(csv17$Pass.Floor.2, na.rm = TRUE), sum(csv17$To.Gov, na.rm = TRUE), sum(csv17$Passed, na.rm = TRUE))
+line17
+xs <- 1:length(line17)
+daf <- data.frame(x = 1:length(line17),
+                  y = line17
+)
+plot_ly(daf, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+    layout(
+           yaxis = list(
+                        range = c(0, max(daf) + 2)
+           )
+    )
+
+```

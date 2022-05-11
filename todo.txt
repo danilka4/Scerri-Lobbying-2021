@@ -1,3 +1,6 @@
-Sankeys of house and senate
-
 Create dashboard using multiple files
+
+Expand abbreviations in hover
+Remove one of the titles
+Make hovers more opaque
+

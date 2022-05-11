@@ -226,7 +226,7 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
   # Separate all the data with both returns
   both_a <- a %>% filter(Amended == 1, Returned == 1)
   # Now to turn the data into something that can be read by the ggsankey
-  normal_df <- normal_a %>% 
+  normal_df <- normal_a %>%
     make_long(Intro.Com,
               Pass.Com.1,
               Pass.Floor.1,
@@ -234,9 +234,9 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
               Pass.Floor.2,
               To.Gov,
               Passed,
-              Law) %>% 
-    na_if(0) %>% 
-    filter(!is.na(node)) 
+              Law) %>%
+    na_if(0) %>%
+    filter(!is.na(node))
   
   one_df <- rbind(
     make_long(one_a,
@@ -250,9 +250,9 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
               Pass.Floor.1,
               To.Gov,
               Passed,
-              Law)) %>% 
-    na_if(0) %>% 
-    filter(!is.na(node)) 
+              Law)) %>%
+    na_if(0) %>%
+    filter(!is.na(node))
   two_df <- NULL
   both_df <- NULL
  if (split) {
@@ -339,119 +339,21 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
   
   total_df <- rbind(normal_df, one_df, two_df)
   label <- levels(total_df$x)
-  new_total_df <- total_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>% 
-    filter(!is.na(next_x)) %>% 
+  new_total_df <- total_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
+    filter(!is.na(next_x)) %>%
     mutate(color = color_id)
   return(new_total_df)
 }
 
-# Creates a data frame with the associated color id. There is an option to include joint resolutions
-#com_creator <- function (csv, color_id, include_joint = TRUE, consol = TRUE) {
-#    # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
-#    # Added law for similar reasons as well
-#    csv <- mutate(csv, Intro.Com = 1, Law = Passed)
-#
-#    csv <- separate(csv, Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-#    csv <- separate(csv, Com.2, into = c("Com.2", "Com.2.2", "Com.2.3", "Com.2.4"), sep = ";")
-#    if (consol) {
-#        csv <- consolidate_com(csv)
-#    }
-#    # Creation of data frames for JR's and non-JR's
-#    normal <- filter(csv, Disposition != "JRP")
-#    jrps <- filter(csv, Disposition == "JRP")
-#    normal_df <- normal %>% 
-#        make_long(Intro.Com,
-#            Com.1,
-#            Pass.Floor.1,
-#            Pass.Com.2,
-#            Pass.Floor.2,
-#            To.Gov,
-#            Passed,
-#            Law
-#            ) %>%
-#        na_if(0) %>%
-#        filter(!is.na(node))
-#    jrps_df <- jrps %>%
-#        make_long(Intro.Com,
-#            Com.1,
-#            Pass.Floor.1,
-#            Pass.Com.2,
-#            Pass.Floor.2,
-#            Passed,
-#            Law
-#            ) %>%
-#        na_if(0) %>%
-#        filter(!is.na(node))
-#
-#    # Adds on joint resolutions if that is true
-#    if (include_joint) {
-#        normal_df <- rbind(normal_df, jrps_df)
-#    }
-#
-#
-#
-#    # A bunch of code to reorder factors to correct order
-#    #   First line orders non-other committees in increasing order
-#    levs <- filter(normal_df, next_x == "Com.1", next_node != "Other.Committee") %>%
-#        group_by(next_node) %>% summarize(n = n()) %>%
-#        arrange(desc(n))
-#    # This one attaches other committees + everything else to levels
-#    levs <- c("Intro.Com", levs$next_node, "Other.Committee", "Pass.Floor.1",
-#              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")
-#
-#
-#    # Coerces the above dataframe into one that is usable by plotly
-#    #   This is because the make_long function was made with a different library in mind
-#    new_df <- normal_df %>%
-#        mutate(x = as.character(x), node = as.character(node), next_x = as.character(next_x), next_node = as.character(next_node)) %>%
-#        mutate(x = if_else(x == "Com.1", node, x), next_x = if_else(next_x == "Com.1", next_node, next_x)) %>%
-#        group_by(x, next_x) %>% summarize(n = n()) %>%
-#        mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)])) %>%
-#        filter(!is.na(next_x))
-#
-#    # Fix amount of bills going from committee to floor
-#    subt <- filter(csv, Pass.Com.1 == 1) %>%
-#        group_by(Com.1) %>% summarize(n = n())
-#    subt <- data.frame(x = subt$Com.1, next_x = "Pass.Floor.1", n = subt$n)
-#
-#
-#    new_df <- filter(new_df, next_x != "Pass.Floor.1") %>%
-#        rbind(subt) %>%
-#        mutate(color = color_id)
-#    # Don't necessarily want to level together different factors if doing it for Sierra club
-#    if (consol) {
-#            new_df <- mutate(new_df, x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
-#    }
-#
-#    return(new_df)
-#}
-#
-#com_sierra <- function(csv, include_joint = TRUE) {
-#    csv <- consolidate_com(csv)
-#
-#    # Makes levels such that Other.Committee is last
-#    levs <- group_by(csv, Com.1) %>%
-#        summarize(n = n()) %>%
-#        arrange(desc(n))
-#    levs$Com.1 <- as.character(levs$Com.1)
-#    levs <- c(levs$Com.1[levs$Com.1 != "Other.Committee"], "Other.Committee")
-#    csv$Com.1  <- factor(csv$Com.1, levels = levs)
-#    levs <- c("Intro.Com", levs, "Pass.Floor.1",
-#              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")
-#
-#
-#
-#    supported <- filter(csv, SC.Position == 1)
-#    neutral <- filter(csv, SC.Position == 0)
-#    opposed <- filter(csv, SC.Position == -1)
-#    supported_df <- com_creator(supported, "rgba(154,205,50,1.0)", include_joint, FALSE)
-#    neutral_df <- com_creator(neutral, "rgba(176,224,230,1.0)", include_joint, FALSE)
-#    opposed_df <- com_creator(opposed, "rgba(255,69,0,1.0)", include_joint, FALSE)
-#
-#    # Makes levels check out
-#    new_df <- rbind(supported_df, neutral_df, opposed_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
-#    return(new_df)
-#}
+sierra_data_shell <- function(csv) {
+  supported <- filter(csv, SC.Position == 1)
+  neutral <- filter(csv, SC.Position == 0)
+  opposed <- filter(csv, SC.Position == -1)
+  supported_df <- data_creator_shell(supported, "rgba(154,205,50,1.0)")
+  neutral_df <- data_creator_shell(neutral, "rgba(176,224,230,1.0)")
+  opposed_df <- data_creator_shell(opposed, "rgba(255,69,0,1.0)")
+  return(rbind(supported_df, neutral_df, opposed_df))
+}
 
 # Helper function that will isolate all committees with 10+ Primary bills
 consolidate_com <- function(csv) {
@@ -473,35 +375,6 @@ consolidate_com <- function(csv) {
     return(new_csv)
 }
 
-## Helper function that gets all the first committee, second committee, or both in addition to sierra club position
-#isolate_committees <- function(csv, first = TRUE, second = TRUE) {
-#
-#    # Obtains the sierra club position
-#    csv <- add_identifiers(csv)
-#    base_committees <- NULL
-#
-#    # Gets first committee
-#    if (first) {
-#        base_committees <- select(csv, Committee = Com.1, Pos)
-#    }
-#
-#    # Gets second committee
-#    if (second) {
-#        sec <- select(csv, Committee = Com.2, Pos) %>%
-#            filter(Committee != "")
-#        base_committees <- rbind(base_committees, sec)
-#    }
-#    # Regex to strip whitespace from committees left in there by author
-#    base_committees$Committee <- gsub('\\s+', '', base_committees$Committee)
-#    # Some bills go through multiple committees, this line separates those committees into multiple rows
-#    #   ex. a bill goes through the following committees: H-CL;H-A. Originally these are on one row
-#    #   and the function separates that bill into 2 observations, one with H-CL and the other with H-A so
-#    #   we can easily look at committees individually
-#    base_committees <- separate_rows(base_committees, Committee, sep = ";") %>%
-#        separate_rows(Committee, sep = ",") %>%
-#    #    separate(Committee, into = c("Chamber", "Committee"), sep = "-")
-#    return(base_committees)
-#}
 # ggplot identifiers, also turns SC Position into a string form
 add_identifiers <- function(x) {
 x %>% mutate(Dis = factor(if_else(Disposition == "DiC", "Died in Committee", if_else(Disposition == "PiL", "Passed into Law", "Died Elsewhere")),
@@ -556,14 +429,15 @@ rtable <- function(csv) {
                      defaultSorted = list(n = "desc"),
                      defaultPageSize = 6,
                      columns = list(
-                                    Com.1 = colDef(name = "First Committee"),
-                                    n = colDef(name = "Total Bills Received"),
-                                    amount.passed = colDef(name = "Total Bills Passed"),
-                                    positive = colDef(name = "Positive"),
-                                    neutral = colDef(name = "Neutral"),
-                                    negative = colDef(name = "Negative"),
-                                    become.law = colDef(name = "Bills Passed into Law")
-                                    ), bordered = TRUE, striped = TRUE, highlight = TRUE
+                                    Com.1 = colDef(name = "First Committee", footer = "Total"),
+                                    n = colDef(name = "Total Bills Received", footer = sprintf("%d", sum(formatted_csv$n))),
+                                    amount.passed = colDef(name = "Total Bills Passed", footer = sprintf("%d", sum(formatted_csv$amount.passed))),
+                                    positive = colDef(name = "Positive", footer = sprintf("%d", sum(formatted_csv$positive))),
+                                    neutral = colDef(name = "Neutral", footer = sprintf("%d", sum(formatted_csv$neutral))),
+                                    negative = colDef(name = "Negative", footer = sprintf("%d", sum(formatted_csv$negative))),
+                                    become.law = colDef(name = "Bills Passed into Law", footer = sprintf("%d", sum(formatted_csv$become.law)))
+                                    ), bordered = TRUE, striped = TRUE, highlight = TRUE,
+                     defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
            )
            )
 }
@@ -589,7 +463,8 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
             Pass.Floor.2,
             To.Gov,
             Passed,
-            Law
+            Law,
+            Passed
             ) %>%
         na_if(0) %>%
         filter(!is.na(node))
@@ -600,7 +475,8 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
             Com.2,
             Pass.Floor.2,
             Passed,
-            Law
+            Law,
+            Passed
             ) %>%
         na_if(0) %>%
         filter(!is.na(node))
@@ -622,7 +498,7 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
         arrange(desc(n))
     # This one attaches other committees + everything else to levels
     levs <- c("Intro.Com", levs$next_node, "Other.Committee", "Pass.Floor.1",
-        levs_2$next_node, "Other.Committee.2", "Pass.Floor.2", "To.Gov", "Passed")
+        levs_2$next_node, "Other.Committee.2", "Pass.Floor.2", "To.Gov", "Passed", "Law")
 
 
     # Coerces the above dataframe into one that is usable by plotly
@@ -667,14 +543,14 @@ com_sierra <- function(csv, include_joint = TRUE) {
         summarize(n = n()) %>%
         arrange(desc(n)) %>% filter(!is.na(Com.2))
     levs$Com.1 <- as.character(levs$Com.1)
-    levs_2$Com.2 <- as.character(levs_2$Com.2) 
+    levs_2$Com.2 <- as.character(levs_2$Com.2)
     levs <- c(levs$Com.1[levs$Com.1 != "Other.Committee"], "Other.Committee")
     levs_2 <- c(levs_2$Com.2[levs_2$Com.2 != "Other.Committee.2"], "Other.Committee.2")
     levs_2 <- levs_2[!is.na(levs_2)]
     csv$Com.1  <- factor(csv$Com.1, levels = levs)
     csv$Com.2 <- factor(csv$Com.2, levels = levs_2)
     levs <- c("Intro.Com", levs, "Pass.Floor.1",
-              levs_2, "Pass.Floor.2", "To.Gov", "Passed")
+              levs_2, "Pass.Floor.2", "To.Gov", "Passed", "Law")
 
     supported <- filter(csv, SC.Position == 1)
     neutral <- filter(csv, SC.Position == 0)
@@ -686,4 +562,26 @@ com_sierra <- function(csv, include_joint = TRUE) {
     # Makes levels check out
     new_df <- rbind(supported_df, neutral_df, opposed_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
     return(new_df)
+}
+
+
+# A function to generate a plotly line graph based on the inputted data.frame
+line_graph <- function(csv) {
+csv_pos <- filter(csv, SC.Position == 1)
+csv_neu <- filter(csv, SC.Position == 0)
+csv_neg <- filter(csv, SC.Position == -1)
+
+total <- c(nrow(csv), sum(csv$Pass.Com.1, na.rm = TRUE), sum(csv$Pass.Floor.1, na.rm = TRUE), sum(csv$Pass.Com.2, na.rm = TRUE), sum(csv$Pass.Floor.2, na.rm = TRUE), sum(csv$To.Gov, na.rm = TRUE), sum(csv$Passed, na.rm = TRUE))
+positive <- c(nrow(csv), sum(csv$Pass.Com.1, na.rm = TRUE), sum(csv$Pass.Floor.1, na.rm = TRUE), sum(csv$Pass.Com.2, na.rm = TRUE), sum(csv$Pass.Floor.2, na.rm = TRUE), sum(csv$To.Gov, na.rm = TRUE), sum(csv$Passed, na.rm = TRUE))
+neutral <- c(nrow(csv_neu), sum(csv_neu$Pass.Com.1, na.rm = TRUE), sum(csv_neu$Pass.Floor.1, na.rm = TRUE), sum(csv_neu$Pass.Com.2, na.rm = TRUE), sum(csv_neu$Pass.Floor.2, na.rm = TRUE), sum(csv_neu$To.Gov, na.rm = TRUE), sum(csv_neu$Passed, na.rm = TRUE))
+negative <- c(nrow(csv_neg), sum(csv_neg$Pass.Com.1, na.rm = TRUE), sum(csv_neg$Pass.Floor.1, na.rm = TRUE), sum(csv_neg$Pass.Com.2, na.rm = TRUE), sum(csv_neg$Pass.Floor.2, na.rm = TRUE), sum(csv_neg$To.Gov, na.rm = TRUE), sum(csv_neg$Passed, na.rm = TRUE))
+daf <- data.frame(x = 1:length(total),
+                  total, positive, neutral, negative
+)
+plot_ly(daf, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+    layout(
+           yaxis = list(
+                        range = c(0, max(daf) + 2)
+           )
+    )
 }

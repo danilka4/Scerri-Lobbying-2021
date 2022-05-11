@@ -55,7 +55,7 @@ HB2330 ,1,H-LC; H-A,1,0,1,S-CL; S-FA,1,1,1,1,0,1,PiL
 SJ270,1,S-PE,1,0,1,H-PE,1,1,0,,,1,JRP
 SJ272,1,S-PE,1,0,1,H-PE,1,1,1,,,1,JRP
 SJ288 ,1,S-R,1,0,1,H-R,1,1,0,,,1,JRP
-SJ314 ,1,No Data,,0,1,No Data,,1,,,,1,JRP
+SJ314 ,1,No Data,1,0,1,No Data,,1,,,,1,JRP
 SB1097,1,S-PE,1,0,1,H-PE,1,1,1,1,0,1,PiL
 SB1101 ,1,S-PE,0,0,,,,,,,,0,DiC
 SB1186 ,1,S-ACNR,0,0,,,,,,,,0,DiC

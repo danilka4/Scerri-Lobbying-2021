@@ -1,4 +1,4 @@
-Bill,SC_Position,Com_1,Pass_Com_1,Incorporated,Pass_Floor_1,Com_2,Pass_Com_2,Pass_Floor_2,Amended,To_Gov,Returned,Passed,Disposition
+Bill,SC Position,Com 1,Pass Com 1,Incorporated,Pass Floor 1,Com 2,Pass Com 2,Pass Floor 2,Amended,To Gov,Returned,Passed,Disposition
 HB461,,H-ACNR; H-A,1,0,1,S-ACNR,0,0,,,,0,DiC
 HJ506,,H-R,1,0,1,S-R,1,1,1,0,0,0,DiH
 HJ608,,H-R,1,0,1,S-R,0,0,,0,0,0,DiC
@@ -27,6 +27,7 @@ HB1729,,H-CL,0,0,,,,,,,,0,DiC
 HB1730,,H-CL,0,0,,,,,,,,0,DiC
 HB1731,,H-GL,0,0,,,,,,,,0,DiC
 HB1778,,H-F,0,0,,,,,,,,0,DiC
+HB1817,,H-ACNR,1,0,1,S-ACNR,1,1,0,1,0,1,PiL
 HB1843,,H-F,1,0,1,S-F,1,1,1,1,0,1,PiL
 HB1846,,H-ACNR,0,0,,,,,,,,0,DiC
 HB1911,,H-CL,0,0,,,,,,,,0,DiC
@@ -61,6 +62,7 @@ SB778,,S-T,1,0,1,H-T,1,1,0,1,0,1,PiL
 SB801,,S-LG,1,0,1,H-CCT,1,1,1,1,,1,PiL 
 SB833,,S-CL,0,0,,,,,,,,0,DiC
 SB1037,,S-F,1,0,1,H-F,1,1,1,1,0,1,PiL
+SB1079,,S-ACNR,1,0,1,H-ACNR,1,1,0,1,0,1,PiL
 SB1099,,S-CL,1,0,1,H-CL,1,1,1,1,0,1,PiL
 SB1160,,S-CL,0,0,,,,,,,,0,DiC
 SB1163,,S-CL,1,0,1,H-CL,1,1,0,1,0,1,PiL 

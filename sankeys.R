@@ -8,6 +8,12 @@ csv21 <- read.csv("data/csv_2021.csv", nrows = 92) %>% col_care() %>% add_identi
 
 csv_total <- rbind(csv17, csv18, csv19, csv20, csv21)
 
+colnames(csv17)
+group_by(csv17, SC.Position) %>% summarize(n = n(), proportion = n() / nrow(csv17))
+group_by(csv18, SC.Position) %>% summarize(n = n(), proportion = n() / nrow(csv18))
+group_by(csv19, SC.Position) %>% summarize(n = n(), proportion = n() / nrow(csv19))
+group_by(csv20, SC.Position) %>% summarize(n = n(), proportion = n() / nrow(csv20))
+group_by(csv21, SC.Position) %>% summarize(n = n(), proportion = n() / nrow(csv21))
 
 
 #ef476f
