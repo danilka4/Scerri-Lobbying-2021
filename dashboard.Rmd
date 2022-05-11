@@ -33,9 +33,9 @@ csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identi
 csv21 <- read.csv("data/csv_2021.csv", nrows = 84) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2021) %>%
     separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 
-csv_total <- rbind(csv17, csv18, csv19, csv20, csv21)
+csv_total <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21)
 
-colors <- list("y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y2020" = "118ab2", "y2021" = "073b4c",
+colors <- list("y2015" = "4f2e39", "y2016" = "8f2d56", "y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y2020" = "118ab2", "y2021" = "073b4c",
                "dead" = "6a5d5d")
 labs <- c("Introduced", "Committee 1", "Floor 1",
           "Committee 2", "Floor 2",
@@ -47,6 +47,8 @@ node_hover <- paste("%{label}<br />",
                    "<extra>%{value:.0f}</extra>")
 # Stuff for General Overview
 joint_year <- rbind(
+                    data_creator(csv15, colors$y2015),
+                    data_creator(csv16, colors$y2016),
                     data_creator(csv17, colors$y2017),
                     data_creator(csv18, colors$y2018),
                     data_creator(csv19, colors$y2019),
@@ -75,11 +77,7 @@ labels_21 <- c("Introduced", levels(com_21$x)[2:4], "Other Committee",  "Passed 
 
 # General Overview {data-orientation=columns}
 
-These graphs provide a general overview of the overall data in VA between 2017-2021.
-The graph on the left shows how the different bills move through the legislative process by year.
-The graph on the right shows the same bills, except color-coded based on Sierra Club's position on the bill.
-
-Column
+Column {.tabset data-width=900}
 -------------------------------------
 
 ### Bill Lifetime per Year
@@ -105,7 +103,7 @@ JOINT_YEAR <- plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     )) %>%
-  layout(title = "Annual Sankey with Joint Resolutions 2017-2021",
+  layout(title = "General Sankey Diagrams for 2015-2021",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -135,13 +133,31 @@ SIERRA_YEAR <- plot_ly(
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
-subplot(JOINT_YEAR, SIERRA_YEAR)
+subplot(JOINT_YEAR, SIERRA_YEAR, nrows = 2)
+```
+
+### Joint Overview
+
+```{r}
+
+```
+
+### Dead Overview
+
+```{r}
+
+```
+
+### Return Sankey
+
+```{r}
+
 ```
 
 Column
 -------------------------------------
 
-### Legend
+### Legend {data-height=600}
 
 ```{r}
 library(cowplot)
@@ -150,15 +166,15 @@ library(gridExtra)
 library(ggpubr)
 base_graph <- ggplot(csv_total, aes(Year, fill = as.character(Year))) + geom_bar() + 
   scale_fill_manual(
-                     values = c(paste("#",colors$y2017, sep = ""),paste("#",colors$y2018, sep = ""),paste("#",colors$y2019, sep = ""),
+                     values = c(paste("#",colors$y2015, sep = ""),paste("#",colors$y2016, sep = ""),  paste("#",colors$y2017, sep = ""),paste("#",colors$y2018, sep = ""),paste("#",colors$y2019, sep = ""),
                                 paste("#",colors$y2020, sep = ""),paste("#",colors$y2021, sep = ""))) +
   theme_minimal() +
   labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
        x = "Final Outcome of Bill", y = "Number of Bills",
        fill = "Year") + 
-    theme(legend.text = element_text(size = 15),
-          legend.title = element_text(size = 20),
-          legend.key.size = unit(2, "cm"))
+    theme(legend.text = element_text(size = 13),
+          legend.title = element_text(size = 18),
+          legend.key.size = unit(1.5, "cm"))
 legend_year <- get_legend(base_graph)
 
 gg17 <- ggplot(csv17, aes(Dis, fill = Pos)) + geom_bar() +
@@ -169,43 +185,20 @@ gg17 <- ggplot(csv17, aes(Dis, fill = Pos)) + geom_bar() +
   labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
        x = "Final Outcome of Bill", y = "Number of Bills",
        fill = "Sierra Club Position") + 
-    theme(legend.text = element_text(size = 15),
-          legend.title = element_text(size = 20),
-          legend.key.size = unit(2, "cm"))
+    theme(legend.text = element_text(size = 14),
+          legend.title = element_text(size = 19),
+          legend.key.size = unit(1.8, "cm"))
 legend_sierra <- get_legend(gg17)
 
-ggarrange(legend_year, legend_sierra, ncol = 2)
+ggarrange(legend_year, legend_sierra, ncol = 2, vjust = 0)
 ```
 
-### Sierra Club Sankey
+### Introduction
 
-```{r}
-sierra_joint <- sierra_data(csv_total)
+These graphs provide a general overview of the overall data in VA between 2015-2021.
+The graph on the left shows how the different bills move through the legislative process by year.
+The graph on the right shows the same bills, except color-coded based on Sierra Club's position on the bill.
 
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labs,
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
-    color = "gray",
-    hovertemplate = node_hover,
-    pad = 10,
-    thickness = 10), # 10 Pixel
-  link = list(
-    source = as.numeric(sierra_joint$x) - 1,
-    target = as.numeric(sierra_joint$next_x) - 1,
-    value = sierra_joint$n,
-    color = ~as.factor(sierra_joint$color),
-    hovertemplate = link_hover,
-    line = list(color = "black", width = 0.5)
-    )) %>%
-  layout(title = "Sierra Sankey with Joint Resolutions 2017-2021",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
-```
 
 # Total {data-navmenu="Committee Analysis" data-orientation=rows}
 
