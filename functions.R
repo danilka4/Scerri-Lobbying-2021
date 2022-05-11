@@ -566,22 +566,38 @@ com_sierra <- function(csv, include_joint = TRUE) {
 
 
 # A function to generate a plotly line graph based on the inputted data.frame
-line_graph <- function(csv) {
-csv_pos <- filter(csv, SC.Position == 1)
-csv_neu <- filter(csv, SC.Position == 0)
-csv_neg <- filter(csv, SC.Position == -1)
+line_graph <- function(csv, year = 2017, prop = TRUE) {
+    title <- ""
+    if(prop) {
+        title <- paste("Proportion of Bills in", year)
+    } else {
+        title <- paste("Number of Bills in", year)
+    }
+    csv_pos <- filter(csv, SC.Position == 1)
+    csv_neu <- filter(csv, SC.Position == 0)
+    csv_neg <- filter(csv, SC.Position == -1)
 
-total <- c(nrow(csv), sum(csv$Pass.Com.1, na.rm = TRUE), sum(csv$Pass.Floor.1, na.rm = TRUE), sum(csv$Pass.Com.2, na.rm = TRUE), sum(csv$Pass.Floor.2, na.rm = TRUE), sum(csv$To.Gov, na.rm = TRUE), sum(csv$Passed, na.rm = TRUE))
-positive <- c(nrow(csv), sum(csv$Pass.Com.1, na.rm = TRUE), sum(csv$Pass.Floor.1, na.rm = TRUE), sum(csv$Pass.Com.2, na.rm = TRUE), sum(csv$Pass.Floor.2, na.rm = TRUE), sum(csv$To.Gov, na.rm = TRUE), sum(csv$Passed, na.rm = TRUE))
-neutral <- c(nrow(csv_neu), sum(csv_neu$Pass.Com.1, na.rm = TRUE), sum(csv_neu$Pass.Floor.1, na.rm = TRUE), sum(csv_neu$Pass.Com.2, na.rm = TRUE), sum(csv_neu$Pass.Floor.2, na.rm = TRUE), sum(csv_neu$To.Gov, na.rm = TRUE), sum(csv_neu$Passed, na.rm = TRUE))
-negative <- c(nrow(csv_neg), sum(csv_neg$Pass.Com.1, na.rm = TRUE), sum(csv_neg$Pass.Floor.1, na.rm = TRUE), sum(csv_neg$Pass.Com.2, na.rm = TRUE), sum(csv_neg$Pass.Floor.2, na.rm = TRUE), sum(csv_neg$To.Gov, na.rm = TRUE), sum(csv_neg$Passed, na.rm = TRUE))
-daf <- data.frame(x = 1:length(total),
-                  total, positive, neutral, negative
-)
-plot_ly(daf, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
-    layout(
-           yaxis = list(
-                        range = c(0, max(daf) + 2)
-           )
+    total <- c(nrow(csv), sum(csv$Pass.Com.1, na.rm = TRUE), sum(csv$Pass.Floor.1, na.rm = TRUE), sum(csv$Pass.Com.2, na.rm = TRUE), sum(csv$Pass.Floor.2, na.rm = TRUE), sum(csv$To.Gov, na.rm = TRUE), sum(csv$Passed, na.rm = TRUE))
+    positive <- c(nrow(csv_pos), sum(csv_pos$Pass.Com.1, na.rm = TRUE), sum(csv_pos$Pass.Floor.1, na.rm = TRUE), sum(csv_pos$Pass.Com.2, na.rm = TRUE), sum(csv_pos$Pass.Floor.2, na.rm = TRUE), sum(csv_pos$To.Gov, na.rm = TRUE), sum(csv_pos$Passed, na.rm = TRUE))
+    neutral <- c(nrow(csv_neu), sum(csv_neu$Pass.Com.1, na.rm = TRUE), sum(csv_neu$Pass.Floor.1, na.rm = TRUE), sum(csv_neu$Pass.Com.2, na.rm = TRUE), sum(csv_neu$Pass.Floor.2, na.rm = TRUE), sum(csv_neu$To.Gov, na.rm = TRUE), sum(csv_neu$Passed, na.rm = TRUE))
+    negative <- c(nrow(csv_neg), sum(csv_neg$Pass.Com.1, na.rm = TRUE), sum(csv_neg$Pass.Floor.1, na.rm = TRUE), sum(csv_neg$Pass.Com.2, na.rm = TRUE), sum(csv_neg$Pass.Floor.2, na.rm = TRUE), sum(csv_neg$To.Gov, na.rm = TRUE), sum(csv_neg$Passed, na.rm = TRUE))
+    if(prop) {
+        total <- total / max(total)
+        positive <- positive / max(positive)
+        neutral <- neutral / max(neutral)
+        negative <- negative / max(negative)
+    }
+    daf <- data.frame(x = seq_len(length(total)),
+                      total, positive, neutral, negative
     )
+    plot_ly(daf, x = ~x, y = ~total, name = "Overall Bills", type = "scatter", mode = "lines", line = list(color = "black")) %>%
+        add_trace(y = ~positive, name = "Positive", type = "scatter", mode = "lines", line = list(color = "rgba(154,205,50,1.0)")) %>%
+        add_trace(y = ~neutral, name = "Neutral", type = "scatter", mode = "lines", line = list(color = "rgba(176,224,230,1.0)")) %>%
+        add_trace(y = ~negative, name = "Negative", type = "scatter", mode = "lines", line = list(color = "rgba(255,69,0,1.0)")) %>%
+        layout(
+               title = title,
+               yaxis = list(
+                            range = c(0, max(daf$total))
+               )
+        )
 }

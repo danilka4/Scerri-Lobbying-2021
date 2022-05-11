@@ -85,8 +85,8 @@ Column
 ### Bill Lifetime per Year
 
 ```{r}
-
-plot_ly(
+JOINT_YEAR <- plot_ly(
+  domain = list(x = c(0, 1), y = c(0, 0.49)),
   type = "sankey",
   arrangement = "snap",
   node = list(
@@ -109,6 +109,33 @@ plot_ly(
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
+sierra_joint <- sierra_data(csv_total)
+
+SIERRA_YEAR <- plot_ly(
+  domain = list(x = c(0, 1), y = c(0.51, 1)),
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    color = "gray",
+    hovertemplate = node_hover,
+    pad = 10,
+    thickness = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(sierra_joint$x) - 1,
+    target = as.numeric(sierra_joint$next_x) - 1,
+    value = sierra_joint$n,
+    color = ~as.factor(sierra_joint$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Sierra Sankey with Joint Resolutions 2017-2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+subplot(JOINT_YEAR, SIERRA_YEAR)
 ```
 
 Column
@@ -394,6 +421,12 @@ plot_ly(
          showlegend = T)
 ```
 
+### Line Graph
+
+```{r}
+line_graph(csv17)
+```
+
 Row
 ---------------------------------
 
@@ -513,6 +546,12 @@ plot_ly(
          showlegend = T)
 ```
 
+### Line Graph
+
+```{r}
+line_graph(csv18, 2018)
+```
+
 Row
 ---------------------------------
 ### Table
@@ -630,6 +669,11 @@ plot_ly(
          showlegend = T)
 ```
 
+### Line Graph
+
+```{r}
+line_graph(csv19, 2019)
+```
 
 Row
 ---------------------------------
@@ -748,6 +792,12 @@ plot_ly(
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
+```
+
+### Line Graph
+
+```{r}
+line_graph(csv20, 2020)
 ```
 
 Row
@@ -870,6 +920,12 @@ plot_ly(
          showlegend = T)
 ```
 
+### Line Graph
+
+```{r}
+line_graph(csv21, 2021)
+```
+
 Row
 ---------------------------------
 ### Table
@@ -893,8 +949,6 @@ There are no public voting records, not much in general to go off why they were 
 This becomes problematic within a democratic society where an active citizen would want to know which congresspeople voted for what and what their specific opinion on a bill was.
 Sure, the amount killed off this year has been smaller, but we still do not know the reason why or much of anything.
 
-# Total
-
 # Other States
 
 ## Description
@@ -905,21 +959,3 @@ Currently the team is working on North Carolina.
 <center>
 **Thank you for your time in viewing this dashboard!**
 </center>
-
-# Test
-
-```{r}
-line17 <- c(nrow(csv17), sum(csv17$Pass.Com.1, na.rm = TRUE), sum(csv17$Pass.Floor.1, na.rm = TRUE), sum(csv17$Pass.Com.2, na.rm = TRUE), sum(csv17$Pass.Floor.2, na.rm = TRUE), sum(csv17$To.Gov, na.rm = TRUE), sum(csv17$Passed, na.rm = TRUE))
-line17
-xs <- 1:length(line17)
-daf <- data.frame(x = 1:length(line17),
-                  y = line17
-)
-plot_ly(daf, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
-    layout(
-           yaxis = list(
-                        range = c(0, max(daf) + 2)
-           )
-    )
-
-```
