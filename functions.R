@@ -62,10 +62,12 @@ sierra_data <- function(csv, include_joint = TRUE) {
   supported <- filter(csv, SC.Position == 1)
   neutral <- filter(csv, SC.Position == 0)
   opposed <- filter(csv, SC.Position == -1)
+  not_available <- filter(csv, is.na(SC.Position))
   supported_df <- data_creator(supported, "rgba(154,205,50,1.0)", include_joint)
   neutral_df <- data_creator(neutral, "rgba(176,224,230,1.0)", include_joint)
   opposed_df <- data_creator(opposed, "rgba(255,69,0,1.0)", include_joint)
-  return(rbind(supported_df, neutral_df, opposed_df))
+  not_available_df <- data_creator(not_available, "rgba(190,195,198, 1.0)", include_joint)
+  return(rbind(supported_df, neutral_df, opposed_df, not_available_df))
 }
 
 
@@ -77,6 +79,9 @@ sierra_data <- function(csv, include_joint = TRUE) {
 # Creates a dataframe that includes all the dead bills
 #   In the original function the dead bills just disappear
 data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint = TRUE) {
+    if (nrow(csv) == 0) {
+        return()
+    }
     csv <- mutate(csv, Intro.Com = 1, Law = Passed)
     normal <- filter(csv, Disposition != "JRP")
     jrps <- filter(csv, Disposition == "JRP")
@@ -138,10 +143,12 @@ sierra_data_dead <- function(csv, color_black = TRUE, include_joint = TRUE) {
   supported <- filter(csv, SC.Position == 1, include_joint)
   neutral <- filter(csv, SC.Position == 0, include_joint = TRUE)
   opposed <- filter(csv, SC.Position == -1, include_joint = TRUE)
+  not_available <- filter(csv, is.na(SC.Position))
   supported_df <- data_creator_dead(supported, "rgba(154,205,50,1.0)", color_black)
   neutral_df <- data_creator_dead(neutral, "rgba(176,224,230,1.0)", color_black)
   opposed_df <- data_creator_dead(opposed, "rgba(255,69,0,1.0)", color_black)
-  output <- rbind(supported_df, neutral_df, opposed_df)
+  not_available_df <- data_creator_dead(not_available, "rgba(190,195,198, 1.0)", color_black)
+  output <- rbind(supported_df, neutral_df, opposed_df, not_available_df)
   # Color-black has a secondary purpose here of combining all the separate dead bills coming out of a node into one
   #     ie what usually happens is you would have a separate "dead flow" for each of the sierra opinions (supported/opposed)
   #     and since you are coloring in the dead bills in the same color it is useful to just combine these flows, otherwise
@@ -349,10 +356,12 @@ sierra_data_shell <- function(csv) {
   supported <- filter(csv, SC.Position == 1)
   neutral <- filter(csv, SC.Position == 0)
   opposed <- filter(csv, SC.Position == -1)
+  not_available <- filter(csv, is.na(SC.Position))
   supported_df <- data_creator_shell(supported, "rgba(154,205,50,1.0)")
   neutral_df <- data_creator_shell(neutral, "rgba(176,224,230,1.0)")
   opposed_df <- data_creator_shell(opposed, "rgba(255,69,0,1.0)")
-  return(rbind(supported_df, neutral_df, opposed_df))
+  not_available_df <- data_creator_shell(not_available, "rgba(190,195,198, 1.0)")
+  return(rbind(supported_df, neutral_df, opposed_df, not_available_df))
 }
 
 # Helper function that will isolate all committees with 10+ Primary bills
@@ -419,10 +428,10 @@ rtable <- function(csv) {
         summarize(
                   n = n(),
                   amount.passed = sum(Pass.Com.1),
-                  positive      = sum(SC.Position == 1),
-                  neutral       = sum(SC.Position == 0),
-                  negative      = sum(SC.Position == -1),
-                  become.law    = sum(Passed)
+                  positive      = sum(SC.Position == 1, na.rm = TRUE),
+                  neutral       = sum(SC.Position == 0, na.rm = TRUE),
+                  negative      = sum(SC.Position == -1, na.rm = TRUE),
+                  become.law    = sum(Passed, na.rm = TRUE)
                   )
     return(
            reactable(formatted_csv,
@@ -443,6 +452,9 @@ rtable <- function(csv) {
 }
 
 com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol = TRUE) {
+    if (nrow(csv) == 0) {
+        return()
+    }
     # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
     # Added law for similar reasons as well
     csv <- mutate(csv, Intro.Com = 1, Law = Passed)
@@ -555,12 +567,14 @@ com_sierra <- function(csv, include_joint = TRUE) {
     supported <- filter(csv, SC.Position == 1)
     neutral <- filter(csv, SC.Position == 0)
     opposed <- filter(csv, SC.Position == -1)
+    not_available <- filter(csv, is.na(SC.Position))
     supported_df <- com_creator(supported, "rgba(154,205,50,1.0)", include_joint, FALSE)
     neutral_df <- com_creator(neutral, "rgba(176,224,230,1.0)", include_joint, FALSE)
     opposed_df <- com_creator(opposed, "rgba(255,69,0,1.0)", include_joint, FALSE)
+    not_available_df <- com_creator(not_available, "rgba(190,195,198, 1.0)", include_joint, FALSE)
 
     # Makes levels check out
-    new_df <- rbind(supported_df, neutral_df, opposed_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+    new_df <- rbind(supported_df, neutral_df, opposed_df, not_available_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
     return(new_df)
 }
 

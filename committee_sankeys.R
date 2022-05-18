@@ -15,6 +15,8 @@ head(csv17)
 #06d6a0
 #118ab2
 #073b4c
+#8f2d56
+
 colors <- list("y2017" = "ef476f", "y2018" = "ffd166", "y2019" = "06d6a0", "y2020" = "118ab2", "y2021" = "073b4c",
                "dead" = "6a5d5d")
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
