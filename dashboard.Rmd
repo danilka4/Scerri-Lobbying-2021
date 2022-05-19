@@ -280,13 +280,14 @@ subplot(sierra_dead, yearly_dead, nrows = 2)
 shelltotal <- sierra_data_shell(csv_total)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2",
-          "Delivered to Governor", "Signed by Governor", "Law", "Dead")
-plot_ly(
+          "Delivered to Governor", "Signed", "Law", "Dead")
+return_sierra <- plot_ly(
+  domain = list(x = c(0, 1), y = c(0, 0.49)),
   type = "sankey",
   arrangement = "snap",
   node = list(
     label = labs,
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.7, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     pad = 10), # 10 Pixel
@@ -301,6 +302,38 @@ plot_ly(
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
+
+shelltotal_year <- rbind(
+    data_creator_shell(filter(csv_total, Year == 2015), colors$y2015),
+    data_creator_shell(filter(csv_total, Year == 2016), colors$y2016),
+    data_creator_shell(filter(csv_total, Year == 2017), colors$y2017),
+    data_creator_shell(filter(csv_total, Year == 2018), colors$y2018),
+    data_creator_shell(filter(csv_total, Year == 2019), colors$y2019),
+    data_creator_shell(filter(csv_total, Year == 2020), colors$y2020),
+    data_creator_shell(filter(csv_total, Year == 2021), colors$y2021)
+  )
+return_year <- plot_ly(
+  domain = list(x = c(0, 1), y = c(0.51, 1)),
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labs,
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.72, 0.9),
+    y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
+    color = "gray",
+    pad = 10), # 10 Pixel
+  link = list(
+    source = as.numeric(shelltotal_year$x) - 1,
+    target = as.numeric(shelltotal_year$next_x) - 1,
+    value = shelltotal_year$n,
+    color = ~as.factor(shelltotal_year$color),
+    line = list(color = "black", width = 0.5)
+    ))%>% 
+  layout(title = "",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+subplot(return_sierra, return_year, nrows = 2)
 ```
 
 Column
@@ -361,7 +394,7 @@ labs_dead <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 ```
 
-Row {.tabset}
+Row {.tabset data-height=550}
 ----------------------------------
 
 ### Graph
@@ -373,7 +406,7 @@ plot_ly(
   node = list(
     label = labels_15,
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
-    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.5, 0.5, 0.5),
+    y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.52, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
@@ -426,7 +459,7 @@ plot_ly(
   node = list(
     label = labs_dead,
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
-    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
+    y = c(0.3, 0.53, 0.22, 0.08, 0.06, 0.18, 0.02, -0.2, 0.7),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
@@ -490,7 +523,7 @@ labs_dead <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 ```
 
-Row {.tabset}
+Row {.tabset data-height=550}
 ----------------------------------
 
 ### Graph
@@ -555,9 +588,7 @@ plot_ly(
   node = list(
     label = labs_dead,
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
-    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
-    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    y = c(0.3, 0.52, 0.1, 0.19, 0.06, 0.04, 0.02, -0.2, 0.7),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
@@ -620,7 +651,7 @@ labs_dead <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 ```
 
-Row {.tabset}
+Row {.tabset data-height=550}
 ----------------------------------
 
 ### Graph
@@ -685,9 +716,7 @@ plot_ly(
   node = list(
     label = labs_dead,
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
-    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
-    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    y = c(0.3, 0.52, 0.1, 0.19, 0.06, 0.04, 0.02, -0.2, 0.7),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
@@ -738,7 +767,7 @@ This is contrary to future sessions where 70+% of bills are supported by Sierra 
 
 # 2018 {data-orientation=rows}
 
-Row {.tabset}
+Row {.tabset data-height=550}
 ---------------------------------
 ### Graph
 
@@ -799,7 +828,7 @@ plot_ly(
 
 ### Dead Sankey
 
-```{r}
+```{r 2018 Dead Sankey}
 dead17 <- sierra_data_dead(csv18)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -809,10 +838,8 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
-    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
-    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    x = c(0.1, 0.23, 0.3, 0.4, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.61, 0.15, 0.12, 0.09, 0.15, 0.02, -0.2, 0.7),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
@@ -830,7 +857,7 @@ plot_ly(
 
 ### Line Graph
 
-```{r}
+```{r 2018 Line Graph}
 line_graph(csv18, 2018)
 ```
 
@@ -838,7 +865,7 @@ Row
 ---------------------------------
 ### Table
 
-```{r}
+```{r 2018 Table}
 rtable(csv18)
 ```
 ### Description
@@ -861,11 +888,11 @@ A joint resolution will be shown as going through the chambers and will "become 
 
 # 2019 {data-orientation=rows}
 
-Row {.tabset}
+Row {.tabset data-height=550}
 ---------------------------------
 ### Graph
 
-```{r}
+```{r 2019 Joint Resolutions}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
@@ -893,7 +920,7 @@ plot_ly(
 
 ### Return Sankey
 
-```{r}
+```{r 2019 Shell}
 shell17 <- sierra_data_shell(csv19)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -922,7 +949,7 @@ plot_ly(
 
 ### Dead Sankey
 
-```{r}
+```{r 2019 Dead}
 dead17 <- sierra_data_dead(csv19)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -933,9 +960,7 @@ plot_ly(
   node = list(
     label = labs,
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
-    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.04, 0.02, 0, 0.7),
-    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    y = c(0.3, 0.62, 0.28, 0.25, 0.23, 0.21, -0.05, -0.2, 0.7),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
@@ -953,7 +978,7 @@ plot_ly(
 
 ### Line Graph
 
-```{r}
+```{r 2019 Line Graph}
 line_graph(csv19, 2019)
 ```
 
@@ -962,7 +987,7 @@ Row
 
 ### Table
 
-```{r}
+```{r 2019 Table}
 rtable(csv19)
 ```
 ### Description
@@ -985,12 +1010,12 @@ This shift in party ended up occuring in 2020.
 
 # 2020 {data-orientation=rows}
 
-Row {.tabset}
+Row {.tabset data-height=550}
 ---------------------------------
 
 ### Graph
 
-```{r}
+```{r 2020 Joint Graph}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
@@ -1018,7 +1043,7 @@ plot_ly(
 
 ### Return Sankey
 
-```{r}
+```{r 2020 Shell}
 shell17 <- sierra_data_shell(csv20)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -1047,7 +1072,7 @@ plot_ly(
 
 ### Dead Sankey
 
-```{r}
+```{r 2020 Dead}
 dead17 <- sierra_data_dead(csv20)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -1057,10 +1082,8 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
-    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.1, 0.02, 0, 0.7),
-    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.62, 0.28, 0.36, 0.23, 0.27, -0.05, -0.2, 0.7),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(
@@ -1078,7 +1101,7 @@ plot_ly(
 
 ### Line Graph
 
-```{r}
+```{r 2020 Line Graph}
 line_graph(csv20, 2020)
 ```
 
@@ -1086,7 +1109,7 @@ Row
 ---------------------------------
 ### Table
 
-```{r}
+```{r 2020 Table}
 rtable(csv20)
 ```
 ### Description
@@ -1112,11 +1135,11 @@ In addition, there was a lot more action with various bills (amendments/recommen
 
 # 2021 {data-orientation=rows}
 
-Row {.tabset}
+Row {.tabset data-height=550}
 ---------------------------------
 ### Graph
 
-```{r}
+```{r 2021 Joint}
 plot_ly(
   type = "sankey",
   arrangement = "snap",
@@ -1144,7 +1167,7 @@ plot_ly(
 
 ### Return Sankey
 
-```{r}
+```{r 2021 Shell}
 shell17 <- sierra_data_shell(csv21)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -1173,7 +1196,7 @@ plot_ly(
 
 ### Dead Sankey
 
-```{r}
+```{r 2021 Dead}
 dead17 <- sierra_data_dead(csv21)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
@@ -1183,10 +1206,8 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
-    y = c(0.3, 0.3, 0.1, 0.08, 0.06, 0.3, 0.02, 0, 0.7),
-    #x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    #y = c(0.5, 0.49, 0.83, 0.85, 0.86, 0.87, 0.89, 0.9, 0),
+    x = c(0.1, 0.23, 0.35, 0.45, 0.6, 0.75, 0.9, 1, 1),
+    y = c(0.3, 0.62, 0.42, 0.36, 0.23, 0.35, -0.05, -0.2, 0.7),
     color = "gray",
     pad = 10), # 10 Pixel
   link = list(

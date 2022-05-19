@@ -581,6 +581,7 @@ com_sierra <- function(csv, include_joint = TRUE) {
 
 # A function to generate a plotly line graph based on the inputted data.frame
 line_graph <- function(csv, year = 2017, prop = TRUE) {
+    csv <- filter(csv, Disposition != "JRP")
     title <- ""
     if(prop) {
         title <- paste("Proportion of Bills in", year)
