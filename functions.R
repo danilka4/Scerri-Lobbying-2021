@@ -222,8 +222,12 @@ no_return_data_creator <- function(csv, color_id, shell = FALSE) {
 # OG function that actually shows all the bills being returned instead of just a small path showing where returned bills go
 #   Has a few options for how complicated you want to make the splits (more complicated is more realistic but the issue is
 #   obviously that it will be more complicated, so have to deal with a trade off there)
-data_creator_shell <- function(csv, color_id, split = FALSE) {
+data_creator_shell <- function(csv, color_id, split = FALSE, jrp = TRUE) {
   a <- mutate(csv, Intro.Com = 1, Law = Passed)
+  # Isolate joint resolutions since those have a straightforward pathway
+  jrps <- filter(a, Disposition == "JRP")
+  a <- filter(a, Disposition != "JRP")
+  # Isolate "normal" bills that do not get returned
   normal_a <- a %>% filter(is.na(Amended) | Amended == 0) %>%
     filter(is.na(Returned) | Returned == 0) 
   # Separate all the data with the initial return
@@ -344,11 +348,25 @@ data_creator_shell <- function(csv, color_id, split = FALSE) {
  
  }
   
-  total_df <- rbind(normal_df, one_df, two_df)
+  total_df <- rbind(normal_df, one_df, two_df, both_df)
+  if (jrp) {
+      jrps_df <- jrps %>%
+        make_long(Intro.Com,
+            Pass.Com.1,
+            Pass.Floor.1,
+            Pass.Com.2,
+            Pass.Floor.2,
+            Passed,
+            Law
+            ) %>%
+        filter(!is.na(node))
+      total_df <- rbind(total_df, jrps_df)
+  }
   label <- levels(total_df$x)
   new_total_df <- total_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
     filter(!is.na(next_x)) %>%
     mutate(color = color_id)
+
   return(new_total_df)
 }
 
@@ -424,27 +442,58 @@ return(gg)
 
 # Takes csv and turns it into a reactable
 rtable <- function(csv) {
+    full_names <- list(
+        "H-A" = "House Appropriations",
+        "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
+        "H-CCT" = "House Counties, Cities & Towns",
+        "H-CJ" = "House Courts of Justice",
+        "H-CL" = "House Commerce & Labor",
+        "H-LC" = "House Commerce & Labor",
+        "H-CL/LC" = "House Commerce & Labor",
+        "H-E" = "House Education",
+        "H-F" = "House Finance",
+        "H-GL" = "House General Laws",
+        "H-HWI" = "House Health, Welfare, & Institutions",
+        "H-PE" = "House Privileges & Elections",
+        "H-R" = "House Rules",
+        "H-T" = "House Transportation",
+
+        "S-ACNR" = "Senate Agriculture, Conservation & Natural Resources",
+        "S-CJ" = "Senate Courts of Justice",
+        "S-CL" = "Senate Commerce & Labor",
+        "S-EH" = "Senate Education & Health",
+        "S-F" = "Senate Finance",
+        "S-GLT" = "Senate General Laws & Technology",
+        "S-LG" = "Senate Local Government",
+        "S-PE" = "Senate Privileges & Elections",
+        "S-R" = "Senate Rules",
+        "S-T" = "Senate Transportation"
+    )
     formatted_csv <- group_by(csv, Com.1) %>%
         summarize(
                   n = n(),
                   amount.passed = sum(Pass.Com.1),
-                  positive      = sum(SC.Position == 1, na.rm = TRUE),
-                  neutral       = sum(SC.Position == 0, na.rm = TRUE),
-                  negative      = sum(SC.Position == -1, na.rm = TRUE),
+                  #positive      = sum(SC.Position == 1, na.rm = TRUE),
+                  #neutral       = sum(SC.Position == 0, na.rm = TRUE),
+                  #negative      = sum(SC.Position == -1, na.rm = TRUE),
                   become.law    = sum(Passed, na.rm = TRUE)
-                  )
+                  ) %>%
+        mutate(full = full_names[Com.1]) %>%
+        select(full, Com.1, n, amount.passed, become.law)
     return(
            reactable(formatted_csv,
                      defaultSorted = list(n = "desc"),
-                     defaultPageSize = 6,
+                     #defaultPageSize = 6,
+                     pagination = FALSE,
                      columns = list(
-                                    Com.1 = colDef(name = "First Committee", footer = "Total"),
-                                    n = colDef(name = "Total Bills Received", footer = sprintf("%d", sum(formatted_csv$n))),
-                                    amount.passed = colDef(name = "Total Bills Passed", footer = sprintf("%d", sum(formatted_csv$amount.passed))),
-                                    positive = colDef(name = "Positive", footer = sprintf("%d", sum(formatted_csv$positive))),
-                                    neutral = colDef(name = "Neutral", footer = sprintf("%d", sum(formatted_csv$neutral))),
-                                    negative = colDef(name = "Negative", footer = sprintf("%d", sum(formatted_csv$negative))),
-                                    become.law = colDef(name = "Bills Passed into Law", footer = sprintf("%d", sum(formatted_csv$become.law)))
+                                    full = colDef(name = "Committee Name"),
+                                    Com.1 = colDef(name = "Acronym", footer = "Total", width = 80),
+                                    n = colDef(name = "Total Bills Received", footer = sprintf("%d", sum(formatted_csv$n)), width = 160),
+                                    amount.passed = colDef(name = "Total Bills Passed", footer = sprintf("%d", sum(formatted_csv$amount.passed)), width = 133),
+                                    #positive = colDef(name = "Positive", footer = sprintf("%d", sum(formatted_csv$positive))),
+                                    #neutral = colDef(name = "Neutral", footer = sprintf("%d", sum(formatted_csv$neutral))),
+                                    #negative = colDef(name = "Negative", footer = sprintf("%d", sum(formatted_csv$negative))),
+                                    become.law = colDef(name = "Bills Passed into Law", footer = sprintf("%d", sum(formatted_csv$become.law)), width = 160)
                                     ), bordered = TRUE, striped = TRUE, highlight = TRUE,
                      defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
            )
@@ -615,4 +664,44 @@ line_graph <- function(csv, year = 2017, prop = TRUE) {
                             range = c(0, max(daf$total))
                )
         )
+}
+
+full_names <- function(names) {
+    full_name <- list(
+        "H-A" = "House Appropriations",
+        "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
+        "H-CCT" = "House Counties, Cities & Towns",
+        "H-CJ" = "House Courts of Justice",
+        "H-CL" = "House Commerce & Labor",
+        "H-LC" = "House Commerce & Labor",
+        "H-CL/LC" = "House Commerce & Labor",
+        "H-E" = "House Education",
+        "H-F" = "House Finance",
+        "H-GL" = "House General Laws",
+        "H-HWI" = "House Health, Welfare, & Institutions",
+        "H-PE" = "House Privileges & Elections",
+        "H-R" = "House Rules",
+        "H-T" = "House Transportation",
+
+        "S-ACNR" = "Senate Agriculture, Conservation & Natural Resources",
+        "S-CJ" = "Senate Courts of Justice",
+        "S-CL" = "Senate Commerce & Labor",
+        "S-EH" = "Senate Education & Health",
+        "S-F" = "Senate Finance",
+        "S-GLT" = "Senate General Laws & Technology",
+        "S-LG" = "Senate Local Government",
+        "S-PE" = "Senate Privileges & Elections",
+        "S-R" = "Senate Rules",
+        "S-T" = "Senate Transportation",
+
+        "Other Committee" = "Other Committee",
+
+        "Introduced" = "Introduced",
+        "Passed Floor 1" = "Passed Floor 1",
+        "Passed Floor 2" = "Passed Floor 2",
+        "Delivered to Governor" = "Delivered to Governor",
+        "Signed by Governor" = "Signed by Governor",
+        "Law" = "Law"
+    )
+    return(as.character(full_name[names]))
 }

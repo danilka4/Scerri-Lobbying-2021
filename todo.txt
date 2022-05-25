@@ -1,6 +1,10 @@
 Create dashboard using multiple files
 
-Expand abbreviations in hover
-Remove one of the titles
-Make hovers more opaque
+Make hovers more opaque (impossible?)
 
+Create introduction
+
+Make "other committees" node be higher
+Make small flows more visible
+Make line graphs more interactive (data shown more than just at the points)
+Get rid of bottom headers????
