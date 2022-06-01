@@ -79,16 +79,6 @@ labels_18 <- c("Introduced", levels(com_18$x)[2:4], "Other Committee", "Passed F
 labels_19 <- c("Introduced", levels(com_19$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_19$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
 labels_20 <- c("Introduced", levels(com_20$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_20$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
 labels_21 <- c("Introduced", levels(com_21$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_21$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
-
-output <- filter(csv_total, Disposition != "JRP") %>%
-    select(Year, SC.Position,
-                 Com.1, Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, Pass.Governor = Passed,
-                ) %>%
-          mutate(across(c(Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, Pass.Governor), ~ifelse(is.na(.), 0, .))) %>%
-          mutate(SC.Position = SC.Position + 2,
-                 Com.1 = as.numeric(factor(if_else(Com.1 == "H-CL" | Com.1 == "H-LC", "H-CL", if_else(Com.1 == "S-F" | Com.1 == "S-FA", "S-F", Com.1))
-          )))
-write.csv(output, "combined_2015_2021.csv")
 ```
 
 # General Overview {data-orientation=columns}
