@@ -413,7 +413,7 @@ x %>% mutate(Dis = factor(if_else(Disposition == "DiC", "Died in Committee", if_
 col_care <- function(x) {
     x$Com.1 <- gsub('\\s+', '', x$Com.1)
     x$Com.2 <- gsub('\\s+', '', x$Com.2)
-  x %>% select(SC.Position, Com.1, Pass.Com.1, Pass.Floor.1, Com.2, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
+  x %>% select(Bill, SC.Position, Com.1, Pass.Com.1, Pass.Floor.1, Com.2, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
 }
 
 # ggplot + line graph helper function
@@ -666,7 +666,7 @@ line_graph <- function(csv, year = 2017, prop = TRUE) {
         )
 }
 
-full_names <- function(names) {
+node_names <- function(names) {
     full_name <- list(
         "H-A" = "House Appropriations",
         "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
@@ -697,11 +697,134 @@ full_names <- function(names) {
         "Other Committee" = "Other Committee",
 
         "Introduced" = "Introduced",
+        "Committee 1" = "Passed Committee 1",
+        "Committee 2" = "Passed Committee 2",
+        "Passed Committee 1" = "Passed Committee 1",
+        "Passed Committee 2" = "Passed Committee 2",
+        "Floor 1" = "Passed Floor 1",
+        "Floor 2" = "Passed Floor 2",
         "Passed Floor 1" = "Passed Floor 1",
         "Passed Floor 2" = "Passed Floor 2",
         "Delivered to Governor" = "Delivered to Governor",
         "Signed by Governor" = "Signed by Governor",
-        "Law" = "Law"
+        "Signed" = "Signed by Governor",
+        "Law" = "Law",
+        "Passed" = "Passed",
+        "Dead" = "Dead"
     )
     return(as.character(full_name[names]))
+}
+
+flow_names <- function(data) {
+    full_name <- list(
+        "H-A" = "House Appropriations",
+        "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
+        "H-CCT" = "House Counties, Cities & Towns",
+        "H-CJ" = "House Courts of Justice",
+        "H-CL" = "House Commerce & Labor",
+        "H-LC" = "House Commerce & Labor",
+        "H-CL/LC" = "House Commerce & Labor",
+        "H-E" = "House Education",
+        "H-F" = "House Finance",
+        "H-GL" = "House General Laws",
+        "H-HWI" = "House Health, Welfare, & Institutions",
+        "H-PE" = "House Privileges & Elections",
+        "H-R" = "House Rules",
+        "H-T" = "House Transportation",
+
+        "S-ACNR" = "Senate Agriculture, Conservation & Natural Resources",
+        "S-CJ" = "Senate Courts of Justice",
+        "S-CL" = "Senate Commerce & Labor",
+        "S-EH" = "Senate Education & Health",
+        "S-F" = "Senate Finance",
+        "S-GLT" = "Senate General Laws & Technology",
+        "S-LG" = "Senate Local Government",
+        "S-PE" = "Senate Privileges & Elections",
+        "S-R" = "Senate Rules",
+        "S-T" = "Senate Transportation",
+
+        "H-A.2" = "House Appropriations",
+        "H-ACNR.2" = "House Agriculture, Chesapeake & Natural Resources",
+        "H-CCT.2" = "House Counties, Cities & Towns",
+        "H-CJ.2" = "House Courts of Justice",
+        "H-CL.2" = "House Commerce & Labor",
+        "H-LC.2" = "House Commerce & Labor",
+        "H-CL/LC.2" = "House Commerce & Labor",
+        "H-E.2" = "House Education",
+        "H-F.2" = "House Finance",
+        "H-GL.2" = "House General Laws",
+        "H-HWI.2" = "House Health, Welfare, & Institutions",
+        "H-PE.2" = "House Privileges & Elections",
+        "H-R.2" = "House Rules",
+        "H-T.2" = "House Transportation",
+
+        "S-ACNR.2" = "Senate Agriculture, Conservation & Natural Resources",
+        "S-CJ.2" = "Senate Courts of Justice",
+        "S-CL.2" = "Senate Commerce & Labor",
+        "S-EH.2" = "Senate Education & Health",
+        "S-F.2" = "Senate Finance",
+        "S-GLT.2" = "Senate General Laws & Technology",
+        "S-LG.2" = "Senate Local Government",
+        "S-PE.2" = "Senate Privileges & Elections",
+        "S-R.2" = "Senate Rules",
+        "S-T.2" = "Senate Transportation",
+
+        "Other.Committee" = "Other Committees",
+        "Other.Committee.2" = "Other Committees",
+
+        "Intro.Com" = "Introduced",
+        "Pass.Com.1" = "Passed Committee 1",
+        "Pass.Com.2" = "Passed Committee 2",
+        "Committee 1" = "Passed Committee 1",
+        "Committee 2" = "Passed Committee 2",
+        "Pass.Floor.1" = "Passed Floor 1",
+        "Pass.Floor.2" = "Passed Floor 2",
+        "To.Gov" = "Delivered to Governor",
+        "Passed" = "Signed by Governor",
+        "Law" = "Law",
+        "Dead" = "Dead"
+    )
+    expanded_names <- matrix(
+         c(as.character(full_name[as.character(data$x)]), as.character(full_name[as.character(data$next_x)])),
+         ncol = 2
+                            )
+    return(expanded_names)
+}
+
+data_creator_vv <- function(csv, com = FALSE) {
+    csv <- consolidate_com(csv)
+    # Makes levels such that Other.Committee is last
+    levs <- group_by(csv, Com.1) %>%
+        summarize(n = n()) %>%
+        arrange(desc(n))
+    levs_2 <- group_by(csv, Com.2) %>%
+        summarize(n = n()) %>%
+        arrange(desc(n)) %>% filter(!is.na(Com.2))
+    levs$Com.1 <- as.character(levs$Com.1)
+    levs_2$Com.2 <- as.character(levs_2$Com.2)
+    levs <- c(levs$Com.1[levs$Com.1 != "Other.Committee"], "Other.Committee")
+    levs_2 <- c(levs_2$Com.2[levs_2$Com.2 != "Other.Committee.2"], "Other.Committee.2")
+    levs_2 <- levs_2[!is.na(levs_2)]
+    csv$Com.1  <- factor(csv$Com.1, levels = levs)
+    csv$Com.2 <- factor(csv$Com.2, levels = levs_2)
+    levs <- c("Intro.Com", levs, "Pass.Floor.1",
+              levs_2, "Pass.Floor.2", "To.Gov", "Passed", "Law")
+
+    vv <- filter(csv, VV == 1)
+    not_vv <- filter(csv, VV == 0)
+
+    df_total <- NULL
+    if (com) {
+
+        df_vv <- com_creator(vv, "rgba(154,205,50,1.0)", FALSE, FALSE)
+        df_not <- com_creator(not_vv, "rgba(255,69,0,1.0)", FALSE, FALSE)
+
+        # Makes levels check out
+        df_total <- rbind(df_vv, df_not) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+    } else {
+        df_vv <- data_creator(vv, "rgba(154,205,50,1.0)")
+        df_not <- data_creator(not_vv, "rgba(255,69,0,1.0)")
+        df_total <- rbind(df_vv, df_not)
+    }
+    return(df_total)
 }

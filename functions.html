@@ -11,7 +11,7 @@
 
 <meta name="author" content="lizzy" />
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-05-25" />
 
 <title>functions.R</title>
 
@@ -365,7 +365,7 @@ pre code {
 
 <h1 class="title toc-ignore">functions.R</h1>
 <h4 class="author">lizzy</h4>
-<h4 class="date">2022-05-21</h4>
+<h4 class="date">2022-05-25</h4>
 
 </div>
 
@@ -855,16 +855,17 @@ rtable &lt;- function(csv) {
     return(
            reactable(formatted_csv,
                      defaultSorted = list(n = &quot;desc&quot;),
-                     defaultPageSize = 6,
+                     #defaultPageSize = 6,
+                     pagination = FALSE,
                      columns = list(
                                     full = colDef(name = &quot;Committee Name&quot;),
                                     Com.1 = colDef(name = &quot;Acronym&quot;, footer = &quot;Total&quot;, width = 80),
-                                    n = colDef(name = &quot;Total Bills Received&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$n)), width = 170),
-                                    amount.passed = colDef(name = &quot;Total Bills Passed&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$amount.passed)), width = 140),
+                                    n = colDef(name = &quot;Total Bills Received&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$n)), width = 160),
+                                    amount.passed = colDef(name = &quot;Total Bills Passed&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$amount.passed)), width = 133),
                                     #positive = colDef(name = &quot;Positive&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$positive))),
                                     #neutral = colDef(name = &quot;Neutral&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$neutral))),
                                     #negative = colDef(name = &quot;Negative&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$negative))),
-                                    become.law = colDef(name = &quot;Bills Passed into Law&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$become.law)), width = 170)
+                                    become.law = colDef(name = &quot;Bills Passed into Law&quot;, footer = sprintf(&quot;%d&quot;, sum(formatted_csv$become.law)), width = 160)
                                     ), bordered = TRUE, striped = TRUE, highlight = TRUE,
                      defaultColDef = colDef(footerStyle = list(fontWeight = &quot;bold&quot;))
            )
@@ -1031,6 +1032,130 @@ line_graph &lt;- function(csv, year = 2017, prop = TRUE) {
                             range = c(0, max(daf$total))
                )
         )
+}
+
+node_names &lt;- function(names) {
+    full_name &lt;- list(
+        &quot;H-A&quot; = &quot;House Appropriations&quot;,
+        &quot;H-ACNR&quot; = &quot;House Agriculture, Chesapeake &amp; Natural Resources&quot;,
+        &quot;H-CCT&quot; = &quot;House Counties, Cities &amp; Towns&quot;,
+        &quot;H-CJ&quot; = &quot;House Courts of Justice&quot;,
+        &quot;H-CL&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-LC&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-CL/LC&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-E&quot; = &quot;House Education&quot;,
+        &quot;H-F&quot; = &quot;House Finance&quot;,
+        &quot;H-GL&quot; = &quot;House General Laws&quot;,
+        &quot;H-HWI&quot; = &quot;House Health, Welfare, &amp; Institutions&quot;,
+        &quot;H-PE&quot; = &quot;House Privileges &amp; Elections&quot;,
+        &quot;H-R&quot; = &quot;House Rules&quot;,
+        &quot;H-T&quot; = &quot;House Transportation&quot;,
+
+        &quot;S-ACNR&quot; = &quot;Senate Agriculture, Conservation &amp; Natural Resources&quot;,
+        &quot;S-CJ&quot; = &quot;Senate Courts of Justice&quot;,
+        &quot;S-CL&quot; = &quot;Senate Commerce &amp; Labor&quot;,
+        &quot;S-EH&quot; = &quot;Senate Education &amp; Health&quot;,
+        &quot;S-F&quot; = &quot;Senate Finance&quot;,
+        &quot;S-GLT&quot; = &quot;Senate General Laws &amp; Technology&quot;,
+        &quot;S-LG&quot; = &quot;Senate Local Government&quot;,
+        &quot;S-PE&quot; = &quot;Senate Privileges &amp; Elections&quot;,
+        &quot;S-R&quot; = &quot;Senate Rules&quot;,
+        &quot;S-T&quot; = &quot;Senate Transportation&quot;,
+
+        &quot;Other Committee&quot; = &quot;Other Committee&quot;,
+
+        &quot;Introduced&quot; = &quot;Introduced&quot;,
+        &quot;Committee 1&quot; = &quot;Passed Committee 1&quot;,
+        &quot;Committee 2&quot; = &quot;Passed Committee 2&quot;,
+        &quot;Floor 1&quot; = &quot;Passed Floor 1&quot;,
+        &quot;Floor 2&quot; = &quot;Passed Floor 2&quot;,
+        &quot;Passed Floor 1&quot; = &quot;Passed Floor 1&quot;,
+        &quot;Passed Floor 2&quot; = &quot;Passed Floor 2&quot;,
+        &quot;Delivered to Governor&quot; = &quot;Delivered to Governor&quot;,
+        &quot;Signed by Governor&quot; = &quot;Signed by Governor&quot;,
+        &quot;Law&quot; = &quot;Law&quot;,
+        &quot;Passed&quot; = &quot;Passed&quot;,
+        &quot;Dead&quot; = &quot;Dead&quot;
+    )
+    return(as.character(full_name[names]))
+}
+
+flow_names &lt;- function(data) {
+    full_name &lt;- list(
+        &quot;H-A&quot; = &quot;House Appropriations&quot;,
+        &quot;H-ACNR&quot; = &quot;House Agriculture, Chesapeake &amp; Natural Resources&quot;,
+        &quot;H-CCT&quot; = &quot;House Counties, Cities &amp; Towns&quot;,
+        &quot;H-CJ&quot; = &quot;House Courts of Justice&quot;,
+        &quot;H-CL&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-LC&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-CL/LC&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-E&quot; = &quot;House Education&quot;,
+        &quot;H-F&quot; = &quot;House Finance&quot;,
+        &quot;H-GL&quot; = &quot;House General Laws&quot;,
+        &quot;H-HWI&quot; = &quot;House Health, Welfare, &amp; Institutions&quot;,
+        &quot;H-PE&quot; = &quot;House Privileges &amp; Elections&quot;,
+        &quot;H-R&quot; = &quot;House Rules&quot;,
+        &quot;H-T&quot; = &quot;House Transportation&quot;,
+
+        &quot;S-ACNR&quot; = &quot;Senate Agriculture, Conservation &amp; Natural Resources&quot;,
+        &quot;S-CJ&quot; = &quot;Senate Courts of Justice&quot;,
+        &quot;S-CL&quot; = &quot;Senate Commerce &amp; Labor&quot;,
+        &quot;S-EH&quot; = &quot;Senate Education &amp; Health&quot;,
+        &quot;S-F&quot; = &quot;Senate Finance&quot;,
+        &quot;S-GLT&quot; = &quot;Senate General Laws &amp; Technology&quot;,
+        &quot;S-LG&quot; = &quot;Senate Local Government&quot;,
+        &quot;S-PE&quot; = &quot;Senate Privileges &amp; Elections&quot;,
+        &quot;S-R&quot; = &quot;Senate Rules&quot;,
+        &quot;S-T&quot; = &quot;Senate Transportation&quot;,
+
+        &quot;H-A.2&quot; = &quot;House Appropriations&quot;,
+        &quot;H-ACNR.2&quot; = &quot;House Agriculture, Chesapeake &amp; Natural Resources&quot;,
+        &quot;H-CCT.2&quot; = &quot;House Counties, Cities &amp; Towns&quot;,
+        &quot;H-CJ.2&quot; = &quot;House Courts of Justice&quot;,
+        &quot;H-CL.2&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-LC.2&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-CL/LC.2&quot; = &quot;House Commerce &amp; Labor&quot;,
+        &quot;H-E.2&quot; = &quot;House Education&quot;,
+        &quot;H-F.2&quot; = &quot;House Finance&quot;,
+        &quot;H-GL.2&quot; = &quot;House General Laws&quot;,
+        &quot;H-HWI.2&quot; = &quot;House Health, Welfare, &amp; Institutions&quot;,
+        &quot;H-PE.2&quot; = &quot;House Privileges &amp; Elections&quot;,
+        &quot;H-R.2&quot; = &quot;House Rules&quot;,
+        &quot;H-T.2&quot; = &quot;House Transportation&quot;,
+
+        &quot;S-ACNR.2&quot; = &quot;Senate Agriculture, Conservation &amp; Natural Resources&quot;,
+        &quot;S-CJ.2&quot; = &quot;Senate Courts of Justice&quot;,
+        &quot;S-CL.2&quot; = &quot;Senate Commerce &amp; Labor&quot;,
+        &quot;S-EH.2&quot; = &quot;Senate Education &amp; Health&quot;,
+        &quot;S-F.2&quot; = &quot;Senate Finance&quot;,
+        &quot;S-GLT.2&quot; = &quot;Senate General Laws &amp; Technology&quot;,
+        &quot;S-LG.2&quot; = &quot;Senate Local Government&quot;,
+        &quot;S-PE.2&quot; = &quot;Senate Privileges &amp; Elections&quot;,
+        &quot;S-R.2&quot; = &quot;Senate Rules&quot;,
+        &quot;S-T.2&quot; = &quot;Senate Transportation&quot;,
+
+        &quot;Other.Committee&quot; = &quot;Other Committees&quot;,
+        &quot;Other.Committee.2&quot; = &quot;Other Committees&quot;,
+
+        &quot;Intro.Com&quot; = &quot;Introduced&quot;,
+        &quot;Pass.Com.1&quot; = &quot;Passed Committee 1&quot;,
+        &quot;Pass.Com.2&quot; = &quot;Passed Committee 2&quot;,
+        &quot;Committee 1&quot; = &quot;Passed Committee 1&quot;,
+        &quot;Committee 2&quot; = &quot;Passed Committee 2&quot;,
+        &quot;Passed Committee 1&quot; = &quot;Passed Committee 1&quot;,
+        &quot;Passed Committee 2&quot; = &quot;Passed Committee 2&quot;,
+        &quot;Pass.Floor.1&quot; = &quot;Passed Floor 1&quot;,
+        &quot;Pass.Floor.2&quot; = &quot;Passed Floor 2&quot;,
+        &quot;To.Gov&quot; = &quot;Delivered to Governor&quot;,
+        &quot;Passed&quot; = &quot;Signed by Governor&quot;,
+        &quot;Law&quot; = &quot;Law&quot;,
+        &quot;Dead&quot; = &quot;Dead&quot;
+    )
+    expanded_names &lt;- matrix(
+         c(as.character(full_name[as.character(data$x)]), as.character(full_name[as.character(data$next_x)])),
+         ncol = 2
+                            )
+    return(expanded_names)
 }</code></pre>
 
 

@@ -39,8 +39,12 @@ colors <- list("y2015" = "4f2e39", "y2016" = "8f2d56", "y2017" = "ef476f", "y201
 labs <- c("Introduced", "Committee 1", "Floor 1",
           "Committee 2", "Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
-link_hover <- paste("Flow between %{source.label}<br>",
-                   "and %{target.label}",
+# Old link hover doesn't include expanded acronym
+#link_hover <- paste("Flow between %{source.label}<br>",
+#                   "and %{target.label}",
+#                   "<extra>%{value:.0f}</extra>")
+link_hover <- paste("Flow between %{customdata[0]}<br>",
+                   "and %{customdata[1]}",
                    "<extra>%{value:.0f}</extra>")
 node_hover <- paste("%{customdata}",
                    "<extra>%{value:.0f}</extra>")
@@ -75,6 +79,16 @@ labels_18 <- c("Introduced", levels(com_18$x)[2:4], "Other Committee", "Passed F
 labels_19 <- c("Introduced", levels(com_19$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_19$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
 labels_20 <- c("Introduced", levels(com_20$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_20$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
 labels_21 <- c("Introduced", levels(com_21$x)[2:4], "Other Committee",  "Passed Floor 1", gsub(".{2}$", "", levels(com_21$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+
+output <- filter(csv_total, Disposition != "JRP") %>%
+    select(Year, SC.Position,
+                 Com.1, Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, Pass.Governor = Passed,
+                ) %>%
+          mutate(across(c(Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, Pass.Governor), ~ifelse(is.na(.), 0, .))) %>%
+          mutate(SC.Position = SC.Position + 2,
+                 Com.1 = as.numeric(factor(if_else(Com.1 == "H-CL" | Com.1 == "H-LC", "H-CL", if_else(Com.1 == "S-F" | Com.1 == "S-FA", "S-F", Com.1))
+          )))
+write.csv(output, "combined_2015_2021.csv")
 ```
 
 # General Overview {data-orientation=columns}
@@ -91,7 +105,7 @@ JOINT_YEAR <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
     y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
     color = "gray",
@@ -101,6 +115,7 @@ JOINT_YEAR <- plot_ly(
   link = list(
     source = as.numeric(joint_year$x) - 1,
     target = as.numeric(joint_year$next_x) - 1,
+    customdata = flow_names(joint_year),
     value = joint_year$n,
     color = ~as.factor(joint_year$color),
     hovertemplate = link_hover,
@@ -118,7 +133,7 @@ SIERRA_YEAR <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
     y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
     color = "gray",
@@ -128,6 +143,7 @@ SIERRA_YEAR <- plot_ly(
   link = list(
     source = as.numeric(sierra_joint$x) - 1,
     target = as.numeric(sierra_joint$next_x) - 1,
+    customdata = flow_names(sierra_joint),
     value = sierra_joint$n,
     color = ~as.factor(sierra_joint$color),
     hovertemplate = link_hover,
@@ -149,7 +165,7 @@ yearly_sierra_joint <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_total,
-    customdata = full_names(labels_total),
+    customdata = node_names(labels_total),
     x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.54, 0.5, 0.5),
     color = "gray",
@@ -159,6 +175,7 @@ yearly_sierra_joint <- plot_ly(
   link = list(
     source = as.numeric(committees_total$x) - 1,
     target = as.numeric(committees_total$next_x),
+    customdata = flow_names(committees_total),
     value = committees_total$n,
     color = ~as.factor(committees_total$color),
     hovertemplate = link_hover,
@@ -187,7 +204,7 @@ yearly_joint <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_total,
-    customdata = full_names(labels_total),
+    customdata = node_names(labels_total),
     x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.54, 0.5, 0.5),
     color = "gray",
@@ -197,6 +214,7 @@ yearly_joint <- plot_ly(
   link = list(
     source = as.numeric(com_year_total$x) - 1,
     target = as.numeric(com_year_total$next_x) - 1,
+    customdata = flow_names(com_year_total),
     value = com_year_total$n,
     color = ~as.factor(com_year_total$color),
     hovertemplate = link_hover,
@@ -214,7 +232,7 @@ subplot(yearly_sierra_joint, yearly_joint, nrows = 2)
 ```{r}
 deadtotal <- sierra_data_dead(csv_total)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
-          "Passed Committee 2", "Passed Floor 2", 
+          "Passed Committee 2", "Passed Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 sierra_dead <- plot_ly(
   domain = list(x = c(0, 1), y = c(0, 0.49)),
@@ -222,8 +240,8 @@ sierra_dead <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
-    x = c(0, 0.23, 0.29, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    customdata = node_names(labs),
+    x = c(0, 0.23, 0.29, 0.40, 0.55, 0.67, 0.82, 1, 1),
     y = c(0.2, 0.5, 0.23, 0.18, 0.14, 0.21, -0.1, -0.1, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -231,6 +249,7 @@ sierra_dead <- plot_ly(
   link = list(
     source = as.numeric(deadtotal$x) - 1,
     target = as.numeric(deadtotal$next_x) - 1,
+    customdata = flow_names(deadtotal),
     value = deadtotal$n,
     color = ~as.factor(deadtotal$color),
     hovertemplate = link_hover,
@@ -256,8 +275,8 @@ yearly_dead <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
-    x = c(0, 0.23, 0.29, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    customdata = node_names(labs),
+    x = c(0, 0.23, 0.29, 0.40, 0.55, 0.67, 0.82, 1, 1),
     y = c(0.2, 0.5, 0.23, 0.18, 0.14, 0.21, -0.1, -0.1, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -265,6 +284,7 @@ yearly_dead <- plot_ly(
   link = list(
     source = as.numeric(dead_year_total$x) - 1,
     target = as.numeric(dead_year_total$next_x) - 1,
+    customdata = flow_names(dead_year_total),
     value = dead_year_total$n,
     color = ~as.factor(dead_year_total$color),
     hovertemplate = link_hover,
@@ -290,7 +310,7 @@ return_sierra <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.7, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -299,6 +319,7 @@ return_sierra <- plot_ly(
   link = list(
     source = as.numeric(shelltotal$x) - 1,
     target = as.numeric(shelltotal$next_x) - 1,
+    customdata = flow_names(shelltotal),
     value = shelltotal$n,
     color = ~as.factor(shelltotal$color),
     hovertemplate = link_hover,
@@ -324,7 +345,7 @@ return_year <- plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.72, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -333,6 +354,7 @@ return_year <- plot_ly(
   link = list(
     source = as.numeric(shelltotal_year$x) - 1,
     target = as.numeric(shelltotal_year$next_x) - 1,
+    customdata = flow_names(shelltotal_year),
     value = shelltotal_year$n,
     color = ~as.factor(shelltotal_year$color),
     hovertemplate = link_hover,
@@ -429,7 +451,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_15,
-    customdata = full_names(labels_15),
+    customdata = node_names(labels_15),
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.52, 0.5, 0.5),
     color = "gray",
@@ -439,6 +461,7 @@ plot_ly(
   link = list(
     source = as.numeric(com_15$x) - 1,
     target = as.numeric(com_15$next_x),
+    customdata = flow_names(com_15),
     value = com_15$n,
     color = ~as.factor(com_15$color),
     hovertemplate = link_hover,
@@ -458,7 +481,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -467,6 +490,7 @@ plot_ly(
   link = list(
     source = as.numeric(shell15$x) - 1,
     target = as.numeric(shell15$next_x) - 1,
+    customdata = flow_names(shell15),
     value = shell15$n,
     color = ~as.factor(shell15$color),
     hovertemplate = link_hover,
@@ -486,7 +510,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs_dead,
-    customdata = full_names(labs_dead),
+    customdata = node_names(labs_dead),
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.53, 0.22, 0.08, 0.06, 0.18, 0.02, -0.2, 0.7),
     color = "gray",
@@ -495,6 +519,7 @@ plot_ly(
   link = list(
     source = as.numeric(dead15$x) - 1,
     target = as.numeric(dead15$next_x) - 1,
+    customdata = flow_names(dead15),
     value = dead15$n,
     color = ~as.factor(dead15$color),
     hovertemplate = link_hover,
@@ -529,7 +554,14 @@ rtable(csv15)
 
 The layout for each year will look something like this, with the ability to change the graph the user is looking at near the top, a table on the left to show the bill counts for each individual committee, and a panel containing a qualitative description of that year in addition to general state government breakdown by party.
 2017 and onward will have a breakdown by opinion on whether the bill is pro or against climate.
-2015 will have a pattern that will be repeated for future years in having a disproportionate amount of bills die in 
+
+2015 has a pattern that will be repeated for future years in having a disproportionate amount of bills die in the initial committee, with a few more dying in the second committee and few dying anywhere else.
+Only 43\% of bills made it out of that stage of interest, which will still get alarmingly smaller in the coming years.
+Another fact to establish is the disproportionate influence the House Commerce \& Labor committee has in the amount of bills that they receive, with its Senate counterpart and the House Agriculture, Chesapeke \& Natural Resources and Senate Agriculture, Conservation \& Natural Resources committees also being major players.
+
+This is the first year that joint resolutions are introduced, which involve passing both chambers but not needing the president's approval.
+As a result they are different from a "law," though it will still be treated as such for the sake of visualization.
+A joint resolution will be shown as going through the chambers and will "become a law," skipping the governor entirely.
 
 # 2016 {data-orientation=rows}
 
@@ -556,7 +588,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_16,
-    customdata = full_names(labels_16),
+    customdata = node_names(labels_16),
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
@@ -566,6 +598,7 @@ plot_ly(
   link = list(
     source = as.numeric(com_16$x) - 1,
     target = as.numeric(com_16$next_x),
+    customdata = flow_names(com_16),
     value = com_16$n,
     color = ~as.factor(com_16$color),
     hovertemplate = link_hover,
@@ -585,7 +618,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -594,6 +627,7 @@ plot_ly(
   link = list(
     source = as.numeric(shell16$x) - 1,
     target = as.numeric(shell16$next_x) - 1,
+    customdata = flow_names(shell16),
     value = shell16$n,
     color = ~as.factor(shell16$color),
     hovertemplate = link_hover,
@@ -613,7 +647,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs_dead,
-    customdata = full_names(labs_dead),
+    customdata = node_names(labs_dead),
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.52, 0.1, 0.19, 0.06, 0.04, 0.02, -0.2, 0.7),
     color = "gray",
@@ -622,6 +656,7 @@ plot_ly(
   link = list(
     source = as.numeric(dead16$x) - 1,
     target = as.numeric(dead16$next_x) - 1,
+    customdata = flow_names(dead16),
     value = dead16$n,
     color = ~as.factor(dead16$color),
     hovertemplate = link_hover,
@@ -654,18 +689,9 @@ rtable(csv16)
 <span style="color:blue">Governor: Terry McAuliffe </span> - <span style="color:red">Senate Composition: 21R:19D </span> - <span style="color:red">House Composition: 66R:34D </span>
 </center>
 
-We start off in 2016 with a republican-controlled state congress and a democratic governor.
-Of note, the House of Commerce and Labor ended up with the highest amount of climate legislation.
-As will be shown, this will be the behavior of a lot of climate legislation up through 2021.
-
-Of more interesting note, there is another pattern that will be replicated most of the years.
-Most of the bills end up dying in committees.
-In this case especially, pro-climate legislation suffers a lot (none passed it through H-CL, to give the most obvious example).
-
-One unique characteristic to this year is it has a the smallest proportion of positive bills out of all the years studied.
-Only 55% of the bills were supported by Sierra Club.
-This is contrary to future sessions where 70+% of bills are supported by Sierra Club.
-
+2016 had a different congressional makeup on account of 2015 midterm elections, with democrats gaining a seat in the House but had Republicans retain a supermajority.
+This year has a similar pattern to the previous year, with most of the bills dying off in the first committee and only 42\% making it through.
+Future years will introduce a new aspect to the graphs in showing the amount of bills deemed pro-climate or not, which we will see will make a difference in terms of how likely a bill is to be passed.
 
 # 2017 {data-orientation=rows}
 
@@ -691,7 +717,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_17,
-    customdata = full_names(labels_17),
+    customdata = node_names(labels_17),
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
@@ -701,6 +727,7 @@ plot_ly(
   link = list(
     source = as.numeric(com_17$x) - 1,
     target = as.numeric(com_17$next_x),
+    customdata = flow_names(com_17),
     value = com_17$n,
     color = ~as.factor(com_17$color),
     hovertemplate = link_hover,
@@ -720,7 +747,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -729,6 +756,7 @@ plot_ly(
   link = list(
     source = as.numeric(shell17$x) - 1,
     target = as.numeric(shell17$next_x) - 1,
+    customdata = flow_names(shell17),
     value = shell17$n,
     color = ~as.factor(shell17$color),
     hovertemplate = link_hover,
@@ -748,7 +776,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs_dead,
-    customdata = full_names(labs_dead),
+    customdata = node_names(labs_dead),
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.52, 0.1, 0.19, 0.06, 0.04, 0.02, -0.2, 0.7),
     color = "gray",
@@ -757,6 +785,7 @@ plot_ly(
   link = list(
     source = as.numeric(dead17$x) - 1,
     target = as.numeric(dead17$next_x) - 1,
+    customdata = flow_names(dead17),
     value = dead17$n,
     color = ~as.factor(dead17$color),
     hovertemplate = link_hover,
@@ -789,13 +818,8 @@ rtable(csv17)
 <span style="color:blue">Governor: Terry McAuliffe </span> - <span style="color:red">Senate Composition: 21R:19D </span> - <span style="color:red">House Composition: 66R:34D </span>
 </center>
 
-We start off in 2017 with a republican-controlled state congress and a democratic governor.
-Of note, the House of Commerce and Labor ended up with the highest amount of climate legislation.
-As will be shown, this will be the behavior of a lot of climate legislation up through 2021.
-
-Of more interesting note, there is another pattern that will be replicated most of the years.
-Most of the bills end up dying in committees.
-In this case especially, pro-climate legislation suffers a lot (none passed it through H-CL, to give the most obvious example).
+2017 gives us an insight into just how many pro-climate bills end up dying in the committees compared to other climate bills.
+This is especially apparent when looking at the proportional line graph, with neutral and negative bills all being more likely (over 50\%) to make it out of that initial committee compared to pro-climate legislation (27\%).
 
 One unique characteristic to this year is it has a the smallest proportion of positive bills out of all the years studied.
 Only 55% of the bills were supported by Sierra Club.
@@ -813,7 +837,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_18,
-    customdata = full_names(labels_18),
+    customdata = node_names(labels_18),
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.55, 0.5, 0.5),
     color = "gray",
@@ -823,6 +847,7 @@ plot_ly(
   link = list(
     source = as.numeric(com_18$x) - 1,
     target = as.numeric(com_18$next_x),
+    customdata = flow_names(com_18),
     value = com_18$n,
     color = ~as.factor(com_18$color),
     hovertemplate = link_hover,
@@ -846,7 +871,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -855,6 +880,7 @@ plot_ly(
   link = list(
     source = as.numeric(shell17$x) - 1,
     target = as.numeric(shell17$next_x) - 1,
+    customdata = flow_names(shell17),
     value = shell17$n,
     color = ~as.factor(shell17$color),
     hovertemplate = link_hover,
@@ -878,7 +904,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.3, 0.4, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.61, 0.15, 0.12, 0.09, 0.15, 0.02, -0.2, 0.7),
     color = "gray",
@@ -887,6 +913,7 @@ plot_ly(
   link = list(
     source = as.numeric(dead17$x) - 1,
     target = as.numeric(dead17$next_x) - 1,
+    customdata = flow_names(dead17),
     value = dead17$n,
     color = ~as.factor(dead17$color),
     hovertemplate = link_hover,
@@ -925,10 +952,6 @@ The difference in procedure between the initial committee hearings and debate he
 This means it is impossible, through public means, to determine what exactly occured that caused the bill to die.
 The votes are secret, as well as the conversation that occurs between congresspeople.
 
-This is also the first year that joint resolutions are introduced, which involve passing both chambers but not needing the president's approval.
-As a result they are different from a "law," though it will still be treated as such for the sake of visualization.
-A joint resolution will be shown as going through the chambers and will "become a law," skipping the governor entirely.
-
 # 2019 {data-orientation=rows}
 
 Row {.tabset data-height=550}
@@ -941,7 +964,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_19,
-    customdata = full_names(labels_19),
+    customdata = node_names(labels_19),
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
@@ -951,6 +974,7 @@ plot_ly(
   link = list(
     source = as.numeric(com_19$x) - 1,
     target = as.numeric(com_19$next_x),
+    customdata = flow_names(com_19),
     value = com_19$n,
     color = ~as.factor(com_19$color),
     hovertemplate = link_hover,
@@ -974,7 +998,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -983,6 +1007,7 @@ plot_ly(
   link = list(
     source = as.numeric(shell17$x) - 1,
     target = as.numeric(shell17$next_x) - 1,
+    customdata = flow_names(shell17),
     value = shell17$n,
     color = ~as.factor(shell17$color),
     hovertemplate = link_hover,
@@ -1006,7 +1031,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.62, 0.28, 0.25, 0.23, 0.21, -0.05, -0.2, 0.7),
     color = "gray",
@@ -1015,6 +1040,7 @@ plot_ly(
   link = list(
     source = as.numeric(dead17$x) - 1,
     target = as.numeric(dead17$next_x) - 1,
+    customdata = flow_names(dead17),
     value = dead17$n,
     color = ~as.factor(dead17$color),
     hovertemplate = link_hover,
@@ -1071,7 +1097,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_20,
-    customdata = full_names(labels_20),
+    customdata = node_names(labels_20),
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.55, 0.5, 0.5),
     color = "gray",
@@ -1081,6 +1107,7 @@ plot_ly(
   link = list(
     source = as.numeric(com_20$x) - 1,
     target = as.numeric(com_20$next_x),
+    customdata = flow_names(com_20),
     value = com_20$n,
     color = ~as.factor(com_20$color),
     hovertemplate = link_hover,
@@ -1104,7 +1131,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -1113,6 +1140,7 @@ plot_ly(
   link = list(
     source = as.numeric(shell17$x) - 1,
     target = as.numeric(shell17$next_x) - 1,
+    customdata = flow_names(shell17),
     value = shell17$n,
     color = ~as.factor(shell17$color),
     hovertemplate = link_hover,
@@ -1136,7 +1164,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.62, 0.28, 0.36, 0.23, 0.27, -0.05, -0.2, 0.7),
     color = "gray",
@@ -1145,6 +1173,7 @@ plot_ly(
   link = list(
     source = as.numeric(dead17$x) - 1,
     target = as.numeric(dead17$next_x) - 1,
+    customdata = flow_names(dead17),
     value = dead17$n,
     color = ~as.factor(dead17$color),
     hovertemplate = link_hover,
@@ -1202,7 +1231,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labels_21,
-    customdata = full_names(labels_21),
+    customdata = node_names(labels_21),
     x = c(0, 0.2, 0.2, 0.2, 0.2, 0.35, 0.5, 0.5, 0.5, 0.5, 0.65, 0.75, 0.85, 1),
     y = c(0, -0.2, 0.20, 0.40, 0.8, 0.5, -0.2, 0.2, 0.4, 0.8, 0.5, 0.6, 0.5, 0.5),
     color = "gray",
@@ -1212,6 +1241,7 @@ plot_ly(
   link = list(
     source = as.numeric(com_21$x) - 1,
     target = as.numeric(com_21$next_x),
+    customdata = flow_names(com_21),
     value = com_21$n,
     color = ~as.factor(com_21$color),
     hovertemplate = link_hover,
@@ -1235,7 +1265,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
@@ -1244,6 +1274,7 @@ plot_ly(
   link = list(
     source = as.numeric(shell17$x) - 1,
     target = as.numeric(shell17$next_x) - 1,
+    customdata = flow_names(shell17),
     value = shell17$n,
     color = ~as.factor(shell17$color),
     hovertemplate = link_hover,
@@ -1267,7 +1298,7 @@ plot_ly(
   arrangement = "snap",
   node = list(
     label = labs,
-    customdata = full_names(labs),
+    customdata = node_names(labs),
     x = c(0.1, 0.23, 0.35, 0.45, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.62, 0.42, 0.36, 0.23, 0.35, -0.05, -0.2, 0.7),
     color = "gray",
@@ -1276,6 +1307,7 @@ plot_ly(
   link = list(
     source = as.numeric(dead17$x) - 1,
     target = as.numeric(dead17$next_x) - 1,
+    customdata = flow_names(dead17),
     value = dead17$n,
     color = ~as.factor(dead17$color),
     hovertemplate = link_hover,

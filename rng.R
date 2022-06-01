@@ -19,17 +19,18 @@ nums20 <- sample(1:1000, 1000)
 set.seed(2021)
 nums21 <- sample(1:1000, 1000)
 
+set.seed(2022)
+nums22 <- sample(1:1000, 1000)
+
 output <- data.frame(nums15,
                      nums16,
                      nums17,
                      nums18,
                      nums19,
                      nums20,
-                     nums21
+                     nums21,
+                     nums22
 )
 
 write.csv(output, "random.csv")
 output
-
-output[1001,]
-output[1,]
