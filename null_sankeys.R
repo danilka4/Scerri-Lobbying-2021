@@ -58,7 +58,7 @@ plot_ly(
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 
-v_15 <- data_creator_vv(null15)
+vv_15 <- data_creator_vv(null15)
 vv_16 <- data_creator_vv(null16)
 vv_17 <- data_creator_vv(null17)
 vv_18 <- data_creator_vv(null18)
