@@ -19,7 +19,7 @@ data_creator <- function (csv, color_id, include_joint = TRUE) {
     # Creation of data frames for JR's and non-JR's
     normal <- filter(csv, Disposition != "JRP")
     jrps <- filter(csv, Disposition == "JRP")
-    normal_df <- normal %>% 
+    normal_df <- normal %>%
         make_long(Intro.Com,
             Pass.Com.1,
             Pass.Floor.1,
@@ -52,7 +52,7 @@ data_creator <- function (csv, color_id, include_joint = TRUE) {
     # Coerces the above dataframe into one that is usable by plotly
     #   This is because the make_long function was made with a different library in mind
     new_normal <- normal_df %>% select(x, next_x) %>% group_by(x, next_x) %>% summarize(n = n()) %>%
-        filter(!is.na(next_x)) %>% 
+        filter(!is.na(next_x)) %>%
         mutate(color = color_id)
     return(new_normal)
 }
@@ -125,7 +125,7 @@ data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint =
     data.frame(
       x = as.factor(c("Pass.Com.1", "Pass.Floor.1", "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed")),
       next_x = as.factor(rep("Dead", 6)), 
-      n = dead, 
+      n = dead,
       color = color_id))
   if (include_joint) {
     new_total_df <- rbind(new_total_df, jrps_df) %>%
@@ -463,11 +463,15 @@ rtable <- function(csv) {
         "S-CL" = "Senate Commerce & Labor",
         "S-EH" = "Senate Education & Health",
         "S-F" = "Senate Finance",
+        "S-FA" = "Senate Finance & Applications",
         "S-GLT" = "Senate General Laws & Technology",
+        "S-J" = "Senate Justice",
         "S-LG" = "Senate Local Government",
         "S-PE" = "Senate Privileges & Elections",
         "S-R" = "Senate Rules",
-        "S-T" = "Senate Transportation"
+        "S-T" = "Senate Transportation",
+
+        "NoData" = "General Joint Resolution"
     )
     formatted_csv <- group_by(csv, Com.1) %>%
         summarize(
@@ -500,7 +504,7 @@ rtable <- function(csv) {
            )
 }
 
-com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol = TRUE) {
+com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol = TRUE, sep_second = TRUE) {
     if (nrow(csv) == 0) {
         return()
     }
@@ -512,6 +516,52 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
     csv <- separate(csv, Com.2, into = c("Com.2", "Com.2.2", "Com.2.3", "Com.2.4"), sep = ";")
     if (consol) {
         csv <- consolidate_com(csv)
+    }
+
+    if(!sep_second) {
+    normal_df <- csv %>% 
+        make_long(Intro.Com,
+            Com.1,
+            Pass.Floor.1,
+            Pass.Com.2,
+            Pass.Floor.2,
+            To.Gov,
+            Passed,
+            Law,
+            Passed
+            ) %>%
+        na_if(0) %>%
+        filter(!is.na(node))
+    # A bunch of code to reorder factors to correct order
+    #   First line orders non-other committees in increasing order
+    levs <- filter(normal_df, next_x == "Com.1", next_node != "Other.Committee") %>%
+        group_by(next_node) %>% summarize(n = n()) %>% filter(next_node != "Other.Committee") %>%
+        arrange(desc(n))
+    # This one attaches other committees + everything else to levels
+    levs <- c("Intro.Com", levs$next_node, "Other.Committee", "Pass.Floor.1",
+        "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed", "Law")
+    new_df <- normal_df %>%
+        mutate(x = as.character(x), node = as.character(node), next_x = as.character(next_x), next_node = as.character(next_node)) %>%
+        mutate(x = if_else(x == "Com.1", node, x), next_x = if_else(next_x == "Com.1", next_node, next_x)) %>%
+        group_by(x, next_x) %>% summarize(n = n()) %>%
+        mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)])) %>%
+        filter(!is.na(next_x))
+
+    # Fix amount of bills going from committee to floor
+    subt <- filter(csv, Pass.Com.1 == 1) %>%
+        group_by(Com.1) %>% summarize(n = n())
+    subt <- data.frame(x = subt$Com.1, next_x = "Pass.Floor.1", n = subt$n)
+
+    new_df <- filter(new_df, next_x != "Pass.Floor.1") %>%
+        rbind(subt) %>%
+        mutate(color = color_id)
+    # Don't necessarily want to level together different factors if doing it for Sierra club
+    if (consol) {
+            new_df <- mutate(new_df, x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+    }
+
+    new_df <- filter(new_df, !is.na(x))
+    return(new_df)
     }
     # Creation of data frames for JR's and non-JR's
     normal <- filter(csv, Disposition != "JRP")
@@ -654,10 +704,10 @@ line_graph <- function(csv, year = 2017, prop = TRUE) {
     daf <- data.frame(x = seq_len(length(total)),
                       total, positive, neutral, negative
     )
-    plot_ly(daf, x = ~x, y = ~total, name = "Overall Bills", type = "scatter", mode = "lines", line = list(color = "black")) %>%
-        add_trace(y = ~positive, name = "Positive", type = "scatter", mode = "lines", line = list(color = "rgba(154,205,50,1.0)")) %>%
-        add_trace(y = ~neutral, name = "Neutral", type = "scatter", mode = "lines", line = list(color = "rgba(176,224,230,1.0)")) %>%
-        add_trace(y = ~negative, name = "Negative", type = "scatter", mode = "lines", line = list(color = "rgba(255,69,0,1.0)")) %>%
+    plot_ly(daf, x = ~x, y = ~total, name = "Overall Climate Bills", type = "scatter", mode = "lines", line = list(color = "black")) %>%
+        add_trace(y = ~positive, name = "Positive Climate Bills", type = "scatter", mode = "lines", line = list(color = "rgba(154,205,50,1.0)")) %>%
+        add_trace(y = ~neutral, name = "Neutral Climate Bill", type = "scatter", mode = "lines", line = list(color = "rgba(176,224,230,1.0)")) %>%
+        add_trace(y = ~negative, name = "Negative Climate Bills", type = "scatter", mode = "lines", line = list(color = "rgba(255,69,0,1.0)")) %>%
         layout(
                title = title,
                yaxis = list(
@@ -688,13 +738,16 @@ node_names <- function(names) {
         "S-CL" = "Senate Commerce & Labor",
         "S-EH" = "Senate Education & Health",
         "S-F" = "Senate Finance",
+        "S-FA" = "Senate Finance & Applications",
         "S-GLT" = "Senate General Laws & Technology",
+        "S-J" = "Senate Justice",
         "S-LG" = "Senate Local Government",
         "S-PE" = "Senate Privileges & Elections",
         "S-R" = "Senate Rules",
         "S-T" = "Senate Transportation",
 
         "Other Committee" = "Other Committee",
+        "NoData" = "General Joint Resolution",
 
         "Introduced" = "Introduced",
         "Committee 1" = "Passed Committee 1",
@@ -737,7 +790,9 @@ flow_names <- function(data) {
         "S-CL" = "Senate Commerce & Labor",
         "S-EH" = "Senate Education & Health",
         "S-F" = "Senate Finance",
+        "S-FA" = "Senate Finance & Applications",
         "S-GLT" = "Senate General Laws & Technology",
+        "S-J" = "Senate Justice",
         "S-LG" = "Senate Local Government",
         "S-PE" = "Senate Privileges & Elections",
         "S-R" = "Senate Rules",
@@ -770,7 +825,9 @@ flow_names <- function(data) {
         "S-T.2" = "Senate Transportation",
 
         "Other.Committee" = "Other Committees",
+        "NoData" = "General Joint Resolution",
         "Other.Committee.2" = "Other Committees",
+        "NoData.2" = "General Joint Resolution",
 
         "Intro.Com" = "Introduced",
         "Pass.Com.1" = "Passed Committee 1",
@@ -791,7 +848,7 @@ flow_names <- function(data) {
     return(expanded_names)
 }
 
-data_creator_vv <- function(csv, com = FALSE) {
+data_creator_vv <- function(csv, com = TRUE, second_com = TRUE) {
     csv <- consolidate_com(csv)
     # Makes levels such that Other.Committee is last
     levs <- group_by(csv, Com.1) %>%
@@ -807,8 +864,13 @@ data_creator_vv <- function(csv, com = FALSE) {
     levs_2 <- levs_2[!is.na(levs_2)]
     csv$Com.1  <- factor(csv$Com.1, levels = levs)
     csv$Com.2 <- factor(csv$Com.2, levels = levs_2)
+    if (second_com) {
     levs <- c("Intro.Com", levs, "Pass.Floor.1",
               levs_2, "Pass.Floor.2", "To.Gov", "Passed", "Law")
+    } else {
+    levs <- c("Intro.Com", levs, "Pass.Floor.1",
+              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed", "Law")
+    }
 
     vv <- filter(csv, VV == 1)
     not_vv <- filter(csv, VV == 0)
@@ -816,14 +878,14 @@ data_creator_vv <- function(csv, com = FALSE) {
     df_total <- NULL
     if (com) {
 
-        df_vv <- com_creator(vv, "rgba(154,205,50,1.0)", FALSE, FALSE)
-        df_not <- com_creator(not_vv, "rgba(255,69,0,1.0)", FALSE, FALSE)
+        df_vv <- com_creator(vv, "rgba(123,149,91,1.0)", FALSE, FALSE, sep_second = second_com)
+        df_not <- com_creator(not_vv, "rgba(181,53,67,1.0)", FALSE, FALSE, sep_second = second_com)
 
         # Makes levels check out
         df_total <- rbind(df_vv, df_not) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
     } else {
-        df_vv <- data_creator(vv, "rgba(154,205,50,1.0)")
-        df_not <- data_creator(not_vv, "rgba(255,69,0,1.0)")
+        df_vv <- data_creator(vv, "rgba(123,149,91,1.0)")
+        df_not <- data_creator(not_vv, "rgba(181,53,67,1.0)")
         df_total <- rbind(df_vv, df_not)
     }
     return(df_total)

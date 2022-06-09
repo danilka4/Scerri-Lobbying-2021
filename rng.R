@@ -1,5 +1,5 @@
 set.seed(2015)
-nums15 <- sample(1:1000, 1000)
+nums15 <- sample(1:2000, 2000)
 
 set.seed(2016)
 nums16 <- sample(1:1000, 1000)
@@ -17,7 +17,7 @@ set.seed(2020)
 nums20 <- sample(1:1000, 1000)
 
 set.seed(2021)
-nums21 <- sample(1:1000, 1000)
+nums21 <- sample(1:2000, 2000)
 
 set.seed(2022)
 nums22 <- sample(1:1000, 1000)
@@ -32,5 +32,4 @@ output <- data.frame(nums15,
                      nums22
 )
 
-write.csv(output, "random.csv")
-output
+write.csv(output, "random.csv", row.names = FALSE)

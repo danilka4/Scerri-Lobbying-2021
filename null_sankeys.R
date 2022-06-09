@@ -29,8 +29,8 @@ joint_year <- rbind(
                     data_creator(null17, colors$y2017),
                     data_creator(null18, colors$y2018),
                     data_creator(null19, colors$y2019),
-                    data_creator(null20, colors$y2020)#,
-                    #data_creator(null21, colors$y2021)
+                    data_creator(null20, colors$y2020),
+                    data_creator(null21, colors$y2021)
                 )
 plot_ly(
   type = "sankey",
@@ -62,26 +62,33 @@ vv_15 <- data_creator_vv(null15)
 vv_16 <- data_creator_vv(null16)
 vv_17 <- data_creator_vv(null17)
 vv_18 <- data_creator_vv(null18)
-vv_19 <- data_creator_vv(null19)
-vv_20 <- data_creator_vv(null20)
-#vv_21 <- data_creator_vv(null21)
+vv_19 <- data_creator_vv(null19, TRUE, FALSE)
+vv_20 <- data_creator_vv(null20, TRUE, FALSE)
+vv_21 <- data_creator_vv(null21, TRUE, FALSE)
+labels_15 <- c("Introduced", levels(vv_15$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(vv_15$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_16 <- c("Introduced", levels(vv_16$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(vv_16$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_17 <- c("Introduced", levels(vv_17$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(vv_17$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_18 <- c("Introduced", levels(vv_18$x)[2:4], "Other Committee", "Passed Floor 1", gsub(".{2}$", "", levels(vv_18$x)[7:9]), "Other Committee", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_19 <- c("Introduced", levels(vv_19$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_20 <- c("Introduced", levels(vv_20$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+labels_21 <- c("Introduced", levels(vv_21$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
 
 
 plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    customdata = node_names(labs),
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    label = labels_15,
+    customdata = node_names(labels_15),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.37, 0.43, 0.47, 0.57, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
     pad = 10),
   link = list(
     source = as.numeric(vv_15$x) - 1,
-    target = as.numeric(vv_15$next_x) - 1,
+    target = as.numeric(vv_15$next_x),
     customdata = flow_names(vv_15),
     value = vv_15$n,
     color = ~as.factor(vv_15$color),
@@ -97,17 +104,17 @@ plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    customdata = node_names(labs),
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    label = labels_16,
+    customdata = node_names(labels_16),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.37, 0.43, 0.47, 0.57, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
     pad = 10),
   link = list(
     source = as.numeric(vv_16$x) - 1,
-    target = as.numeric(vv_16$next_x) - 1,
+    target = as.numeric(vv_16$next_x),
     customdata = flow_names(vv_16),
     value = vv_16$n,
     color = ~as.factor(vv_16$color),
@@ -123,17 +130,17 @@ plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    customdata = node_names(labs),
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    label = labels_17,
+    customdata = node_names(labels_17),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.37, 0.43, 0.47, 0.57, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
     pad = 10),
   link = list(
     source = as.numeric(vv_17$x) - 1,
-    target = as.numeric(vv_17$next_x) - 1,
+    target = as.numeric(vv_17$next_x),
     customdata = flow_names(vv_17),
     value = vv_17$n,
     color = ~as.factor(vv_17$color),
@@ -149,17 +156,17 @@ plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    customdata = node_names(labs),
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    label = labels_18,
+    customdata = node_names(labels_18),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.37, 0.43, 0.47, 0.57, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
     pad = 10),
   link = list(
     source = as.numeric(vv_18$x) - 1,
-    target = as.numeric(vv_18$next_x) - 1,
+    target = as.numeric(vv_18$next_x),
     customdata = flow_names(vv_18),
     value = vv_18$n,
     color = ~as.factor(vv_18$color),
@@ -175,17 +182,17 @@ plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    customdata = node_names(labs),
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    label = labels_19,
+    customdata = node_names(labels_19),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.57, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
     pad = 10),
   link = list(
     source = as.numeric(vv_19$x) - 1,
-    target = as.numeric(vv_19$next_x) - 1,
+    target = as.numeric(vv_19$next_x),
     customdata = flow_names(vv_19),
     value = vv_19$n,
     color = ~as.factor(vv_19$color),
@@ -201,17 +208,17 @@ plot_ly(
   type = "sankey",
   arrangement = "snap",
   node = list(
-    label = labs,
-    customdata = node_names(labs),
-    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
+    label = labels_20,
+    customdata = node_names(labels_20),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.57, 0.5, 0.5, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
     pad = 10),
   link = list(
     source = as.numeric(vv_20$x) - 1,
-    target = as.numeric(vv_20$next_x) - 1,
+    target = as.numeric(vv_20$next_x),
     customdata = flow_names(vv_20),
     value = vv_20$n,
     color = ~as.factor(vv_20$color),
@@ -223,31 +230,31 @@ plot_ly(
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
 
-#plot_ly(
-#  type = "sankey",
-#  arrangement = "snap",
-#  node = list(
-#    label = labs,
-#    customdata = node_names(labs),
-#    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
-#    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.24, 0.17, 0.17, 0),
-#    color = "gray",
-#    hovertemplate = node_hover,
-#    thickness = 10,
-#    pad = 10),
-#  link = list(
-#    source = as.numeric(vv_21$x) - 1,
-#    target = as.numeric(vv_21$next_x) - 1,
-#    customdata = flow_names(vv_21),
-#    value = vv_21$n,
-#    color = ~as.factor(vv_21$color),
-#    hovertemplate = link_hover,
-#    line = list(color = "black", width = 0.5)
-#    )) %>%
-#  layout(title = "Null Sankey for 2021",
-#         xaxis = list(showgrid = F, zeroline = F),
-#         yaxis = list(showgrid = F, zeroline = F),
-#         showlegend = T)
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_21,
+    customdata = node_names(labels_21),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.37, 0.43, 0.47, 0.57, 0.5, 0.5, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10),
+  link = list(
+    source = as.numeric(vv_21$x) - 1,
+    target = as.numeric(vv_21$next_x),
+    customdata = flow_names(vv_21),
+    value = vv_21$n,
+    color = ~as.factor(vv_21$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Null Sankey for 2021",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
 
 #yearly_sierra_joint <- plot_ly(
 #  domain = list(x = c(0, 1), y = c(0, 0.49)),
