@@ -11,7 +11,7 @@
 
 <meta name="author" content="lizzy" />
 
-<meta name="date" content="2022-05-25" />
+<meta name="date" content="2022-06-13" />
 
 <title>functions.R</title>
 
@@ -365,7 +365,7 @@ pre code {
 
 <h1 class="title toc-ignore">functions.R</h1>
 <h4 class="author">lizzy</h4>
-<h4 class="date">2022-05-25</h4>
+<h4 class="date">2022-06-13</h4>
 
 </div>
 
@@ -391,7 +391,7 @@ data_creator &lt;- function (csv, color_id, include_joint = TRUE) {
     # Creation of data frames for JR&#39;s and non-JR&#39;s
     normal &lt;- filter(csv, Disposition != &quot;JRP&quot;)
     jrps &lt;- filter(csv, Disposition == &quot;JRP&quot;)
-    normal_df &lt;- normal %&gt;% 
+    normal_df &lt;- normal %&gt;%
         make_long(Intro.Com,
             Pass.Com.1,
             Pass.Floor.1,
@@ -424,7 +424,7 @@ data_creator &lt;- function (csv, color_id, include_joint = TRUE) {
     # Coerces the above dataframe into one that is usable by plotly
     #   This is because the make_long function was made with a different library in mind
     new_normal &lt;- normal_df %&gt;% select(x, next_x) %&gt;% group_by(x, next_x) %&gt;% summarize(n = n()) %&gt;%
-        filter(!is.na(next_x)) %&gt;% 
+        filter(!is.na(next_x)) %&gt;%
         mutate(color = color_id)
     return(new_normal)
 }
@@ -497,7 +497,7 @@ data_creator_dead &lt;- function(csv, color_id, color_black = TRUE, include_join
     data.frame(
       x = as.factor(c(&quot;Pass.Com.1&quot;, &quot;Pass.Floor.1&quot;, &quot;Pass.Com.2&quot;, &quot;Pass.Floor.2&quot;, &quot;To.Gov&quot;, &quot;Passed&quot;)),
       next_x = as.factor(rep(&quot;Dead&quot;, 6)), 
-      n = dead, 
+      n = dead,
       color = color_id))
   if (include_joint) {
     new_total_df &lt;- rbind(new_total_df, jrps_df) %&gt;%
@@ -785,7 +785,7 @@ x %&gt;% mutate(Dis = factor(if_else(Disposition == &quot;DiC&quot;, &quot;Died 
 col_care &lt;- function(x) {
     x$Com.1 &lt;- gsub(&#39;\\s+&#39;, &#39;&#39;, x$Com.1)
     x$Com.2 &lt;- gsub(&#39;\\s+&#39;, &#39;&#39;, x$Com.2)
-  x %&gt;% select(SC.Position, Com.1, Pass.Com.1, Pass.Floor.1, Com.2, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
+  x %&gt;% select(Bill, SC.Position, Com.1, Pass.Com.1, Pass.Floor.1, Com.2, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
 }
 
 # ggplot + line graph helper function
@@ -835,11 +835,15 @@ rtable &lt;- function(csv) {
         &quot;S-CL&quot; = &quot;Senate Commerce &amp; Labor&quot;,
         &quot;S-EH&quot; = &quot;Senate Education &amp; Health&quot;,
         &quot;S-F&quot; = &quot;Senate Finance&quot;,
+        &quot;S-FA&quot; = &quot;Senate Finance &amp; Applications&quot;,
         &quot;S-GLT&quot; = &quot;Senate General Laws &amp; Technology&quot;,
+        &quot;S-J&quot; = &quot;Senate Justice&quot;,
         &quot;S-LG&quot; = &quot;Senate Local Government&quot;,
         &quot;S-PE&quot; = &quot;Senate Privileges &amp; Elections&quot;,
         &quot;S-R&quot; = &quot;Senate Rules&quot;,
-        &quot;S-T&quot; = &quot;Senate Transportation&quot;
+        &quot;S-T&quot; = &quot;Senate Transportation&quot;,
+
+        &quot;NoData&quot; = &quot;General Joint Resolution&quot;
     )
     formatted_csv &lt;- group_by(csv, Com.1) %&gt;%
         summarize(
@@ -872,7 +876,7 @@ rtable &lt;- function(csv) {
            )
 }
 
-com_creator &lt;- function (csv, color_id = &quot;black&quot;, include_joint = TRUE, consol = TRUE) {
+com_creator &lt;- function (csv, color_id = &quot;black&quot;, include_joint = TRUE, consol = TRUE, sep_second = TRUE) {
     if (nrow(csv) == 0) {
         return()
     }
@@ -884,6 +888,52 @@ com_creator &lt;- function (csv, color_id = &quot;black&quot;, include_joint = T
     csv &lt;- separate(csv, Com.2, into = c(&quot;Com.2&quot;, &quot;Com.2.2&quot;, &quot;Com.2.3&quot;, &quot;Com.2.4&quot;), sep = &quot;;&quot;)
     if (consol) {
         csv &lt;- consolidate_com(csv)
+    }
+
+    if(!sep_second) {
+    normal_df &lt;- csv %&gt;% 
+        make_long(Intro.Com,
+            Com.1,
+            Pass.Floor.1,
+            Pass.Com.2,
+            Pass.Floor.2,
+            To.Gov,
+            Passed,
+            Law,
+            Passed
+            ) %&gt;%
+        na_if(0) %&gt;%
+        filter(!is.na(node))
+    # A bunch of code to reorder factors to correct order
+    #   First line orders non-other committees in increasing order
+    levs &lt;- filter(normal_df, next_x == &quot;Com.1&quot;, next_node != &quot;Other.Committee&quot;) %&gt;%
+        group_by(next_node) %&gt;% summarize(n = n()) %&gt;% filter(next_node != &quot;Other.Committee&quot;) %&gt;%
+        arrange(desc(n))
+    # This one attaches other committees + everything else to levels
+    levs &lt;- c(&quot;Intro.Com&quot;, levs$next_node, &quot;Other.Committee&quot;, &quot;Pass.Floor.1&quot;,
+        &quot;Pass.Com.2&quot;, &quot;Pass.Floor.2&quot;, &quot;To.Gov&quot;, &quot;Passed&quot;, &quot;Law&quot;)
+    new_df &lt;- normal_df %&gt;%
+        mutate(x = as.character(x), node = as.character(node), next_x = as.character(next_x), next_node = as.character(next_node)) %&gt;%
+        mutate(x = if_else(x == &quot;Com.1&quot;, node, x), next_x = if_else(next_x == &quot;Com.1&quot;, next_node, next_x)) %&gt;%
+        group_by(x, next_x) %&gt;% summarize(n = n()) %&gt;%
+        mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)])) %&gt;%
+        filter(!is.na(next_x))
+
+    # Fix amount of bills going from committee to floor
+    subt &lt;- filter(csv, Pass.Com.1 == 1) %&gt;%
+        group_by(Com.1) %&gt;% summarize(n = n())
+    subt &lt;- data.frame(x = subt$Com.1, next_x = &quot;Pass.Floor.1&quot;, n = subt$n)
+
+    new_df &lt;- filter(new_df, next_x != &quot;Pass.Floor.1&quot;) %&gt;%
+        rbind(subt) %&gt;%
+        mutate(color = color_id)
+    # Don&#39;t necessarily want to level together different factors if doing it for Sierra club
+    if (consol) {
+            new_df &lt;- mutate(new_df, x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+    }
+
+    new_df &lt;- filter(new_df, !is.na(x))
+    return(new_df)
     }
     # Creation of data frames for JR&#39;s and non-JR&#39;s
     normal &lt;- filter(csv, Disposition != &quot;JRP&quot;)
@@ -1019,18 +1069,19 @@ line_graph &lt;- function(csv, year = 2017, prop = TRUE) {
         neutral &lt;- neutral / max(neutral)
         negative &lt;- negative / max(negative)
     }
-    daf &lt;- data.frame(x = seq_len(length(total)),
+    daf &lt;- data.frame(x = c(&quot;Bill Introduced&quot;, &quot;Passed Committee 1&quot;, &quot;Passed Floor 1&quot;, &quot;Passed Committee 2&quot;, &quot;Passed Floor 2&quot;, &quot;Delivered to Governor&quot;, &quot;Signed into Law&quot;),
                       total, positive, neutral, negative
     )
     plot_ly(daf, x = ~x, y = ~total, name = &quot;Overall Bills&quot;, type = &quot;scatter&quot;, mode = &quot;lines&quot;, line = list(color = &quot;black&quot;)) %&gt;%
-        add_trace(y = ~positive, name = &quot;Positive&quot;, type = &quot;scatter&quot;, mode = &quot;lines&quot;, line = list(color = &quot;rgba(154,205,50,1.0)&quot;)) %&gt;%
-        add_trace(y = ~neutral, name = &quot;Neutral&quot;, type = &quot;scatter&quot;, mode = &quot;lines&quot;, line = list(color = &quot;rgba(176,224,230,1.0)&quot;)) %&gt;%
-        add_trace(y = ~negative, name = &quot;Negative&quot;, type = &quot;scatter&quot;, mode = &quot;lines&quot;, line = list(color = &quot;rgba(255,69,0,1.0)&quot;)) %&gt;%
+        add_trace(y = ~positive, name = &quot;Positive Bills&quot;, type = &quot;scatter&quot;, mode = &quot;lines&quot;, line = list(color = &quot;rgba(154,205,50,1.0)&quot;)) %&gt;%
+        add_trace(y = ~neutral, name = &quot;Neutral Bill&quot;, type = &quot;scatter&quot;, mode = &quot;lines&quot;, line = list(color = &quot;rgba(176,224,230,1.0)&quot;)) %&gt;%
+        add_trace(y = ~negative, name = &quot;Negative Bills&quot;, type = &quot;scatter&quot;, mode = &quot;lines&quot;, line = list(color = &quot;rgba(255,69,0,1.0)&quot;)) %&gt;%
         layout(
                title = title,
                yaxis = list(
                             range = c(0, max(daf$total))
-               )
+               ),
+               hovermode = &quot;x unified&quot;
         )
 }
 
@@ -1056,23 +1107,29 @@ node_names &lt;- function(names) {
         &quot;S-CL&quot; = &quot;Senate Commerce &amp; Labor&quot;,
         &quot;S-EH&quot; = &quot;Senate Education &amp; Health&quot;,
         &quot;S-F&quot; = &quot;Senate Finance&quot;,
+        &quot;S-FA&quot; = &quot;Senate Finance &amp; Applications&quot;,
         &quot;S-GLT&quot; = &quot;Senate General Laws &amp; Technology&quot;,
+        &quot;S-J&quot; = &quot;Senate Justice&quot;,
         &quot;S-LG&quot; = &quot;Senate Local Government&quot;,
         &quot;S-PE&quot; = &quot;Senate Privileges &amp; Elections&quot;,
         &quot;S-R&quot; = &quot;Senate Rules&quot;,
         &quot;S-T&quot; = &quot;Senate Transportation&quot;,
 
         &quot;Other Committee&quot; = &quot;Other Committee&quot;,
+        &quot;NoData&quot; = &quot;General Joint Resolution&quot;,
 
         &quot;Introduced&quot; = &quot;Introduced&quot;,
         &quot;Committee 1&quot; = &quot;Passed Committee 1&quot;,
         &quot;Committee 2&quot; = &quot;Passed Committee 2&quot;,
+        &quot;Passed Committee 1&quot; = &quot;Passed Committee 1&quot;,
+        &quot;Passed Committee 2&quot; = &quot;Passed Committee 2&quot;,
         &quot;Floor 1&quot; = &quot;Passed Floor 1&quot;,
         &quot;Floor 2&quot; = &quot;Passed Floor 2&quot;,
         &quot;Passed Floor 1&quot; = &quot;Passed Floor 1&quot;,
         &quot;Passed Floor 2&quot; = &quot;Passed Floor 2&quot;,
         &quot;Delivered to Governor&quot; = &quot;Delivered to Governor&quot;,
         &quot;Signed by Governor&quot; = &quot;Signed by Governor&quot;,
+        &quot;Signed&quot; = &quot;Signed by Governor&quot;,
         &quot;Law&quot; = &quot;Law&quot;,
         &quot;Passed&quot; = &quot;Passed&quot;,
         &quot;Dead&quot; = &quot;Dead&quot;
@@ -1102,7 +1159,9 @@ flow_names &lt;- function(data) {
         &quot;S-CL&quot; = &quot;Senate Commerce &amp; Labor&quot;,
         &quot;S-EH&quot; = &quot;Senate Education &amp; Health&quot;,
         &quot;S-F&quot; = &quot;Senate Finance&quot;,
+        &quot;S-FA&quot; = &quot;Senate Finance &amp; Applications&quot;,
         &quot;S-GLT&quot; = &quot;Senate General Laws &amp; Technology&quot;,
+        &quot;S-J&quot; = &quot;Senate Justice&quot;,
         &quot;S-LG&quot; = &quot;Senate Local Government&quot;,
         &quot;S-PE&quot; = &quot;Senate Privileges &amp; Elections&quot;,
         &quot;S-R&quot; = &quot;Senate Rules&quot;,
@@ -1135,15 +1194,15 @@ flow_names &lt;- function(data) {
         &quot;S-T.2&quot; = &quot;Senate Transportation&quot;,
 
         &quot;Other.Committee&quot; = &quot;Other Committees&quot;,
+        &quot;NoData&quot; = &quot;General Joint Resolution&quot;,
         &quot;Other.Committee.2&quot; = &quot;Other Committees&quot;,
+        &quot;NoData.2&quot; = &quot;General Joint Resolution&quot;,
 
         &quot;Intro.Com&quot; = &quot;Introduced&quot;,
         &quot;Pass.Com.1&quot; = &quot;Passed Committee 1&quot;,
         &quot;Pass.Com.2&quot; = &quot;Passed Committee 2&quot;,
         &quot;Committee 1&quot; = &quot;Passed Committee 1&quot;,
         &quot;Committee 2&quot; = &quot;Passed Committee 2&quot;,
-        &quot;Passed Committee 1&quot; = &quot;Passed Committee 1&quot;,
-        &quot;Passed Committee 2&quot; = &quot;Passed Committee 2&quot;,
         &quot;Pass.Floor.1&quot; = &quot;Passed Floor 1&quot;,
         &quot;Pass.Floor.2&quot; = &quot;Passed Floor 2&quot;,
         &quot;To.Gov&quot; = &quot;Delivered to Governor&quot;,
@@ -1156,6 +1215,49 @@ flow_names &lt;- function(data) {
          ncol = 2
                             )
     return(expanded_names)
+}
+
+data_creator_vv &lt;- function(csv, com = TRUE, second_com = TRUE) {
+    csv &lt;- consolidate_com(csv)
+    # Makes levels such that Other.Committee is last
+    levs &lt;- group_by(csv, Com.1) %&gt;%
+        summarize(n = n()) %&gt;%
+        arrange(desc(n))
+    levs_2 &lt;- group_by(csv, Com.2) %&gt;%
+        summarize(n = n()) %&gt;%
+        arrange(desc(n)) %&gt;% filter(!is.na(Com.2))
+    levs$Com.1 &lt;- as.character(levs$Com.1)
+    levs_2$Com.2 &lt;- as.character(levs_2$Com.2)
+    levs &lt;- c(levs$Com.1[levs$Com.1 != &quot;Other.Committee&quot;], &quot;Other.Committee&quot;)
+    levs_2 &lt;- c(levs_2$Com.2[levs_2$Com.2 != &quot;Other.Committee.2&quot;], &quot;Other.Committee.2&quot;)
+    levs_2 &lt;- levs_2[!is.na(levs_2)]
+    csv$Com.1  &lt;- factor(csv$Com.1, levels = levs)
+    csv$Com.2 &lt;- factor(csv$Com.2, levels = levs_2)
+    if (second_com) {
+    levs &lt;- c(&quot;Intro.Com&quot;, levs, &quot;Pass.Floor.1&quot;,
+              levs_2, &quot;Pass.Floor.2&quot;, &quot;To.Gov&quot;, &quot;Passed&quot;, &quot;Law&quot;)
+    } else {
+    levs &lt;- c(&quot;Intro.Com&quot;, levs, &quot;Pass.Floor.1&quot;,
+              &quot;Pass.Com.2&quot;, &quot;Pass.Floor.2&quot;, &quot;To.Gov&quot;, &quot;Passed&quot;, &quot;Law&quot;)
+    }
+
+    vv &lt;- filter(csv, VV == 1)
+    not_vv &lt;- filter(csv, VV == 0)
+
+    df_total &lt;- NULL
+    if (com) {
+
+        df_vv &lt;- com_creator(vv, &quot;rgba(123,149,91,1.0)&quot;, FALSE, FALSE, sep_second = second_com)
+        df_not &lt;- com_creator(not_vv, &quot;rgba(181,53,67,1.0)&quot;, FALSE, FALSE, sep_second = second_com)
+
+        # Makes levels check out
+        df_total &lt;- rbind(df_vv, df_not) %&gt;% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+    } else {
+        df_vv &lt;- data_creator(vv, &quot;rgba(123,149,91,1.0)&quot;)
+        df_not &lt;- data_creator(not_vv, &quot;rgba(181,53,67,1.0)&quot;)
+        df_total &lt;- rbind(df_vv, df_not)
+    }
+    return(df_total)
 }</code></pre>
 
 

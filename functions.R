@@ -701,18 +701,23 @@ line_graph <- function(csv, year = 2017, prop = TRUE) {
         neutral <- neutral / max(neutral)
         negative <- negative / max(negative)
     }
-    daf <- data.frame(x = seq_len(length(total)),
+    daf <- data.frame(x = factor(c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law"), levels = c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")),
                       total, positive, neutral, negative
     )
-    plot_ly(daf, x = ~x, y = ~total, name = "Overall Climate Bills", type = "scatter", mode = "lines", line = list(color = "black")) %>%
-        add_trace(y = ~positive, name = "Positive Climate Bills", type = "scatter", mode = "lines", line = list(color = "rgba(154,205,50,1.0)")) %>%
-        add_trace(y = ~neutral, name = "Neutral Climate Bill", type = "scatter", mode = "lines", line = list(color = "rgba(176,224,230,1.0)")) %>%
-        add_trace(y = ~negative, name = "Negative Climate Bills", type = "scatter", mode = "lines", line = list(color = "rgba(255,69,0,1.0)")) %>%
+    plot_ly(daf, x = ~x, y = ~total, name = "Overall Bills", type = "scatter", mode = "lines", line = list(color = "black")) %>%
+        add_trace(y = ~positive, name = "Positive Bills", type = "scatter", mode = "lines", line = list(color = "rgba(154,205,50,1.0)")) %>%
+        add_trace(y = ~neutral, name = "Neutral Bill", type = "scatter", mode = "lines", line = list(color = "rgba(176,224,230,1.0)")) %>%
+        add_trace(y = ~negative, name = "Negative Bills", type = "scatter", mode = "lines", line = list(color = "rgba(255,69,0,1.0)")) %>%
         layout(
                title = title,
+               xaxis = list(
+                            title = "Stage in Legislative Process"
+               ),
                yaxis = list(
-                            range = c(0, max(daf$total))
-               )
+                            range = c(0, 1),
+                            title = "Proportion of Bills"
+               ),
+               hovermode = "x unified"
         )
 }
 
