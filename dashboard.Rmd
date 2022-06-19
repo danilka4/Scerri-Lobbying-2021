@@ -4,7 +4,6 @@ output:
   flexdashboard::flex_dashboard:
     source_code: embed
     theme: united
-    
 ---
 
 ```{r global, echo=FALSE}
@@ -102,9 +101,62 @@ vv_total <- data_creator_vv(null_total, TRUE, FALSE)
 
 ```
 
+# Sidebar {.sidebar data-width=200}
+
+### Legend
+
+```{r}
+#library(cowplot)
+#library(grid)
+#library(gridExtra)
+#library(ggpubr)
+#
+## A bunch of spaces added after 2015 to line everything up
+#base_graph <- ggplot(csv_total, aes(Year, fill = as.character(Year))) + geom_bar() + 
+#  scale_fill_manual(
+#                     values = c("2015\ \ \ \ \ \ \ " = paste("#",colors$y2015, sep = ""),"2016" = paste("#",colors$y2016, sep = ""),  "2017" = paste("#",colors$y2017, sep = ""),"2018" = paste("#",colors$y2018, sep = ""),"2019" = paste("#",colors$y2019, sep = ""),
+#                                "2020" = paste("#",colors$y2020, sep = ""),"2021" = paste("#",colors$y2021, sep = ""))) +
+#  theme_minimal() +
+#  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
+#       x = "Final Outcome of Bill", y = "Number of Bills",
+#       fill = "Year") + 
+#    theme(legend.text = element_text(size = 13),
+#          legend.title = element_text(size = 18),
+#          legend.key.size = unit(1.5, "cm"))
+#legend_year <- get_legend(base_graph)
+#
+#gg17 <- ggplot(csv_total, aes(Dis, fill = Pos)) + geom_bar() +
+#  scale_fill_manual(
+#                     values = c("Supported" = "#9ACD32", "Neutral" = "#B0E0E6", "Opposed" = "#FF4500", "NA" = "#BEC4C6")) +
+#  theme_minimal() +
+#  scale_x_discrete(limits = c("Died in Committee", "Died Elsewhere", "Passed into Law")) + 
+#  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
+#       x = "Final Outcome of Bill", y = "Number of Bills",
+#       fill = "Sierra Position") + 
+#    theme(legend.text = element_text(size = 13),
+#          legend.title = element_text(size = 18),
+#          legend.key.size = unit(1.8, "cm"))
+#legend_sierra <- get_legend(gg17)
+#
+#vv17 <- ggplot(mutate(null_total, VV = if_else(VV == 1, "Voiced", "Recorded")), aes(VV, fill = VV)) + geom_bar() +
+#  scale_fill_manual(values = c( "Voiced" = "#7b955b", "Recorded" = "#B53543")) +
+#  theme_minimal() +
+#  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
+#       x = "Final Outcome of Bill", y = "Number of Bills",
+#       fill = "Vote Type") + 
+#    theme(legend.text = element_text(size = 13),
+#          legend.title = element_text(size = 18),
+#          legend.key.size = unit(1.8, "cm"))
+#legend_vv <- get_legend(vv17)
+#
+#plot_grid(legend_year, legend_sierra, legend_vv, nrow = 3, ncol = 1, rel_heights = c(0.5,0.3,0.2))
+#ggsave("legend.png", bg = "transparent")
+```
+![](legend.png){#id .class width=80% height=80%}
+
 # General Overview {data-orientation=columns}
 
-Column {.tabset data-width=900}
+Column {.tabset data-width=1000}
 -------------------------------------
 
 ### Bill Lifetime per Year
@@ -178,7 +230,7 @@ yearly_sierra_joint <- plot_ly(
     label = labels_total,
     customdata = node_names(labels_total),
     x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.32, 0.38, 0.42, 0.52, 0.5, 0.53, 0.5, 0.5),
+    y = c(0, -0.2, 0.18, 0.22, 0.75, 0.5, 0.32, 0.38, 0.42, 0.72, 0.5, 0.6, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
@@ -217,7 +269,7 @@ yearly_joint <- plot_ly(
     label = labels_total,
     customdata = node_names(labels_total),
     x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.32, 0.38, 0.42, 0.52, 0.5, 0.53, 0.5, 0.5),
+    y = c(0, -0.2, 0.18, 0.22, 0.75, 0.5, 0.32, 0.38, 0.42, 0.72, 0.5, 0.6, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
@@ -322,7 +374,7 @@ return_sierra <- plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.7, 0.9),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.7, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -357,7 +409,7 @@ return_year <- plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.72, 0.9),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.72, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -457,53 +509,6 @@ subplot(null_total_graph, null_year_graph, nrows = 2)
 Column
 -------------------------------------
 
-### Legend
-
-```{r}
-library(cowplot)
-library(grid)
-library(gridExtra)
-library(ggpubr)
-base_graph <- ggplot(csv_total, aes(Year, fill = as.character(Year))) + geom_bar() + 
-  scale_fill_manual(
-                     values = c(paste("#",colors$y2015, sep = ""),paste("#",colors$y2016, sep = ""),  paste("#",colors$y2017, sep = ""),paste("#",colors$y2018, sep = ""),paste("#",colors$y2019, sep = ""),
-                                paste("#",colors$y2020, sep = ""),paste("#",colors$y2021, sep = ""))) +
-  theme_minimal() +
-  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
-       x = "Final Outcome of Bill", y = "Number of Bills",
-       fill = "Year") + 
-    theme(legend.text = element_text(size = 13),
-          legend.title = element_text(size = 18),
-          legend.key.size = unit(1.5, "cm"))
-legend_year <- get_legend(base_graph)
-
-gg17 <- ggplot(csv_total, aes(Dis, fill = Pos)) + geom_bar() +
-  scale_fill_manual(
-                     values = c("Supported" = "#9ACD32", "Neutral" = "#B0E0E6", "Opposed" = "#FF4500", "NA" = "#BEC4C6")) +
-  theme_minimal() +
-  scale_x_discrete(limits = c("Died in Committee", "Died Elsewhere", "Passed into Law")) + 
-  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
-       x = "Final Outcome of Bill", y = "Number of Bills",
-       fill = "Sierra Position") + 
-    theme(legend.text = element_text(size = 13),
-          legend.title = element_text(size = 18),
-          legend.key.size = unit(1.8, "cm"))
-legend_sierra <- get_legend(gg17)
-
-vv17 <- ggplot(mutate(null_total, VV = if_else(VV == 1, "Voiced", "Recorded")), aes(VV, fill = VV)) + geom_bar() +
-  scale_fill_manual(values = c( "Voiced" = "#7b955b", "Recorded" = "#B53543")) +
-  theme_minimal() +
-  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
-       x = "Final Outcome of Bill", y = "Number of Bills",
-       fill = "Vote Type") + 
-    theme(legend.text = element_text(size = 13),
-          legend.title = element_text(size = 18),
-          legend.key.size = unit(1.8, "cm"))
-legend_vv <- get_legend(vv17)
-
-ggarrange(legend_year, legend_sierra, legend_vv, nrow = 1, vjust = 0, align = "hv")
-```
-
 ### Introduction
 
 This dashboard will attempt to qualitatively demonstrate the existence of an abuse by lobbyists and politicians of an opaque political process where committee hearings and votes are not public.
@@ -513,14 +518,20 @@ This will be the first of several dashboards that will accompany the project as 
 
 Looking at the contents of the dashboard, the data has been separated by year to allow for an annual analysis.
 There have been several sankey diagrams created that emphasize different parts of the data.
-The "joint" diagrams look at the specific committees that each bill goes through and separates the three that received the most amount of climate bills into separate nodes, so the reader can easily identify the most influential committees.
-"Dead" graphs explicitly show the flow of dead bills from various parts of the political process in order to place an emphasis on the stages where the most amount of bills die.
-Oftentimes, bills will be passed onto the second house, which reviews the bill and returns it to the previous house;
-or the governor can also return the bill with recommendations, and that is what a "return sankey" highlights.
-It shows the flow of returned bills from chamber 2 to chamber 1, and from the governor back to both chambers before the bills possibly become a law.
+
+"Joint" sankey diagrams look at the specific committees that each bill goes through and separates the three that received the most amount of climate bills into separate nodes, so the reader can easily identify the most influential committees.
+
+"Dead" sankey diagrams explicitly show the flow of dead bills from various parts of the political process in order to place an emphasis on the stages where the most amount of bills died.
+
+"Return" sankey diagrams highlight the potential for a bill to follow a complex legislative path that has it go back to a previous stage with amendments.
+Specifically, a bill can be passed back from the second to the first chamber for approval of revisions made in the second chamber.
+Similarly, the governor can send a bill back through the state congress with revisions.
+The return sankey demonstrates this by creating a flow that goes from Floor 2 to Floor 1, and by creating a flow from the governor through both floors, at which point it is signed into law.
+
 A "control sankey" takes 200 random non-climate, non-unanimous bills from the respective time period and creates a sankey diagram of the legislative flows colored by whether the vote was voiced or recorded.
 This was created to determine whether legislation in general follows a pattern similar to climate-specific legislation.
 Voiced votes are not written down, which makes it impossible to determine who voted for or against a bill.
+
 There is also a line graph present in each year that shows the proportion of bills that make it through each step of the process, just so there is a general idea of what is going on each year.
 
 For this project, we have collaborated with the nonprofit organization Sierra Club.
@@ -582,7 +593,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0.0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -611,7 +622,7 @@ plot_ly(
   node = list(
     label = labs_dead,
     customdata = node_names(labs_dead),
-    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    x = c(0.0, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.53, 0.22, 0.08, 0.06, 0.18, 0.02, -0.2, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -752,7 +763,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0.0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -781,7 +792,7 @@ plot_ly(
   node = list(
     label = labs_dead,
     customdata = node_names(labs_dead),
-    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    x = c(0.0, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.52, 0.1, 0.19, 0.06, 0.04, 0.02, -0.2, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -918,7 +929,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -947,7 +958,7 @@ plot_ly(
   node = list(
     label = labs_dead,
     customdata = node_names(labs_dead),
-    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    x = c(0, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.52, 0.1, 0.19, 0.06, 0.04, 0.02, -0.2, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -1075,7 +1086,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -1108,7 +1119,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.3, 0.4, 0.6, 0.75, 0.9, 1, 1),
+    x = c(0, 0.23, 0.3, 0.4, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.61, 0.15, 0.12, 0.09, 0.15, 0.02, -0.2, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -1233,7 +1244,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -1266,7 +1277,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    x = c(0, 0.23, 0.3, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.62, 0.28, 0.25, 0.23, 0.21, -0.05, -0.2, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -1397,7 +1408,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -1430,7 +1441,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9, 1, 1),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.62, 0.28, 0.25, 0.23, 0.27, -0.05, -0.2, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -1529,7 +1540,7 @@ plot_ly(
     label = labels_21,
     customdata = node_names(labels_21),
     x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.19, 0.25, 0.29, 0.39, 0.5, 0.58, 0.5, 0.5),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.19, 0.25, 0.29, 0.48, 0.5, 0.58, 0.5, 0.5),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
@@ -1562,7 +1573,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
+    x = c(0, 0.23, 0.35, 0.5, 0.6, 0.75, 0.9),
     y = c(0.5, 0.5, 0.5, 0.29, 0.4, 0.5, 0.3),
     color = "gray",
     hovertemplate = node_hover,
@@ -1595,7 +1606,7 @@ plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0.1, 0.23, 0.35, 0.45, 0.6, 0.75, 0.9, 1, 1),
+    x = c(0, 0.23, 0.35, 0.45, 0.6, 0.75, 0.9, 1, 1),
     y = c(0.3, 0.62, 0.42, 0.36, 0.23, 0.35, -0.05, -0.2, 0.7),
     color = "gray",
     hovertemplate = node_hover,
@@ -1674,6 +1685,12 @@ That congratulatory news aside, it is even in this favored environment still has
 There are no public voting records, not much in general to go off why they were rejected.
 This becomes problematic within a democratic society where an active citizen would want to know which congresspeople voted for what and what their specific opinion on a bill was.
 Sure, the amount killed off this year has been smaller, but we still do not know the reason why or much of anything.
+
+An interesting note to be made is that the control sankey diagram does not have any bills that get past the second committee.
+This is strange for a couple of reasons: 
+1. There was a democratic trifecta present, which would have increased the amount of passed bills, and
+2. 2020 had a democratic trifecta as well and the control sankey there reflected the climate legislation passed that year, with more control bills passing through.
+There was an issue with random bill generation for this particular year that resulted in non-passed bills being more influential than usual, so take this year's control sankey with caution.
 
 # Other States
 
