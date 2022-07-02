@@ -607,7 +607,7 @@ plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Returned Bills 2015",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -636,7 +636,7 @@ plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Dead Bills 2015",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -777,7 +777,7 @@ plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Returned Bills 2016",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -806,7 +806,7 @@ plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Dead Bills 2016",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -943,7 +943,7 @@ plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Returned Bills 2017",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -972,7 +972,7 @@ plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Dead Bills 2017",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1076,7 +1076,7 @@ plot_ly(
 ### Return Sankey
 
 ```{r}
-shell17 <- sierra_data_shell(csv18)
+shell18 <- sierra_data_shell(csv18)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1092,15 +1092,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(shell17$x) - 1,
-    target = as.numeric(shell17$next_x) - 1,
-    customdata = flow_names(shell17),
-    value = shell17$n,
-    color = ~as.factor(shell17$color),
+    source = as.numeric(shell18$x) - 1,
+    target = as.numeric(shell18$next_x) - 1,
+    customdata = flow_names(shell18),
+    value = shell18$n,
+    color = ~as.factor(shell18$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Returned Bills 2018",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1109,7 +1109,7 @@ plot_ly(
 ### Dead Sankey
 
 ```{r 2018 Dead Sankey}
-dead17 <- sierra_data_dead(csv18)
+dead18 <- sierra_data_dead(csv18)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1125,15 +1125,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(dead17$x) - 1,
-    target = as.numeric(dead17$next_x) - 1,
-    customdata = flow_names(dead17),
-    value = dead17$n,
-    color = ~as.factor(dead17$color),
+    source = as.numeric(dead18$x) - 1,
+    target = as.numeric(dead18$next_x) - 1,
+    customdata = flow_names(dead18),
+    value = dead18$n,
+    color = ~as.factor(dead18$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Dead Bills 2018",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1234,7 +1234,7 @@ plot_ly(
 ### Return Sankey
 
 ```{r 2019 Shell}
-shell17 <- sierra_data_shell(csv19)
+shell19 <- sierra_data_shell(csv19)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1250,15 +1250,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(shell17$x) - 1,
-    target = as.numeric(shell17$next_x) - 1,
-    customdata = flow_names(shell17),
-    value = shell17$n,
-    color = ~as.factor(shell17$color),
+    source = as.numeric(shell19$x) - 1,
+    target = as.numeric(shell19$next_x) - 1,
+    customdata = flow_names(shell19),
+    value = shell19$n,
+    color = ~as.factor(shell19$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Returned Bills 2019",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1267,7 +1267,7 @@ plot_ly(
 ### Dead Sankey
 
 ```{r 2019 Dead}
-dead17 <- sierra_data_dead(csv19)
+dead19 <- sierra_data_dead(csv19)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1283,15 +1283,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(dead17$x) - 1,
-    target = as.numeric(dead17$next_x) - 1,
-    customdata = flow_names(dead17),
-    value = dead17$n,
-    color = ~as.factor(dead17$color),
+    source = as.numeric(dead19$x) - 1,
+    target = as.numeric(dead19$next_x) - 1,
+    customdata = flow_names(dead19),
+    value = dead19$n,
+    color = ~as.factor(dead19$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Dead Bills 2019",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1398,7 +1398,7 @@ plot_ly(
 ### Return Sankey
 
 ```{r 2020 Shell}
-shell17 <- sierra_data_shell(csv20)
+shell20 <- sierra_data_shell(csv20)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1414,15 +1414,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(shell17$x) - 1,
-    target = as.numeric(shell17$next_x) - 1,
-    customdata = flow_names(shell17),
-    value = shell17$n,
-    color = ~as.factor(shell17$color),
+    source = as.numeric(shell20$x) - 1,
+    target = as.numeric(shell20$next_x) - 1,
+    customdata = flow_names(shell20),
+    value = shell20$n,
+    color = ~as.factor(shell20$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Returned Bills 2020",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1431,7 +1431,7 @@ plot_ly(
 ### Dead Sankey
 
 ```{r 2020 Dead}
-dead17 <- sierra_data_dead(csv20)
+dead20 <- sierra_data_dead(csv20)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1447,15 +1447,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(dead17$x) - 1,
-    target = as.numeric(dead17$next_x) - 1,
-    customdata = flow_names(dead17),
-    value = dead17$n,
-    color = ~as.factor(dead17$color),
+    source = as.numeric(dead20$x) - 1,
+    target = as.numeric(dead20$next_x) - 1,
+    customdata = flow_names(dead20),
+    value = dead20$n,
+    color = ~as.factor(dead20$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Dead Bills 2020",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1563,7 +1563,7 @@ plot_ly(
 ### Return Sankey
 
 ```{r 2021 Shell}
-shell17 <- sierra_data_shell(csv21)
+shell21 <- sierra_data_shell(csv21)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1579,15 +1579,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(shell17$x) - 1,
-    target = as.numeric(shell17$next_x) - 1,
-    customdata = flow_names(shell17),
-    value = shell17$n,
-    color = ~as.factor(shell17$color),
+    source = as.numeric(shell21$x) - 1,
+    target = as.numeric(shell21$next_x) - 1,
+    customdata = flow_names(shell21),
+    value = shell21$n,
+    color = ~as.factor(shell21$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Returned Bills 2021",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -1596,7 +1596,7 @@ plot_ly(
 ### Dead Sankey
 
 ```{r 2021 Dead}
-dead17 <- sierra_data_dead(csv21)
+dead21 <- sierra_data_dead(csv21)
 labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2", 
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
@@ -1612,15 +1612,15 @@ plot_ly(
     hovertemplate = node_hover,
     pad = 10), # 10 Pixel
   link = list(
-    source = as.numeric(dead17$x) - 1,
-    target = as.numeric(dead17$next_x) - 1,
-    customdata = flow_names(dead17),
-    value = dead17$n,
-    color = ~as.factor(dead17$color),
+    source = as.numeric(dead21$x) - 1,
+    target = as.numeric(dead21$next_x) - 1,
+    customdata = flow_names(dead21),
+    value = dead21$n,
+    color = ~as.factor(dead21$color),
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     ))%>% 
-  layout(title = "",
+  layout(title = "Sankey Diagram with Dead Bills 2021",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
