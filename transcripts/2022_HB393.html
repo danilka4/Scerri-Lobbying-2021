@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>House of Delegates Speak</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="ZtA4s3CU4bTZkr1DngpN8quTu49rrUeFrMpsZuBJXV6CcrznabgZ33701e6fJGB3YXUDOeO7SKDVJfYRAohEdw==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-5772dfc184486a3688555a6a0d690a965976b6836948ec530366cd17b4d0bb3b.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-77400b3ca15033a8ae2cf38c8473edc7d3d074acb77c9fb124c906d2c1b083b1.js" data-turbolinks-track="reload"></script>
+  
+    <!-- favicon and home screen icons for iOS -->
+    <!-- standard browser -->
+    <!-- rendered @2x for retinas, HD tablets -->
+    <link rel="icon" type="image/png" href="/assets/favicon-0192693ecd43fcb87ad9f800382b84f286e4b9470a6cfe6b2783e6374372fb19.png" sizes="32x32" />
+    <!-- iOS set -->
+    <!-- Home screen on iPad with retina display-->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-76@2x-fe649a0a679d1548c208fd5fe60b48479d9deb624a38fe01633ab6f8f407ff6c.png" sizes="152x152" />
+    <!-- Home screen on iPads with higher DPR && iPad Pro(s) -->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-83.5@2x-f6dbea0bdf0839039ce7d04758f76cddf777f2d908498c783bd526f0a1a5d166.png" sizes="167x167" />
+    <!-- /favicon sets -->
+    
+    <!-- custom Google fonts for this app -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <!-- /Google fonts -->
+
+    <!-- don't let the mobile browser scale content at load w/o user getstures to do so 
+         users can still gesture to zoom, but switching from portrait to landscape causes no jumps or zooms (in Safari only:( ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <!-- mobile browser scale fix -->
+
+  </head>
+  
+  <!-- When we base presentations on a specific view, we use a body class. -->
+  <!-- the body classes are referenced in individual SASS files for specific styling of views -->
+  <body class="comments_show">
+    
+    <nav class="navbar fixed-top non-phone navbar-expand-lg navbar-light bg-light" style="height:83px;">
+      
+      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+        
+        <!-- basic flexed links/nav to appear on medium to large screens -->
+        <div class="med-device-navigation d-flex align-items-center">
+
+          <div class="inner-nav bg-light">
+
+            <div class="list-expander justify-content-between">
+
+            <!-- absolute CHEVRON -->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand">
+                <!--Brand-->
+                <!-- these images are @2x their original size to accmmodate for retina screens (the width and height attributes are constraining the images) -->
+                <!--<a class="brand brand-logo" href="/home">--><img alt="" width="166" height="103" src="/assets/logo-default-174x112@2x-dc721c2be12b46ca771fefb345cc4ee425d35432216d957f94cf7ea803014b1d.png" />
+                <!-- for a "reveal" effect on larger screens when scrolling/swiping --->
+                <!-- may be used later for this app -->
+                <!--<a class="brand brand-logo-stuck" href=""><img src="assets/logo-default-115x62-@2x.png" alt="" width="115" height="62"></a>-->
+                <!--<div class="rd-navbar-brand-triangle"></div>-->
+              </div>
+            
+            </div>
+            <!-- /absolute CHEVRON -->
+
+            <!-- this navbar-nav appears on the left -->
+            <ul class="navbar-nav d-flex left-nav-options">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/committees">Bills in Committee</a>
+              </li>
+            </ul>
+            <!-- /left navbar-nav -->
+
+          <!-- this navbar-nav appears on the right -->
+          <ul class="navbar-nav d-flex right-nav-options">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="publicDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meetings
+              </a>
+              <div class="dropdown-menu" aria-labelledby="publicDropdownMenuLink">
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+                <a class="dropdown-item" href="/past_meetings">Past Meetings</a>
+                <a class="dropdown-item" href="/upcoming_meetings">Upcoming Meetings</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov" target="_blank">virginia general assembly</a>
+              </div>
+            </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://whosmy.virginiageneralassembly.gov" target="_blank">
+                    Who's My Legislator?
+                  </a>
+                </li>
+          </ul>
+          <!-- /right navbar-nav -->           
+
+          </div>
+
+          </div>
+          <!-- /inner-nav -->
+        
+        </div>
+        <!-- flexed nav to appear on medium to large screens -->
+
+        <!-- hidden checkbox / <label> displays mobile nav via media query on small devices -->
+        <label for="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </label>
+        <input type="checkbox" id="nav-toggle">
+        <!-- /hidden checkbox / <label> -->
+        
+        <!-- exposed "mobile-nav" for use on small devices -->
+        <ul class="mobile-nav">
+        <!-- can be used to scroll hidden content on landscape xs or phone sizes -->
+        <div class="relativeNavWrap">
+          <li class="mobile-item"><a href="/about">About</a></li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Meetings
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <a class="sub-item" href="/past_meetings">Past Meetings</a>
+              <a class="sub-item" href="/upcoming_meetings">Upcoming Meetings</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+            </div>
+          </li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Additional Information
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <!--<a class="sub-item" href="#">Bills in Committees</a>-->
+              <a class="sub-item" href="/committees">Bills in Committees</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+              <a class="sub-item" href="https://whosmy.virginiageneralassembly.gov" target="_blank">Who's My Legislator</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov" target="_blank">Virginia General Assembly</a>
+              
+              
+            </div>
+          </li>
+          </div>
+        </ul>
+        <!-- /"mobile-nav" -->
+      </nav>
+
+      <!-- this wrapper is used in individual SASS files to control the look of each "page" / view -->
+      <div class="page-content">
+        <!-- output the view(s)' content -->
+        
+<div class="container-fluid admin-section w-auto">
+
+    <div class="header-band">
+      <h5 class="">Public Comments for: HB393 - Water quality; consideration of economic or social development. </h5>
+    </div>
+
+  <div class="container">
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Reeves</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Prince william county</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I support the Humane Society of the United States&#39; positions pertaining to your particular bill(s).  I do believe HSUS adheres to and promotes the highest standards of integrity in the issues of animal issues, the environment, human concerns, et. al.   I hope you can vote with that perspective in mind.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Hansen</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Support 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">El Hassani</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please stop animal cruelty!
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">smith</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">self</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Williamsburg</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                pass all of the laws above
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Bicking </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Chesterfield </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protect our wildlife and water resources. Restrict hunting on sundays. No snares or trapping. No animals gor research. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Petras</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Verona </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The greatness of a nation and its MORAL PROGRESS can be judged by the way it treats its animals, its wilderness and its most vulnerable inhabitants.  
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Harper</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond city</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protect Virginia&#39;s environment from Republiklans
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Hicks</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Stafford, Fredericksburg</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protection of Land, Water, Air, Soil and all animals is up to us  and for future generations a must. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Goodrum</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Wild Virginia </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Albemarle County </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                My name is Jacqueline Goodrum and I am a resident of Albemarle County. I comment today in my professional capacity as Conservation Policy Associate for Wild Virginia, a statewide non-profit organization seeking to protect water quality for all Virginians. 
+
+I urge you to support HB393 because it aims to ensure that DEQ and the Water Board consider community interests when deciding whether or not to lower the water quality of a local waterbody. Every community—rural, suburban, or urban—should be able to have a say in what happens to their local waters. Such waters provide tremendous value for local communities, including but not limited to enhanced property values for riparian and nearby landowners as well as economic benefits from water-based recreation and tourism. However, not every community has power, influence, or even reliable internet access to be able to participate in environmental decision-making. Accordingly, HB393 seeks to ensure that DEQ and the Water Board do not overlook the interests of local communities and the impacts of lowered water quality on these communities. 
+
+HB393 seeks to achieve this outcome by expressly including a socio-economic analysis requirement in the statutory text. Importantly, HB393 does not create a new, substantive duty for DEQ or the Water Board; rather, it reiterates an existing obligation. Nonetheless, I urge you to support HB393 because although DEQ and the Water Board must consider social and economic demographics during anti-degradation analysis of a high quality water under both Virginia law and the Clean Water Act, highlighting this legal requirement emphasizes the importance of this analysis to fair environmental decision-making. 
+
+Thank you for considering my testimony. 
+
+Jacqueline Goodrum 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sims</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Appalachian Voices</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                On behalf of the organization Appalachian Voices, and our members across Virginia, including many of your constituents, I ask you to please support HB393. This water protection bill concerns review of social and economic demographics during anti-degradation analysis of high quality water. Consideration of those demographics would prevent disproportionate impacts to overburdened populations, including rural communities as permits to discharge are reviewed. Many of those same communities where projects can occur rely on the water resources located on their property for their livelihoods, from farming to raising livestock. Reviewing potential economic impacts should be an expressed requirement for projects which could impact the high quality water resources of a community.  Please support HB393.
+Jessica Sims, Virginia Field Coordinator, Appalachian Voices
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sligh</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Wild Virginia</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Charlottesville</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                My name is David Sligh and I am a resident of Albemarle County. I am commenting in my capacity as Conservation Director for Wild Virginia and on behalf of our members across the state.
+
+This  amendment would simply ensure that the interests of local residents and communities are explicitly accounted for if the Water Board considers allowing lowering of water quality in a nearby waterbody . This is a matter of respecting the rights of people who sometimes have less power and influence, whether in rural or urban areas. Local waters are often of paramount importance to landowners and residents, for a variety of uses, property values, and peaceful enjoyment. Those values should be protected as much as possible.
+
+ Under state law and the Clean Water Act the state is already required to assess whether  any decrease in quality for streams of high quality is an economic or social necessity for the area that would be affected. If not the degradation can&#39;t be allowed. That assessment must logically balance the values and costs for local people against those of all other interests. The language proposed in this bill would just expressly require that logical and fair treatment. 
+
+Thank you for considering my testimony.
+
+David Sligh
+
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Vassey</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia Manufacturers Association</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Delegate Keam&#39;s HB704 (2020) established the Virginia Environmental Justice Act.  § 2.2-234. defines &quot;Environment&quot; as the natural, cultural, social, economic, and political assets or components of a community.  It defines &quot;Environmental justice&quot; as the fair treatment and meaningful involvement of every person, regardless of race, color, national origin, income, faith, or disability, regarding the development, implementation, or enforcement of any environmental law, regulation, or policy. § 2.2-235 now states that it is the policy of the Commonwealth to promote environmental justice and ensure that it is carried out throughout the Commonwealth, with a focus on environmental justice communities and fenceline communities.
+
+HB393 is duplicative and redundant.
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Lovelace</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">BEDFORD</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I ask that you please vote in support of HB393.  This bill is important for protecting rural communities, who are typically the first to be targeted for projects that could impact our water quality.  HB393 would offer protection and increase fairness in the regulatory process by including additional demographic consideration in water anti-degradation evaluations and aligning water and air regulatory processes.  Again, especially as a resident of rural Virginia, I ask that you please vote in support of HB393.
+Stacy Lovelace
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Calvert</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia Conservation Network</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Charlottesville</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+                <p class="card-text mt-1"><i class="far fa-paperclip commentPoint mr-1 fa-lg"></i>
+                  <a target="_blank" href="/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBKdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--cbc6cd8e728e61a87346ea569bba71bf868f3f61/HB393-SUPPORT.pdf">Comments Document</a>
+                </p>
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                SUPPORT HB 393
+
+Delegate Willett’s HB 393 “Water quality; consideration of economic or social development” improves the tools available to the Virginia Department of Environmental Quality and State Water Control Board to analyze impacts to communities from new or increased discharges of effluent into high quality water.
+
+Specifically, this bill:
+
+● Introduces consideration of social and economic demographics during anti-degradation analyses by adding language to § 62.1-44.4. Control by
+Commonwealth as to water quality.
+
+● Prevents further disproportionate impacts to the water resources of typically overburdened populations., including rural populations.
+
+● Provides for analysis under the State Water Control Board’s authorities similar to what exists under the Air Pollution Control Board’s authorities at Va. Code §1307 E, appropriately aligning water permitting code with air permitting code.
+              </p>
+            </div>
+          </div>
+            <div class="d-flex justify-content-center commentPoint mt-4">End of Comments</div>
+
+
+  </div>
+
+</div>
+
+        <!-- /view(s)' content -->
+      </div>
+      <!-- this wrapper for SASS files' context -->
+      
+      <footer class="navbar fixed-bottom d-flex justify-content-center py-0 d-print-none navbar-light bg-light">
+        <span class="navbar-text">&copy; 2022 
+        Commonwealth of Virginia - House of Delegates Clerk's Office | Version 1.3.10
+        </span>
+      </footer>
+
+    <script src="/packs/js/application-f8a0cd8719161541884f.js" data-turbolinks-eval="false"></script>
+    
+  </body>
+</html>

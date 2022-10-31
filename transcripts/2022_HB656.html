@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>House of Delegates Speak</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="c2uV3EZPHfV9ABKsjdyg5GFBYernAUsxQ0M9XsBh2suXyRGIX2PlntpmegGM8o1hq6fZXG8XRBQ6rKcpIqDD4g==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-5772dfc184486a3688555a6a0d690a965976b6836948ec530366cd17b4d0bb3b.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-77400b3ca15033a8ae2cf38c8473edc7d3d074acb77c9fb124c906d2c1b083b1.js" data-turbolinks-track="reload"></script>
+  
+    <!-- favicon and home screen icons for iOS -->
+    <!-- standard browser -->
+    <!-- rendered @2x for retinas, HD tablets -->
+    <link rel="icon" type="image/png" href="/assets/favicon-0192693ecd43fcb87ad9f800382b84f286e4b9470a6cfe6b2783e6374372fb19.png" sizes="32x32" />
+    <!-- iOS set -->
+    <!-- Home screen on iPad with retina display-->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-76@2x-fe649a0a679d1548c208fd5fe60b48479d9deb624a38fe01633ab6f8f407ff6c.png" sizes="152x152" />
+    <!-- Home screen on iPads with higher DPR && iPad Pro(s) -->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-83.5@2x-f6dbea0bdf0839039ce7d04758f76cddf777f2d908498c783bd526f0a1a5d166.png" sizes="167x167" />
+    <!-- /favicon sets -->
+    
+    <!-- custom Google fonts for this app -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <!-- /Google fonts -->
+
+    <!-- don't let the mobile browser scale content at load w/o user getstures to do so 
+         users can still gesture to zoom, but switching from portrait to landscape causes no jumps or zooms (in Safari only:( ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <!-- mobile browser scale fix -->
+
+  </head>
+  
+  <!-- When we base presentations on a specific view, we use a body class. -->
+  <!-- the body classes are referenced in individual SASS files for specific styling of views -->
+  <body class="comments_show">
+    
+    <nav class="navbar fixed-top non-phone navbar-expand-lg navbar-light bg-light" style="height:83px;">
+      
+      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+        
+        <!-- basic flexed links/nav to appear on medium to large screens -->
+        <div class="med-device-navigation d-flex align-items-center">
+
+          <div class="inner-nav bg-light">
+
+            <div class="list-expander justify-content-between">
+
+            <!-- absolute CHEVRON -->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand">
+                <!--Brand-->
+                <!-- these images are @2x their original size to accmmodate for retina screens (the width and height attributes are constraining the images) -->
+                <!--<a class="brand brand-logo" href="/home">--><img alt="" width="166" height="103" src="/assets/logo-default-174x112@2x-dc721c2be12b46ca771fefb345cc4ee425d35432216d957f94cf7ea803014b1d.png" />
+                <!-- for a "reveal" effect on larger screens when scrolling/swiping --->
+                <!-- may be used later for this app -->
+                <!--<a class="brand brand-logo-stuck" href=""><img src="assets/logo-default-115x62-@2x.png" alt="" width="115" height="62"></a>-->
+                <!--<div class="rd-navbar-brand-triangle"></div>-->
+              </div>
+            
+            </div>
+            <!-- /absolute CHEVRON -->
+
+            <!-- this navbar-nav appears on the left -->
+            <ul class="navbar-nav d-flex left-nav-options">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/committees">Bills in Committee</a>
+              </li>
+            </ul>
+            <!-- /left navbar-nav -->
+
+          <!-- this navbar-nav appears on the right -->
+          <ul class="navbar-nav d-flex right-nav-options">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="publicDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meetings
+              </a>
+              <div class="dropdown-menu" aria-labelledby="publicDropdownMenuLink">
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+                <a class="dropdown-item" href="/past_meetings">Past Meetings</a>
+                <a class="dropdown-item" href="/upcoming_meetings">Upcoming Meetings</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov" target="_blank">virginia general assembly</a>
+              </div>
+            </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://whosmy.virginiageneralassembly.gov" target="_blank">
+                    Who's My Legislator?
+                  </a>
+                </li>
+          </ul>
+          <!-- /right navbar-nav -->           
+
+          </div>
+
+          </div>
+          <!-- /inner-nav -->
+        
+        </div>
+        <!-- flexed nav to appear on medium to large screens -->
+
+        <!-- hidden checkbox / <label> displays mobile nav via media query on small devices -->
+        <label for="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </label>
+        <input type="checkbox" id="nav-toggle">
+        <!-- /hidden checkbox / <label> -->
+        
+        <!-- exposed "mobile-nav" for use on small devices -->
+        <ul class="mobile-nav">
+        <!-- can be used to scroll hidden content on landscape xs or phone sizes -->
+        <div class="relativeNavWrap">
+          <li class="mobile-item"><a href="/about">About</a></li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Meetings
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <a class="sub-item" href="/past_meetings">Past Meetings</a>
+              <a class="sub-item" href="/upcoming_meetings">Upcoming Meetings</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+            </div>
+          </li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Additional Information
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <!--<a class="sub-item" href="#">Bills in Committees</a>-->
+              <a class="sub-item" href="/committees">Bills in Committees</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+              <a class="sub-item" href="https://whosmy.virginiageneralassembly.gov" target="_blank">Who's My Legislator</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov" target="_blank">Virginia General Assembly</a>
+              
+              
+            </div>
+          </li>
+          </div>
+        </ul>
+        <!-- /"mobile-nav" -->
+      </nav>
+
+      <!-- this wrapper is used in individual SASS files to control the look of each "page" / view -->
+      <div class="page-content">
+        <!-- output the view(s)' content -->
+        
+<div class="container-fluid admin-section w-auto">
+
+    <div class="header-band">
+      <h5 class="">Public Comments for: HB656 - Income tax, state and corporate; creates tax credit for coal refuge energy and reclamation, report. </h5>
+    </div>
+
+  <div class="container">
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Merchant</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Martinsville</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                No tax credits for fossil fuels. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Granger</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Suffolk</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                As a solar owner for 12 years, I know that renewable energy and a cleaner environment is the future.  Those who support coal and waste byproducts are losing the tide.  I do not want this legislation approved.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Barnes</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Appalachian Voices</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Big Stone Gap</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                On behalf of Appalachian Voices, our organization opposes this bill. While the clean-up of GOB is crucially important to improving the environment in Southwest Virginia, this tax credit is unnecessary. Dominion Energy is already burning coal refuse at the VCHEC without tax incentives; so far more than 4 million tons of gob have been burned at VCHEC. The plant was designed for this purpose, and is doing so as designed. While there is an enormous amount of GOB left to be cleaned up in SWVA, the Federal government just recently enacted the bipartisan infrastructure bill, which includes an $11.3 billion investment into cleaning up abandoned coal features. Virginia will receive 10 times as much funding for abandoned coal mine land clean-up funding for the next 15 years, which can go toward cleaning up the highest-priority GOB sites. Creating a tax credit for burning GOB puts an unnecessary burden on taxpayers. 
+Finally, SB 120 (Hackworth) and HB 657 (Wampler) propose to inventory and study how to best clean up GOB piles in Southwest Virginia. The General Assembly should wait for the results of this study before creating tax credits to incentivize burning GOB in power plants. 
+
+Please oppose this bill.
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Shelton</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Appalachian Citizens&#39; Law Center</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Whitesburg, KY</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                My name is Rebecca Shelton and I am submitting comments on behalf of Appalachian Citizens&#39; Law Center, a public interest law firm and non-profit advocacy organization that works in and represents clients from Eastern Kentucky and Southwest Virginia. We oppose this bill. 
+
+This bill creates a tax credit to incentivize the burning of coal refuse, or gob. We see this as unnecessary for two primary reasons. First, Dominion Energy, without this credit, is already burning coal refuse at the Virginia City Hybrid Energy Center in Wise County, Virginia. The plant was designed for this purpose and creating a credit is unnecessary.
+
+Second, the federal government recently enacted the Bipartisan Infrastructure Bill which adds $11.3 billion dollars to the federal abandoned coal mine grant program. Over the next fifteen years, Virginia will receive nearly 10 times as much federal funding for the clean up of gob and other abandoned coal features compared to recent years. Given this infusion of federal funds, creating a state tax incentive to clean up gob is unwarranted at this time. 
+
+In addition to being unnecessary, the bill incentivizes the use of gob but it does not require that the gob be from Virginia in order to be eligible for the tax credit. As the tax credit cap is greater than the amount of funding that has been identified as needed for gob cleanup in Virginia (according to Virginia&#39; s coal mine inventory), the tax credit would likely be used to truck waste coal into Southwest Virginia; Virginia taxpayers would be subsidizing the cleanup of coal-mining waste.
+
+We ask you to vote against HB656. Though gob cleanup is critical for Southwest Virginia, we&#39;ve seen no evidence to support the mechanism through which that bill proposes to achieve that - incentivizing an activity that is already occurring - and believe that the federal AML funds, instead, will help address this issue. 
+
+Thank you for allowing me to provide testimony. 
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Pender</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Chesapeake Climate Action Network</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Hampton</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                A 2011 Harvard report found that the life cycle effects of coal and the waste stream generated are costing the U.S. public a third to over one-half of a trillion dollars annually. The HB 656 bill uses taxpayer money to incentivize the burning of coal refuse at the Virginia City Hybrid Energy Center (VCHEC). The excessive use of burning coal refuse would put communities along the transportation path at risk of environmental disasters and become more exposed to harmful emissions. Also, HB 656 creates a nonrefundable income tax credit for Dominion Energy for 2023-2027 equal to $4/ton of qualified coal refuse used to generate electricity at VCHEC.   This bill will not only harm Virginia environmentally, but economically as well. And it is for these reasons, CCAN Action Fund opposes this bill HB656.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Selvage</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Wise</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                SUMMARY: Kathy Selvage of Wise, VA addresses the VA Assembly 
+Subcommittee on Finance regarding HB 656: 
+Dominion’s power plant in Wise County, VA was a boondoggle when 
+proposed and it continues to be. 
+Life extension for the plant last year was granted. Currently, the SB 120 is 
+attempting to rename Garbage of Bituminous (GOB) as a renewable 
+energy. This is an alternative truth. 
+The economic viability of the plant and industry are enhanced by subsidies 
+(HB 656) through tax reductions that robs the tax coffers, and further 
+increases their economic viability by tossing the health and environmental 
+costs onto the community and its inhabitants. 
+The Commonwealth is proposing the same path as Pennsylvania as they 
+have the most waste burning plants in the nation and try to include waste 
+coal in their renewable portfolio. 
+GOB is low energy producing (60%), forcing the use of more GOB, heavily 
+laden with pollutants, and produces polycyclic aromatic hydrocarbons 
+(PAH’s) during incineration. Pollutants are displaced from the air, never 
+eradicated, and reappear in the toxic waste coal ash at about 85% of the 
+entire amount of GOB used, thus creating mountains of toxic coal ash. 
+There are safer ways to deal with the GOB piles of far southwest Virginia 
+than this proposed scheme. 
+Population loss in a single decade for Wise County reached 14.7% or 5,308 
+as the young and college educated continue their flight in search of 
+opportunity. Their future cannot be found in a GOB pile. 
+This plan makes the continued destruction of Wise County legal and is 
+absolutely the wrong trajectory.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Scardo</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Clintwood</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+                <p class="card-text mt-1"><i class="far fa-paperclip commentPoint mr-1 fa-lg"></i>
+                  <a target="_blank" href="/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBTUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--71b0d46280f6774cca324a72446ae5d92e1c4a2e/gob%20comments.pdf">Comments Document</a>
+                </p>
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                As you consider HB 656, keep in mind that Wise County is one of the most devastated counties in the world from mining activities.  They have no need to deal with garbage of bituminous coal (gob) from every corner and then with a higher load of mercury, arsenic, and coal ash on their lands and waters.  The drainage would be into  Clinch River -- the home of endanger mussels and fish.  There is no pressing need for all the gob piles to be burned. 
+
+The burning of fossil fuels should have stopped yesterday. Coal power plants add greenhouses gases.  New record heat  confirmed within 6 miles of the Artic Circle of 100 degrees, and the record of 64.9 degrees in the Antarctic.  Siberia is going from ice to fires that burn year around.  Scientists are stunned at the rate of melt.  The huge ice shelf that is breaking off Antarctic will no longer block a massive, massive glacier.  The melting of that glacier will raise the sea levels in New Port News, Norfolk, and in the Chesapeake Bay.
+
+The warming of the oceans affect ocean currents.  The Gulf Stream slows and may be on the cusp of major change so the rainfall amounts we need in the east for the forests and agriculture will be no longer.
+
+Dominion Energy has its own resources and supplies many states with coal and nuclear power.  If you would incentivize their helping households and governments to go solar or other true clean energy moves , I would suggest the money move in that direction.  In fact, a higher rebate for households below say $125 k to get a higher rebate to go solar would serve the state.  
+
+This bill just adds to calamity.  Like what happened in Hurley, Virginia with such heavy rainfall in a short period of time.  If that event had happened at night, they say it would have cost 100 lives.  You may not know but an engineer told me of a 35 inch rain event a few years ago.  Sections of Highway 58 --one lane lost in three curves--above Stuart were wiped out.  Our creek ran under and over the meadow. We have just lost orchard due to fire blight.
+
+Now we have only two seasons--hot and cold- and the hot is gaining.  The gentle slow warming Appalachian Spring is long gone.  Animal and insect populations are crashing.  Read A Life on Our Planet by David Attenborough.
+
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">GOMEZ</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Loudoun</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                As a Virginin, educated in Virginian Schools, we were taught the importance of the Constitution of the Commonwealth with regard to our Nation&#39;s Constitution. These documents are articles that are supposed to guide our self governance.
+
+Article VIII, Section 10
+Public dollars are not to go to schools NOT owned by the Commonwealth or a Municipality inside the Commonwealth&#39;s jurisdiction, except for when the Commonwealth has entered into an agreement with another jurisdiction.
+
+The Commonwealth should also not engage in the endorsement of private education cartels, weakening the publicly available options. This would do a disservice to the people, because the people&#39;s representatives have less oversight with regard to private institutions, than they have through electing their local boards.
+              </p>
+            </div>
+          </div>
+            <div class="d-flex justify-content-center commentPoint mt-4">End of Comments</div>
+
+
+  </div>
+
+</div>
+
+        <!-- /view(s)' content -->
+      </div>
+      <!-- this wrapper for SASS files' context -->
+      
+      <footer class="navbar fixed-bottom d-flex justify-content-center py-0 d-print-none navbar-light bg-light">
+        <span class="navbar-text">&copy; 2022 
+        Commonwealth of Virginia - House of Delegates Clerk's Office | Version 1.3.10
+        </span>
+      </footer>
+
+    <script src="/packs/js/application-f8a0cd8719161541884f.js" data-turbolinks-eval="false"></script>
+    
+  </body>
+</html>

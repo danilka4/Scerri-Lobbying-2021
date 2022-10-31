@@ -20,7 +20,6 @@ labs <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
 
-
 # JOINT STUFFFFFFFFF
 
 dead_sierra_joint <- sierra_data_dead(csv_total)
