@@ -42,7 +42,7 @@ head(bills)
 completely_combined <- right_join(rats, bills, by = c("Year", "Committee" = "Com.1"))
 summary(completely_combined)
 completely_combined
-mod <- lm(PropPassed ~ SwingProp, completely_combined)
+mod <- lm(PropPassed ~ SwingProp, completely_combined, weights = TotalPassed)
 summary(mod)
 ggplot(completely_combined, aes(SwingProp, PropPassed)) +
     geom_point(aes(size = log(TotalPassed)), alpha = 0.5) +
@@ -53,3 +53,13 @@ ggplot(completely_combined, aes(SwingProp, PropPassed)) +
     y = "Portion Bills Passed",
     title = "Do Swing Districts Affect Bills Passing?")
 ggsave("swing_bill.png", bg = "white")
+completely_combined_h <- filter(completely_combined, substr(Committee, 1, 1) == "H")
+summary(completely_combined_h)
+completely_combined_h
+modh <- lm(PropPassed ~ SwingProp, completely_combined_h, weights = TotalPassed)
+summary(modh)
+completely_combined_s <- filter(completely_combined, substr(Committee, 1, 1) == "S")
+summary(completely_combined_s)
+completely_combined_s
+mods <- lm(PropPassed ~ SwingProp, completely_combined_s, weights = TotalPassed)
+summary(mods)
