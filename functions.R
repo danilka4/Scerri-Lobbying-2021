@@ -473,6 +473,7 @@ rtable <- function(csv) {
 
         "NoData" = "General Joint Resolution"
     )
+    # TODO: Add swing districts
     formatted_csv <- group_by(csv, Com.1) %>%
         summarize(
                   n = n(),
