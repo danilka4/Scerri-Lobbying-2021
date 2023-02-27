@@ -11,7 +11,7 @@ library(tidyr)
 library(reactable)
 
 # Creates a data frame with the associated color id. There is an option to include joint resolutions
-data_creator <- function (csv, color_id, include_joint = TRUE) {
+data_creator <- function(csv, color_id, include_joint = TRUE) {
     # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
     # Added law for similar reasons as well
     csv <- mutate(csv, Intro.Com = 1, Law = Passed)
@@ -473,33 +473,64 @@ rtable <- function(csv) {
 
         "NoData" = "General Joint Resolution"
     )
-    # TODO: Add swing districts
-    formatted_csv <- group_by(csv, Com.1) %>%
+    # A bunch of stuff that adds politician statistics to committees
+    politicians <- read.csv("data/politicians.csv")
+    com_pol <- read.csv("data/committee_members.csv")
+    swing <- read.csv("data/swing.csv") %>%
+        mutate(Swing = 1)
+    comb <- left_join(com_pol, politicians, by = "Name") %>%
+        select(Year = Session, Committee, Name, District, Position) %>%
+        left_join(swing, by = c("District", "Year")) %>%
+        mutate(Swing = coalesce(Swing, 0), swing_chair = Swing * (Position == "Chair")) %>%
+        group_by(Year, Committee) %>%
+        summarize(SwingMembers = sum(Swing),
+        TotalMembers = n(),
+        SwingProp = mean(Swing),
+        SwingChair = sum(swing_chair)
+        )
+
+    formatted_csv <- left_join(csv, comb, by = c("Year", "Com.1" = "Committee")) %>%
+        group_by(Com.1, Year) %>%
         summarize(
                   n = n(),
                   amount.passed = sum(Pass.Com.1),
                   #positive      = sum(SC.Position == 1, na.rm = TRUE),
                   #neutral       = sum(SC.Position == 0, na.rm = TRUE),
                   #negative      = sum(SC.Position == -1, na.rm = TRUE),
-                  become.law    = sum(Passed, na.rm = TRUE)
+                  become.law    = sum(Passed, na.rm = TRUE),
+            SwingMembers = mean(SwingMembers),
+            TotalMembers = mean(TotalMembers),
+            SwingProp = mean(SwingProp),
+            SwingChair = mean(SwingChair)
                   ) %>%
         mutate(full = full_names[Com.1]) %>%
-        select(full, Com.1, n, amount.passed, become.law)
+        left_join(filter(com_pol, Position == "Chair"), by = c("Year" = "Session", "Com.1" = "Committee"))
     return(
-           reactable(formatted_csv,
+        select(formatted_csv, full, Com.1, n) %>%
+           reactable(
                      defaultSorted = list(n = "desc"),
                      #defaultPageSize = 6,
                      pagination = FALSE,
                      columns = list(
                                     full = colDef(name = "Committee Name"),
-                                    Com.1 = colDef(name = "Acronym", footer = "Total", width = 80),
-                                    n = colDef(name = "Total Bills Received", footer = sprintf("%d", sum(formatted_csv$n)), width = 160),
-                                    amount.passed = colDef(name = "Total Bills Passed", footer = sprintf("%d", sum(formatted_csv$amount.passed)), width = 133),
+                                    Com.1 = colDef(name = "Acronym", footer = "Total"),
+                                    n = colDef(name = "Total Bills Received", footer = sprintf("%d", sum(formatted_csv$n)))
+                                    #amount.passed = colDef(name = "Total Bills Passed", footer = sprintf("%d", sum(formatted_csv$amount.passed)), width = 133),
                                     #positive = colDef(name = "Positive", footer = sprintf("%d", sum(formatted_csv$positive))),
                                     #neutral = colDef(name = "Neutral", footer = sprintf("%d", sum(formatted_csv$neutral))),
                                     #negative = colDef(name = "Negative", footer = sprintf("%d", sum(formatted_csv$negative))),
-                                    become.law = colDef(name = "Bills Passed into Law", footer = sprintf("%d", sum(formatted_csv$become.law)), width = 160)
+                                    #become.law = colDef(name = "Bills Passed into Law", footer = sprintf("%d", sum(formatted_csv$become.law)), width = 160)
                                     ), bordered = TRUE, striped = TRUE, highlight = TRUE,
+                details = function(index)
+    paste0("The ", formatted_csv[[index, "full"]], " committee has ", formatted_csv[index, "Name"], " as chair. They are",
+    if_else(formatted_csv[index, "SwingChair"] == 1,"", " not"), " a part of a swing district. Out of the entire committe, ",
+    if_else(formatted_csv[index, "SwingMembers"] == 0,
+                        paste("no one of", formatted_csv[index, "TotalMembers"], "is in a swing district. "),
+                        if_else(formatted_csv[index, "SwingMembers"] == 1,
+                            paste("one person of", formatted_csv[index, "TotalMembers"], "is in a swing district. "),
+                            paste0(formatted_csv[index, "SwingMembers"], " of ", formatted_csv[index, "TotalMembers"], " reside in a swing district. "))),
+    "In total, this committee received ", formatted_csv[index, "n"], " bills, of which ", formatted_csv[index, "amount.passed"], " ended up passing that committee and ", formatted_csv[index, "become.law"], " became a law."
+                ),
                      defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
            )
            )

@@ -27,19 +27,17 @@ swing <- read.csv("data/swing.csv") %>%
 comb <- left_join(com_pol, politicians, by = "Name") %>%
     select(Year = Session, Committee, Name, District) %>%
     left_join(swing, by = c("District", "Year")) %>%
-    mutate(Swing = coalesce(Swing, 0))
-rats <- filter(comb, Year %in% c(2017)) %>%
+    mutate(Swing = coalesce(Swing, 0)) %>%
     group_by(Year, Committee) %>%
     summarize(SwingMembers = sum(Swing),
     TotalMembers = n(),
     SwingProp = mean(Swing))
 filter(rats, SwingProp == 1)
-bills <- filter(csv_total, Year %in% c(2017)) %>%
-    select(Bill, Year, Com.1, Pass.Com.1, Com.2, Pass.Com.2) %>%
+bills <- select(csv_total, Bill, Year, Com.1, Pass.Com.1, Com.2, Pass.Com.2) %>%
     group_by(Year, Com.1) %>%
     summarize(TotalPassed = sum(Pass.Com.1), PropPassed = mean(Pass.Com.1))
 head(bills)
-completely_combined <- right_join(rats, bills, by = c("Year", "Committee" = "Com.1"))
+completely_combined <- right_join(comb, bills, by = c("Year", "Committee" = "Com.1"))
 summary(completely_combined)
 completely_combined
 mod <- lm(PropPassed ~ SwingProp, completely_combined, weights = TotalPassed)
