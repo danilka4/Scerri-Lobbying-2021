@@ -1,7 +1,7 @@
 ---
-title: "Sankey Diagrams: A Method to Visualize Data Flow"
-author: "Daniel Palamarchuk"
-date: "April 28, 2022"
+title: "Sankey Diagrams and Network Analysis"
+author: "Daniel Palamarchuk and Spencer Paragas"
+date: "28 March, 2023"
 output:
   beamer_presentation: default
 fontsize: 9pt
@@ -10,6 +10,7 @@ subtitle: Special thanks to Dr. Scerri and Dr. Lucero
 ---
 
 ```{r, include=FALSE}
+library(dplyr)
 options(dplyr.summarise.inform = FALSE)
 ```
 
@@ -116,7 +117,7 @@ plot_ly(
     source = as.numeric(mt_plotly$xnode) - 1,
     target = as.numeric(mt_plotly$xnextnode) - 1,
     value = mt_plotly$n, line = list(color = "black", width = 0.5)
-    ))%>%
+    )) %>%
   layout(title = "Mtcars in Plotly",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
@@ -136,7 +137,7 @@ My role was to develop visualizations akin to what previous studies of the sort 
 We invited Dr. Lucero to join in for Spring semester as a research project + credit.
 With his guidance we developed a dashboard to allow people to look at the data for themselves.
 
-# Snippets from Other Projects
+# Snippets from Massachusetts Branch of Project
 
 ![](images/presentation/ma.png)
 
@@ -151,7 +152,7 @@ With his guidance we developed a dashboard to allow people to look at the data f
 2. There is no database to easily access climate data
    - Issue with most states 
 
-# Final Product
+# Final Product (on Daniel's End of Things)
 
 <center>
     Now for a demonstration

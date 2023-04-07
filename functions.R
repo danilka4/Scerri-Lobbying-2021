@@ -10,6 +10,102 @@ library(tidyr)
 # Table Library
 library(reactable)
 
+glob <- function(){
+    full_name <- list(
+        "H-A" = "House Appropriations",
+        "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
+        "H-CCT" = "House Counties, Cities & Towns",
+        "H-CJ" = "House Courts of Justice",
+        "H-CE" = "House Commerce & Energy",
+        "H-CL" = "House Commerce & Labor",
+        "H-LC" = "House Commerce & Labor",
+        "H-CL/LC" = "House Commerce & Labor",
+        "H-E" = "House Education",
+        "H-F" = "House Finance",
+        "H-GL" = "House General Laws",
+        "H-HWI" = "House Health, Welfare, & Institutions",
+        "H-PE" = "House Privileges & Elections",
+        "H-PS" = "House Public Safety",
+        "H-R" = "House Rules",
+        "H-T" = "House Transportation",
+
+        "S-ACNR" = "Senate Agriculture, Conservation & Natural Resources",
+        "S-CJ" = "Senate Courts of Justice",
+        "S-CL" = "Senate Commerce & Labor",
+        "S-EH" = "Senate Education & Health",
+        "S-F" = "Senate Finance",
+        "S-FA" = "Senate Finance & Applications",
+        "S-GLT" = "Senate General Laws & Technology",
+        "S-J" = "Senate Justice",
+        "S-LG" = "Senate Local Government",
+        "S-PE" = "Senate Privileges & Elections",
+        "S-R" = "Senate Rules",
+        "S-T" = "Senate Transportation",
+
+        "H-A.2" = "House Appropriations",
+        "H-ACNR.2" = "House Agriculture, Chesapeake & Natural Resources",
+        "H-CCT.2" = "House Counties, Cities & Towns",
+        "H-CJ.2" = "House Courts of Justice",
+        "H-CE.2" = "House Commerce & Energy",
+        "H-CL.2" = "House Commerce & Labor",
+        "H-LC.2" = "House Commerce & Labor",
+        "H-CL/LC.2" = "House Commerce & Labor",
+        "H-E.2" = "House Education",
+        "H-F.2" = "House Finance",
+        "H-GL.2" = "House General Laws",
+        "H-HWI.2" = "House Health, Welfare, & Institutions",
+        "H-PE.2" = "House Privileges & Elections",
+        "H-R.2" = "House Rules",
+        "H-T.2" = "House Transportation",
+
+        "S-ACNR.2" = "Senate Agriculture, Conservation & Natural Resources",
+        "S-CJ.2" = "Senate Courts of Justice",
+        "S-CL.2" = "Senate Commerce & Labor",
+        "S-EH.2" = "Senate Education & Health",
+        "S-F.2" = "Senate Finance",
+        "S-GLT.2" = "Senate General Laws & Technology",
+        "S-LG.2" = "Senate Local Government",
+        "S-PE.2" = "Senate Privileges & Elections",
+        "S-R.2" = "Senate Rules",
+        "S-T.2" = "Senate Transportation",
+
+        "Other.Committee" = "Other Committees",
+        "NoData" = "General Joint Resolution",
+        "Other.Committee.2" = "Other Committees",
+        "NoData.2" = "General Joint Resolution",
+
+        "Intro.Com" = "Introduced",
+        "Pass.Com.1" = "Passed Committee 1",
+        "Pass.Com.2" = "Passed Committee 2",
+        "Committee 1" = "Passed Committee 1",
+        "Committee 2" = "Passed Committee 2",
+        "Pass.Floor.1" = "Passed Floor 1",
+        "Pass.Floor.2" = "Passed Floor 2",
+        "To.Gov" = "Delivered to Governor",
+        "Passed" = "Signed by Governor",
+        "Law" = "Law",
+        "Dead" = "Dead",
+
+
+        "Introduced" = "Introduced",
+        "Committee 1" = "Passed Committee 1",
+        "Committee 2" = "Passed Committee 2",
+        "Passed Committee 1" = "Passed Committee 1",
+        "Passed Committee 2" = "Passed Committee 2",
+        "Floor 1" = "Passed Floor 1",
+        "Floor 2" = "Passed Floor 2",
+        "Passed Floor 1" = "Passed Floor 1",
+        "Passed Floor 2" = "Passed Floor 2",
+        "Delivered to Governor" = "Delivered to Governor",
+        "Signed by Governor" = "Signed by Governor",
+        "Signed" = "Signed by Governor",
+        "Law" = "Law",
+        "Passed" = "Passed",
+        "Dead" = "Dead"
+    )
+    assign("full_name", full_name, envir = .GlobalEnv)
+}
+glob()
 # Creates a data frame with the associated color id. There is an option to include joint resolutions
 data_creator <- function(csv, color_id, include_joint = TRUE) {
     # Adds "committee introduction," otherwise we cannot see all the bills that didn't make it out of committee
@@ -442,37 +538,6 @@ return(gg)
 
 # Takes csv and turns it into a reactable
 rtable <- function(csv) {
-    full_names <- list(
-        "H-A" = "House Appropriations",
-        "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
-        "H-CCT" = "House Counties, Cities & Towns",
-        "H-CJ" = "House Courts of Justice",
-        "H-CL" = "House Commerce & Labor",
-        "H-LC" = "House Commerce & Labor",
-        "H-CL/LC" = "House Commerce & Labor",
-        "H-E" = "House Education",
-        "H-F" = "House Finance",
-        "H-GL" = "House General Laws",
-        "H-HWI" = "House Health, Welfare, & Institutions",
-        "H-PE" = "House Privileges & Elections",
-        "H-R" = "House Rules",
-        "H-T" = "House Transportation",
-
-        "S-ACNR" = "Senate Agriculture, Conservation & Natural Resources",
-        "S-CJ" = "Senate Courts of Justice",
-        "S-CL" = "Senate Commerce & Labor",
-        "S-EH" = "Senate Education & Health",
-        "S-F" = "Senate Finance",
-        "S-FA" = "Senate Finance & Applications",
-        "S-GLT" = "Senate General Laws & Technology",
-        "S-J" = "Senate Justice",
-        "S-LG" = "Senate Local Government",
-        "S-PE" = "Senate Privileges & Elections",
-        "S-R" = "Senate Rules",
-        "S-T" = "Senate Transportation",
-
-        "NoData" = "General Joint Resolution"
-    )
     # A bunch of stuff that adds politician statistics to committees
     politicians <- read.csv("data/politicians.csv")
     com_pol <- read.csv("data/committee_members.csv")
@@ -503,7 +568,7 @@ rtable <- function(csv) {
             SwingProp = mean(SwingProp),
             SwingChair = mean(SwingChair)
                   ) %>%
-        mutate(full = full_names[Com.1]) %>%
+        mutate(full = full_name[Com.1]) %>%
         left_join(filter(com_pol, Position == "Chair"), by = c("Year" = "Session", "Com.1" = "Committee"))
     return(
         select(formatted_csv, full, Com.1, n) %>%
@@ -709,6 +774,27 @@ com_sierra <- function(csv, include_joint = TRUE) {
     return(new_df)
 }
 
+summaries <- function(csv, prop = TRUE) {
+    csv <- filter(csv, Disposition != "JRP")
+    title <- ""
+    csv_pos <- filter(csv, SC.Position == 1)
+    csv_neu <- filter(csv, SC.Position == 0)
+    csv_neg <- filter(csv, SC.Position == -1)
+
+    total <- c(nrow(csv), sum(csv$Pass.Com.1, na.rm = TRUE), sum(csv$Pass.Floor.1, na.rm = TRUE), sum(csv$Pass.Com.2, na.rm = TRUE), sum(csv$Pass.Floor.2, na.rm = TRUE), sum(csv$To.Gov, na.rm = TRUE), sum(csv$Passed, na.rm = TRUE))
+    positive <- c(nrow(csv_pos), sum(csv_pos$Pass.Com.1, na.rm = TRUE), sum(csv_pos$Pass.Floor.1, na.rm = TRUE), sum(csv_pos$Pass.Com.2, na.rm = TRUE), sum(csv_pos$Pass.Floor.2, na.rm = TRUE), sum(csv_pos$To.Gov, na.rm = TRUE), sum(csv_pos$Passed, na.rm = TRUE))
+    neutral <- c(nrow(csv_neu), sum(csv_neu$Pass.Com.1, na.rm = TRUE), sum(csv_neu$Pass.Floor.1, na.rm = TRUE), sum(csv_neu$Pass.Com.2, na.rm = TRUE), sum(csv_neu$Pass.Floor.2, na.rm = TRUE), sum(csv_neu$To.Gov, na.rm = TRUE), sum(csv_neu$Passed, na.rm = TRUE))
+    negative <- c(nrow(csv_neg), sum(csv_neg$Pass.Com.1, na.rm = TRUE), sum(csv_neg$Pass.Floor.1, na.rm = TRUE), sum(csv_neg$Pass.Com.2, na.rm = TRUE), sum(csv_neg$Pass.Floor.2, na.rm = TRUE), sum(csv_neg$To.Gov, na.rm = TRUE), sum(csv_neg$Passed, na.rm = TRUE))
+    if(prop) {
+        total <- total / max(total)
+        positive <- positive / max(positive)
+        neutral <- neutral / max(neutral)
+        negative <- negative / max(negative)
+    }
+    daf <- data.frame(Total = total, Positive = positive, Neutral = neutral, Negative = negative)
+    row.names(daf) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+    return(daf)
+}
 
 # A function to generate a plotly line graph based on the inputted data.frame
 line_graph <- function(csv, year = 2017, prop = TRUE) {
@@ -754,130 +840,10 @@ line_graph <- function(csv, year = 2017, prop = TRUE) {
 }
 
 node_names <- function(names) {
-    full_name <- list(
-        "H-A" = "House Appropriations",
-        "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
-        "H-CCT" = "House Counties, Cities & Towns",
-        "H-CJ" = "House Courts of Justice",
-        "H-CL" = "House Commerce & Labor",
-        "H-LC" = "House Commerce & Labor",
-        "H-CL/LC" = "House Commerce & Labor",
-        "H-E" = "House Education",
-        "H-F" = "House Finance",
-        "H-GL" = "House General Laws",
-        "H-HWI" = "House Health, Welfare, & Institutions",
-        "H-PE" = "House Privileges & Elections",
-        "H-R" = "House Rules",
-        "H-T" = "House Transportation",
-
-        "S-ACNR" = "Senate Agriculture, Conservation & Natural Resources",
-        "S-CJ" = "Senate Courts of Justice",
-        "S-CL" = "Senate Commerce & Labor",
-        "S-EH" = "Senate Education & Health",
-        "S-F" = "Senate Finance",
-        "S-FA" = "Senate Finance & Applications",
-        "S-GLT" = "Senate General Laws & Technology",
-        "S-J" = "Senate Justice",
-        "S-LG" = "Senate Local Government",
-        "S-PE" = "Senate Privileges & Elections",
-        "S-R" = "Senate Rules",
-        "S-T" = "Senate Transportation",
-
-        "Other Committee" = "Other Committee",
-        "NoData" = "General Joint Resolution",
-
-        "Introduced" = "Introduced",
-        "Committee 1" = "Passed Committee 1",
-        "Committee 2" = "Passed Committee 2",
-        "Passed Committee 1" = "Passed Committee 1",
-        "Passed Committee 2" = "Passed Committee 2",
-        "Floor 1" = "Passed Floor 1",
-        "Floor 2" = "Passed Floor 2",
-        "Passed Floor 1" = "Passed Floor 1",
-        "Passed Floor 2" = "Passed Floor 2",
-        "Delivered to Governor" = "Delivered to Governor",
-        "Signed by Governor" = "Signed by Governor",
-        "Signed" = "Signed by Governor",
-        "Law" = "Law",
-        "Passed" = "Passed",
-        "Dead" = "Dead"
-    )
     return(as.character(full_name[names]))
 }
 
 flow_names <- function(data) {
-    full_name <- list(
-        "H-A" = "House Appropriations",
-        "H-ACNR" = "House Agriculture, Chesapeake & Natural Resources",
-        "H-CCT" = "House Counties, Cities & Towns",
-        "H-CJ" = "House Courts of Justice",
-        "H-CL" = "House Commerce & Labor",
-        "H-LC" = "House Commerce & Labor",
-        "H-CL/LC" = "House Commerce & Labor",
-        "H-E" = "House Education",
-        "H-F" = "House Finance",
-        "H-GL" = "House General Laws",
-        "H-HWI" = "House Health, Welfare, & Institutions",
-        "H-PE" = "House Privileges & Elections",
-        "H-R" = "House Rules",
-        "H-T" = "House Transportation",
-
-        "S-ACNR" = "Senate Agriculture, Conservation & Natural Resources",
-        "S-CJ" = "Senate Courts of Justice",
-        "S-CL" = "Senate Commerce & Labor",
-        "S-EH" = "Senate Education & Health",
-        "S-F" = "Senate Finance",
-        "S-FA" = "Senate Finance & Applications",
-        "S-GLT" = "Senate General Laws & Technology",
-        "S-J" = "Senate Justice",
-        "S-LG" = "Senate Local Government",
-        "S-PE" = "Senate Privileges & Elections",
-        "S-R" = "Senate Rules",
-        "S-T" = "Senate Transportation",
-
-        "H-A.2" = "House Appropriations",
-        "H-ACNR.2" = "House Agriculture, Chesapeake & Natural Resources",
-        "H-CCT.2" = "House Counties, Cities & Towns",
-        "H-CJ.2" = "House Courts of Justice",
-        "H-CL.2" = "House Commerce & Labor",
-        "H-LC.2" = "House Commerce & Labor",
-        "H-CL/LC.2" = "House Commerce & Labor",
-        "H-E.2" = "House Education",
-        "H-F.2" = "House Finance",
-        "H-GL.2" = "House General Laws",
-        "H-HWI.2" = "House Health, Welfare, & Institutions",
-        "H-PE.2" = "House Privileges & Elections",
-        "H-R.2" = "House Rules",
-        "H-T.2" = "House Transportation",
-
-        "S-ACNR.2" = "Senate Agriculture, Conservation & Natural Resources",
-        "S-CJ.2" = "Senate Courts of Justice",
-        "S-CL.2" = "Senate Commerce & Labor",
-        "S-EH.2" = "Senate Education & Health",
-        "S-F.2" = "Senate Finance",
-        "S-GLT.2" = "Senate General Laws & Technology",
-        "S-LG.2" = "Senate Local Government",
-        "S-PE.2" = "Senate Privileges & Elections",
-        "S-R.2" = "Senate Rules",
-        "S-T.2" = "Senate Transportation",
-
-        "Other.Committee" = "Other Committees",
-        "NoData" = "General Joint Resolution",
-        "Other.Committee.2" = "Other Committees",
-        "NoData.2" = "General Joint Resolution",
-
-        "Intro.Com" = "Introduced",
-        "Pass.Com.1" = "Passed Committee 1",
-        "Pass.Com.2" = "Passed Committee 2",
-        "Committee 1" = "Passed Committee 1",
-        "Committee 2" = "Passed Committee 2",
-        "Pass.Floor.1" = "Passed Floor 1",
-        "Pass.Floor.2" = "Passed Floor 2",
-        "To.Gov" = "Delivered to Governor",
-        "Passed" = "Signed by Governor",
-        "Law" = "Law",
-        "Dead" = "Dead"
-    )
     expanded_names <- matrix(
          c(as.character(full_name[as.character(data$x)]), as.character(full_name[as.character(data$next_x)])),
          ncol = 2
