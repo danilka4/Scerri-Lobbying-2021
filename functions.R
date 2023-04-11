@@ -69,6 +69,7 @@ glob <- function(){
         "S-R.2" = "Senate Rules",
         "S-T.2" = "Senate Transportation",
 
+        "Other Committee" =  "Other Committee",
         "Other.Committee" = "Other Committees",
         "NoData" = "General Joint Resolution",
         "Other.Committee.2" = "Other Committees",
