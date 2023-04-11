@@ -1,0 +1,12 @@
+Table 1. provides a general overview of bill trajectories by year
+Table 2., a general overview of the trajectories of bills by Sierra Club (or proxy, 2015 and 2016) position.
+Tables 3(a) and (b) show in more detail the committees to which bills were referred, by year and by Sierra Club ‘position’.
+Table 4. shows the trajectory of the randomized control at the same granularity as Table 1.
+Now we move to year by year analysis of bill trajectory, specifying the all-important
+committees, in Table 5(a) and (b)(2015); Table 6(a) and (b)(2016); Table 7(a) and (b)(2017);
+Table 8(a) and (b)(2018); Table 9(a) and (b)(2019); Table 10(a) and (b)(2020); Table 11(a) and
+(b)(2021); and Table 12(a) and (b)(2022). Tables 13 through 20 show line graphs of the (gross)
+proportion of bills at each stage of the legislative process for each year (also shown in
+dashboard). Tables 21 through 27 show the randomized control groups for each year (which
+passed through different committees); 28 through 35 the most controversial control and 36
+through 43 the least controversial.

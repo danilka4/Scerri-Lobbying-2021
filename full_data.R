@@ -20,16 +20,16 @@ csv21 <- read.csv("data/csv_2021.csv") %>% col_care() %>% add_identifiers() %>% 
 csv22 <- read.csv("data/csv_2022.csv") %>% col_care() %>% add_identifiers() %>% mutate(Year = 2022) %>%
     separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 
-csv_total <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21)
+csv_total <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21, csv22)
 output <- filter(csv_total, Disposition != "JRP") %>%
-    select(Bill, Year, SC.Position,
+    select(Bill, Year, SC.Position, Com.2,
                  Com.1, Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, Pass.Governor = Passed,
                 ) %>%
           mutate(across(c(Pass.Com.1, Pass.Floor.1, Pass.Com.2, Pass.Floor.2, Pass.Governor), ~ifelse(is.na(.), 0, .))) %>%
           mutate(SC.Position = SC.Position + 2,
-                 Com.1 = as.numeric(factor(if_else(Com.1 == "H-CL" | Com.1 == "H-LC" | Com.1 == "H-CE", "H-CL", if_else(Com.1 == "S-F" | Com.1 == "S-FA", "S-F", Com.1)),
-                 Com.2 = as.numeric(factor(if_else(Com.2 == "H-CL" | Com.2 == "H-LC" | Com.2 == "H-CE", "H-CL", if_else(Com.2 == "S-F" | Com.2 == "S-FA", "S-F", Com.2))
-          )),
+                 Com.1 = as.numeric(factor(if_else(Com.1 == "H-CL" | Com.1 == "H-LC" | Com.1 == "H-CE", "H-CL", if_else(Com.1 == "S-F" | Com.1 == "S-FA", "S-F", Com.1)))),
+                 Com.2 = as.numeric(factor(if_else(Com.2 == "H-CL" | Com.2 == "H-LC" | Com.2 == "H-CE", "H-CL", if_else(Com.2 == "S-F" | Com.2 == "S-FA", "S-F", Com.2))))
+          ,
                  Dem.House = as.numeric(Year %in% 2020:2021),
                  Dem.Senate = as.numeric(Year %in% 2020:2022)
           ) %>%
