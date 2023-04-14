@@ -121,8 +121,8 @@ vv_total <- data_creator_vv(null_total, TRUE, FALSE)
 ## A bunch of spaces added after 2015 to line everything up
 #base_graph <- ggplot(csv_total, aes(Year, fill = as.character(Year))) + geom_bar() + 
 #  scale_fill_manual(
-#                     values = c("2015\ \ \ \ \ \ \ " = paste("#",colors$y2015, sep = ""),"2016" = paste("#",colors$y2016, sep = ""),  "2017" = paste("#",colors$y2017, sep = ""),"2018" = paste("#",colors$y2018, sep = ""),"2019" = paste("#",colors$y2019, sep = ""),
-#                                "2020" = paste("#",colors$y2020, sep = ""),"2021" = paste("#",colors$y2021, sep = ""))) +
+#                     values = c("2015" = paste("#",colors$y2015, sep = ""),"2016" = paste("#",colors$y2016, sep = ""),  "2017" = paste("#",colors$y2017, sep = ""),"2018" = paste("#",colors$y2018, sep = ""),"2019" = paste("#",colors$y2019, sep = ""),
+#                                "2020" = paste("#",colors$y2020, sep = ""),"2021" = paste("#",colors$y2021, sep = ""), "2022" = paste("#", colors$y2022, sep = ""))) +
 #  theme_minimal() +
 #  labs(title = "Fate of Different Bills in Relation to Sierra Club's Position in 2017 and 2018",
 #       x = "Final Outcome of Bill", y = "Number of Bills",
