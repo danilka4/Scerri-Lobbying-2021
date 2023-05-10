@@ -48,7 +48,7 @@ SB136,0,S-CL,1,0,1,H-CL,1,1,0,1,0,1,PiL,Favola
 SB139,1,S-CL,0,0,,,,,,,,0,DiC,Edwards
 SB140,-1,S-CL,0,0,,,,,,,,0,DiC,Edwards
 SB142,1,S-F,0,0,,,,,,,,0,DiC,Edwards
-SB148,1,S-CL,0,1,,,,,,,,0,Inc[SB779-Stuart],Edwards
+SB148,1,S-CL,0,1,,,,,,,,0,Inc,Edwards
 SB182,1,S-F,1,0,1,H-F,1,1,0,1,0,1,PiL,Chafin
 SB244,1,S-F,0,0,,,,,,,,0,DiC,Petersen
 SB314,1,S-ACNR,1,0,1,H-ACNR,1,1,1,1,0,1,PiL,Dance
@@ -57,7 +57,7 @@ SB395,0,S-CL,1,0,1,H-CL,1,1,0,1,0,1,PiL,Alexander
 SB403,1,S-CL,0,0,,,,,,,,0,DiC,Ebbin
 SB464,-1,S-T,1,0,1,H-T,1,1,0,1,0,1,PiL,Carrico Sr
 SB475,1,S-ACNR,0,0,,,,,,,,0,DiC,Wagner
-SB482,1,S-ACNR,0,1,,,,,,,,0,Inc[SB21-Chafin],Obenshain
+SB482,1,S-ACNR,0,1,,,,,,,,0,Inc,Obenshain
 SB486,-1,S-F,0,0,,,,,,,,0,DiC,Hanger Jr.
 SB537,1,S-ACNR,0,0,,,,,,,,0,DiC,Surovell
 SB563,-1,S-F,1,0,1,H-F,1,1,0,1,0,1,PiL,Norment

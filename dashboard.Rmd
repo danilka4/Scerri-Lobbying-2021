@@ -516,6 +516,11 @@ null_year_graph <- plot_ly(
          showlegend = T)
 subplot(null_total_graph, null_year_graph, nrows = 2)
 ```
+### Line Graph
+
+```{r}
+line_graph(csv_total, "Total")
+```
 
 Column
 -------------------------------------
