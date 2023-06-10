@@ -53,8 +53,18 @@ ed18 <- read.csv("data/null_ed_2018.csv") %>% mutate(Year = 2018) %>% separate(C
 ed19 <- read.csv("data/null_ed_2019.csv") %>% mutate(Year = 2019) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 ed20 <- read.csv("data/null_ed_2020.csv") %>% mutate(Year = 2020) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 ed21 <- read.csv("data/null_ed_2021.csv") %>% mutate(Year = 2021) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed22 <- read.csv("data/null_ed_2022.csv") %>% mutate(Year = 2021) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+ed22 <- read.csv("data/null_ed_2022.csv") %>% mutate(Year = 2022) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
 ed_total <- rbind(ed15, ed16, ed17, ed18, ed19, ed20, ed21, ed22)
+
+tr15 <- read.csv("data/null_tr_2015.csv") %>% mutate(Year = 2015) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr16 <- read.csv("data/null_tr_2016.csv") %>% mutate(Year = 2016) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr17 <- read.csv("data/null_tr_2017.csv") %>% mutate(Year = 2017) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr18 <- read.csv("data/null_tr_2018.csv") %>% mutate(Year = 2018) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr19 <- read.csv("data/null_tr_2019.csv") %>% mutate(Year = 2019) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr20 <- read.csv("data/null_tr_2020.csv") %>% mutate(Year = 2020) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr21 <- read.csv("data/null_tr_2021.csv") %>% mutate(Year = 2021) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr22 <- read.csv("data/null_tr_2022.csv") %>% mutate(Year = 2022) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+tr_total <- rbind(tr15, tr16, tr17, tr18, tr19, tr20, tr21, tr22)
 ```
 
 # Table 1
@@ -257,7 +267,6 @@ formattable(t3)
 ```
 
 # Most/Least Controversial Bills
-WE CURRENTLY DO NOT HAVE TRANSPORTATION BILLS, JUST EDUCATION
 
 ## Table 4a: Most Controversial Bills (Education)
 ```{r}
@@ -268,8 +277,25 @@ t4a_18 <- c(nrow(ed18), sum(ed18$Pass.Com.1, na.rm = TRUE), sum(ed18$Pass.Floor.
 t4a_19 <- c(nrow(ed19), sum(ed19$Pass.Com.1, na.rm = TRUE), sum(ed19$Pass.Floor.1, na.rm = TRUE), sum(ed19$Pass.Com.2, na.rm = TRUE), sum(ed19$Pass.Floor.2, na.rm = TRUE), sum(ed19$To.Gov, na.rm = TRUE), sum(ed19$Passed, na.rm = TRUE))
 t4a_20 <- c(nrow(ed20), sum(ed20$Pass.Com.1, na.rm = TRUE), sum(ed20$Pass.Floor.1, na.rm = TRUE), sum(ed20$Pass.Com.2, na.rm = TRUE), sum(ed20$Pass.Floor.2, na.rm = TRUE), sum(ed20$To.Gov, na.rm = TRUE), sum(ed20$Passed, na.rm = TRUE))
 t4a_21 <- c(nrow(ed21), sum(ed21$Pass.Com.1, na.rm = TRUE), sum(ed21$Pass.Floor.1, na.rm = TRUE), sum(ed21$Pass.Com.2, na.rm = TRUE), sum(ed21$Pass.Floor.2, na.rm = TRUE), sum(ed21$To.Gov, na.rm = TRUE), sum(ed21$Passed, na.rm = TRUE))
-t4a <- (data.frame(t4a_15, t4a_16, t4a_17, t4a_18, t4a_19, t4a_20, t4a_21))
-colnames(t4a) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021)
+t4a_22 <- c(nrow(ed22), sum(ed22$Pass.Com.1, na.rm = TRUE), sum(ed22$Pass.Floor.1, na.rm = TRUE), sum(ed22$Pass.Com.2, na.rm = TRUE), sum(ed22$Pass.Floor.2, na.rm = TRUE), sum(ed22$To.Gov, na.rm = TRUE), sum(ed22$Passed, na.rm = TRUE))
+t4a <- (data.frame(t4a_15, t4a_16, t4a_17, t4a_18, t4a_19, t4a_20, t4a_21, t4a_22))
+colnames(t4a) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
 rownames(t4a) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
 formattable(t4a)
+```
+
+## 4b Least Controversial Bills (Transportation)
+```{r}
+t4b_15 <- c(nrow(tr15), sum(tr15$Pass.Com.1, na.rm = TRUE), sum(tr15$Pass.Floor.1, na.rm = TRUE), sum(tr15$Pass.Com.2, na.rm = TRUE), sum(tr15$Pass.Floor.2, na.rm = TRUE), sum(tr15$To.Gov, na.rm = TRUE), sum(tr15$Passtr, na.rm = TRUE))
+t4b_16 <- c(nrow(tr16), sum(tr16$Pass.Com.1, na.rm = TRUE), sum(tr16$Pass.Floor.1, na.rm = TRUE), sum(tr16$Pass.Com.2, na.rm = TRUE), sum(tr16$Pass.Floor.2, na.rm = TRUE), sum(tr16$To.Gov, na.rm = TRUE), sum(tr16$Passtr, na.rm = TRUE))
+t4b_17 <- c(nrow(tr17), sum(tr17$Pass.Com.1, na.rm = TRUE), sum(tr17$Pass.Floor.1, na.rm = TRUE), sum(tr17$Pass.Com.2, na.rm = TRUE), sum(tr17$Pass.Floor.2, na.rm = TRUE), sum(tr17$To.Gov, na.rm = TRUE), sum(tr17$Passtr, na.rm = TRUE))
+t4b_18 <- c(nrow(tr18), sum(tr18$Pass.Com.1, na.rm = TRUE), sum(tr18$Pass.Floor.1, na.rm = TRUE), sum(tr18$Pass.Com.2, na.rm = TRUE), sum(tr18$Pass.Floor.2, na.rm = TRUE), sum(tr18$To.Gov, na.rm = TRUE), sum(tr18$Passtr, na.rm = TRUE))
+t4b_19 <- c(nrow(tr19), sum(tr19$Pass.Com.1, na.rm = TRUE), sum(tr19$Pass.Floor.1, na.rm = TRUE), sum(tr19$Pass.Com.2, na.rm = TRUE), sum(tr19$Pass.Floor.2, na.rm = TRUE), sum(tr19$To.Gov, na.rm = TRUE), sum(tr19$Passtr, na.rm = TRUE))
+t4b_20 <- c(nrow(tr20), sum(tr20$Pass.Com.1, na.rm = TRUE), sum(tr20$Pass.Floor.1, na.rm = TRUE), sum(tr20$Pass.Com.2, na.rm = TRUE), sum(tr20$Pass.Floor.2, na.rm = TRUE), sum(tr20$To.Gov, na.rm = TRUE), sum(tr20$Passtr, na.rm = TRUE))
+t4b_21 <- c(nrow(tr21), sum(tr21$Pass.Com.1, na.rm = TRUE), sum(tr21$Pass.Floor.1, na.rm = TRUE), sum(tr21$Pass.Com.2, na.rm = TRUE), sum(tr21$Pass.Floor.2, na.rm = TRUE), sum(tr21$To.Gov, na.rm = TRUE), sum(tr21$Passtr, na.rm = TRUE))
+t4b_22 <- c(nrow(tr22), sum(tr22$Pass.Com.1, na.rm = TRUE), sum(tr22$Pass.Floor.1, na.rm = TRUE), sum(tr22$Pass.Com.2, na.rm = TRUE), sum(tr22$Pass.Floor.2, na.rm = TRUE), sum(tr22$To.Gov, na.rm = TRUE), sum(tr22$Passtr, na.rm = TRUE))
+t4b <- (data.frame(t4b_15, t4b_16, t4b_17, t4b_18, t4b_19, t4b_20, t4b_21, t4b_22))
+colnames(t4b) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+rownames(t4b) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+formattable(t4b)
 ```

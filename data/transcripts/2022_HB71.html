@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>House of Delegates Speak</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="HwyrsWqb/i2flGh3xj65tbg/9t6iJTosoV2bPswmcrz7ri/lc7cGRjjyANrHEJQwctlOaCozNQnYsgFJLudrlQ==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-5772dfc184486a3688555a6a0d690a965976b6836948ec530366cd17b4d0bb3b.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-77400b3ca15033a8ae2cf38c8473edc7d3d074acb77c9fb124c906d2c1b083b1.js" data-turbolinks-track="reload"></script>
+  
+    <!-- favicon and home screen icons for iOS -->
+    <!-- standard browser -->
+    <!-- rendered @2x for retinas, HD tablets -->
+    <link rel="icon" type="image/png" href="/assets/favicon-0192693ecd43fcb87ad9f800382b84f286e4b9470a6cfe6b2783e6374372fb19.png" sizes="32x32" />
+    <!-- iOS set -->
+    <!-- Home screen on iPad with retina display-->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-76@2x-fe649a0a679d1548c208fd5fe60b48479d9deb624a38fe01633ab6f8f407ff6c.png" sizes="152x152" />
+    <!-- Home screen on iPads with higher DPR && iPad Pro(s) -->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-83.5@2x-f6dbea0bdf0839039ce7d04758f76cddf777f2d908498c783bd526f0a1a5d166.png" sizes="167x167" />
+    <!-- /favicon sets -->
+    
+    <!-- custom Google fonts for this app -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <!-- /Google fonts -->
+
+    <!-- don't let the mobile browser scale content at load w/o user getstures to do so 
+         users can still gesture to zoom, but switching from portrait to landscape causes no jumps or zooms (in Safari only:( ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <!-- mobile browser scale fix -->
+
+  </head>
+  
+  <!-- When we base presentations on a specific view, we use a body class. -->
+  <!-- the body classes are referenced in individual SASS files for specific styling of views -->
+  <body class="comments_show">
+    
+    <nav class="navbar fixed-top non-phone navbar-expand-lg navbar-light bg-light" style="height:83px;">
+      
+      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+        
+        <!-- basic flexed links/nav to appear on medium to large screens -->
+        <div class="med-device-navigation d-flex align-items-center">
+
+          <div class="inner-nav bg-light">
+
+            <div class="list-expander justify-content-between">
+
+            <!-- absolute CHEVRON -->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand">
+                <!--Brand-->
+                <!-- these images are @2x their original size to accmmodate for retina screens (the width and height attributes are constraining the images) -->
+                <!--<a class="brand brand-logo" href="/home">--><img alt="" width="166" height="103" src="/assets/logo-default-174x112@2x-dc721c2be12b46ca771fefb345cc4ee425d35432216d957f94cf7ea803014b1d.png" />
+                <!-- for a "reveal" effect on larger screens when scrolling/swiping --->
+                <!-- may be used later for this app -->
+                <!--<a class="brand brand-logo-stuck" href=""><img src="assets/logo-default-115x62-@2x.png" alt="" width="115" height="62"></a>-->
+                <!--<div class="rd-navbar-brand-triangle"></div>-->
+              </div>
+            
+            </div>
+            <!-- /absolute CHEVRON -->
+
+            <!-- this navbar-nav appears on the left -->
+            <ul class="navbar-nav d-flex left-nav-options">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/committees">Bills in Committee</a>
+              </li>
+            </ul>
+            <!-- /left navbar-nav -->
+
+          <!-- this navbar-nav appears on the right -->
+          <ul class="navbar-nav d-flex right-nav-options">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="publicDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meetings
+              </a>
+              <div class="dropdown-menu" aria-labelledby="publicDropdownMenuLink">
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+                <a class="dropdown-item" href="/past_meetings">Past Meetings</a>
+                <a class="dropdown-item" href="/upcoming_meetings">Upcoming Meetings</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov" target="_blank">virginia general assembly</a>
+              </div>
+            </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://whosmy.virginiageneralassembly.gov" target="_blank">
+                    Who's My Legislator?
+                  </a>
+                </li>
+          </ul>
+          <!-- /right navbar-nav -->           
+
+          </div>
+
+          </div>
+          <!-- /inner-nav -->
+        
+        </div>
+        <!-- flexed nav to appear on medium to large screens -->
+
+        <!-- hidden checkbox / <label> displays mobile nav via media query on small devices -->
+        <label for="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </label>
+        <input type="checkbox" id="nav-toggle">
+        <!-- /hidden checkbox / <label> -->
+        
+        <!-- exposed "mobile-nav" for use on small devices -->
+        <ul class="mobile-nav">
+        <!-- can be used to scroll hidden content on landscape xs or phone sizes -->
+        <div class="relativeNavWrap">
+          <li class="mobile-item"><a href="/about">About</a></li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Meetings
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <a class="sub-item" href="/past_meetings">Past Meetings</a>
+              <a class="sub-item" href="/upcoming_meetings">Upcoming Meetings</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+            </div>
+          </li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Additional Information
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <!--<a class="sub-item" href="#">Bills in Committees</a>-->
+              <a class="sub-item" href="/committees">Bills in Committees</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+              <a class="sub-item" href="https://whosmy.virginiageneralassembly.gov" target="_blank">Who's My Legislator</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov" target="_blank">Virginia General Assembly</a>
+              
+              
+            </div>
+          </li>
+          </div>
+        </ul>
+        <!-- /"mobile-nav" -->
+      </nav>
+
+      <!-- this wrapper is used in individual SASS files to control the look of each "page" / view -->
+      <div class="page-content">
+        <!-- output the view(s)' content -->
+        
+<div class="container-fluid admin-section w-auto">
+
+    <div class="header-band">
+      <h5 class="">Public Comments for: HB71 - Campaign finance; prohibited contributions to candidates, Phase I Utility and Phase II Utility. </h5>
+    </div>
+
+  <div class="container">
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Nicholls</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Chesapeake</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                
+HB71 - VEPCO&#39;s comments on 2/1/22 were that they had first amendment rights. They do, but NOT to run this state and its people into the ground in the name of profits. Virginia: owned and operated by VEPCO is a saying that should not occur but it is. 
+
+HB85, HB174, 205, 524, 575, 973, 1296, 1302 - This helps the people. Please move to report. 
+
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Nicholls</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Chesapeake</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                HB205: This legislation would make it illegal for an election official to accept money from any individual or entity except the government to fund an election, protecting public elections from influence by private wealthy individuals and entities. 
+HB71: If adopted, this bill would add protection from bias to elections. It would protect from corruption in the marketplace by prohibiting public utility entities from making financial contributions to candidates campaigning for political office.
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Morrissey</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Money Out Virginia/American Promise</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Sterling, Loudoun County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Our team from Money Out Virginia, the VA affiliate of the nation-wide American Promise campaign finance reform advocacy organization, worked hard this past year with the &quot;Joint Subcommittee to Study Comprehensive Campaign Finance Reform,&quot; and produced a &quot;Citizens&#39; Report&quot; for  the Subcommittee that articulated principles and priorities for improving transparency,  preventing corrupt campaign finance practices and moving towards more equity in campaign financing in Virginia elections.  The partnership between the Subcommittee and Money Out Virginia has resulted in a series of important bills that improve the requirements, process and electronic infrastructure for disclosure of campaign donations.  We strongly support Delegate Bulova&#39;s HB 492, HB495, and HB500,  Delegate Helmer&#39;s HB489,  Delegate Anderson&#39;s HB86 and Delegate Davis&#39; HB125, which provides for penalties for violations of disclosure laws.  We also support Delegate Bulova&#39;s HJ53 to extend the mandate of the Joint Subcommittee so that we can continue our partnership in developing sensible campaign finance reforms for Virginia. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Morgan</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">VA Chapter of American Promise</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Alexandria</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I&#39;m the coordinator of the VA Chapter of American Promise. Ideally, we wouldn&#39;t need to pass this type of legislation because VA, like 22 other states and the federal government, should ban corporate contributions so this wouldn&#39;t be needed. In the absence, however,  of any limitations bill which levels the playing field for donors, our group generally supports this bill.  Clearly contributions from state-regulated monopolies to legislators who vote on bills influencing these entities is perceived by the public as a  conflict of interest.   At least 5 states specifically prohibit public utility companies from making contributions to candidates for public utility commissions, including Alabama, Georgia, Mississippi, New Mexico, &amp; Oklahoma.  So there is precedent in applying this type of rule to public utilities in Virginia.    
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Stephen Spitz</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Falls Church in Fairfax County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Virginia is one of only five states that has no limits on the amount of money any individual, corporation, or other entity can contribute to candidates for public office. Virginia is the only state that permits candidates to spend campaign donations on whatever they want. It is past time for Virginia to have real campaign finance reform. The public strongly supports campaign finance reform. Please take this issue seriously this session.
+
+I strongly support HB 973, HB 71, and HB 575. There is an inherent conflict of interest for State regulated monopoly public utilities to make contributions, let alone unlimited contributions, to those who are responsible for regulating them. There is a strong public perception of corruption in Virginia when there are no limitations whatsoever on how much money can be donated to candidates nor any restrictions on how such money can be spent. My own State Senator brags that he is the largest recipient of money from one of the public utilities and also openly states that he launders money from that utility to give to other candidates.  That does not give me or my neighbors confidence that he is representing out concerns  rather than his funders. The Virginia Way of pay-to-play must end if we are truly going to be a democracy. 
+
+The proposed campaign finance limits should be reduced to match the limits for Federal candidates. I believe it is reasonable for there to be a child care exception to the ban on personal use of campaign funds. 
+
+Public confidence in elections and elected officials will only increase if the public does not have the perception that their elected officials are “bought” by special interests. The time for comprehensive campaign  finance reform is now. Thank you for your consideration. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Stephen Spitz</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Falls Church in Fairfax County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Virginia is one of only five states that has no limits on the amount of money any individual, corporation, or other entity can contribute to candidates for public office. Virginia is the only state that permits candidates to spend campaign donations on whatever they want. It is past time for Virginia to have real campaign finance reform. The public strongly supports campaign finance reform. Please take this issue seriously this session.
+
+I strongly support HB 973, HB 71, and HB 575. There is an inherent conflict of interest for State regulated monopoly public utilities to make contributions, let alone unlimited contributions, to those who are responsible for regulating them. There is a strong public perception of corruption in Virginia when there are no limitations whatsoever on how much money can be donated to candidates nor any restrictions on how such money can be spent. My own State Senator brags that he is the largest recipient of money from one of the public utilities and also openly states that he launders money from that utility to give to other candidates.  That does not give me or my neighbors confidence that he is representing out concerns  rather than his funders. The Virginia Way of pay-to-play must end if we are truly going to be a democracy. 
+
+The proposed campaign finance limits should be reduced to match the limits for Federal candidates. I believe it is reasonable for there to be a child care exception to the ban on personal use of campaign funds. 
+
+Public confidence in elections and elected officials will only increase if the public does not have the perception that their elected officials are “bought” by special interests. The time for comprehensive campaign  finance reform is now. Thank you for your consideration. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Martin</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Voting is a constitutional right. Any law that restricts rather than expands our constitutional right &amp; DUTY to vote is simply voter suppression.
+We must not repeal any expansions of absentee ballots.
+Do not decrease early voting. - extend the number of days allowed.
+Do not eliminate any ballot box locations- expand.
+We have no need to re-register absentee ballots every year.
+No excuse absentee voting is absolutely crucial. 
+The state must provide easy and free access to voter ID if a photo is required.
+Since the USPS has slowed considerably, we must keep the 3 day rule for receiving ballots after election day.
+All local elections must be on Election Day (in Nov).
+Election Day should be a holiday.
+Until we do a complete overhaul of campaign finance &amp; eliminate dark money/special interests there must be no restrictions on outreach, education &amp; registration or from where a candidate may collect funds.
+Voter registration up to and including Election Day is absolutely crucial to ensure all citizens vote.
+I support all bills expanding our rights and abilities to make voting as easy as possible. I oppose all bills attempting to restrict any access to our ballot and our vote. The process is too important for the elected officials to be able to restrict us from our duty to be informed voters.
+Keep expanding our rights. Do not restrict, suppress or subvert them.
+
+              </p>
+            </div>
+          </div>
+            <div class="d-flex justify-content-center commentPoint mt-4">End of Comments</div>
+
+
+  </div>
+
+</div>
+
+        <!-- /view(s)' content -->
+      </div>
+      <!-- this wrapper for SASS files' context -->
+      
+      <footer class="navbar fixed-bottom d-flex justify-content-center py-0 d-print-none navbar-light bg-light">
+        <span class="navbar-text">&copy; 2022 
+        Commonwealth of Virginia - House of Delegates Clerk's Office | Version 1.3.10
+        </span>
+      </footer>
+
+    <script src="/packs/js/application-f8a0cd8719161541884f.js" data-turbolinks-eval="false"></script>
+    
+  </body>
+</html>

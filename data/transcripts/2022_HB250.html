@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>House of Delegates Speak</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="QqoX6AzQJ9ljP8juB/Xn07n/ZOHrPiga3QnIezK/pcamCJO8FfzfssRZoEMG28pWcxncV2MoJz+k5lIM0H687w==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-5772dfc184486a3688555a6a0d690a965976b6836948ec530366cd17b4d0bb3b.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-77400b3ca15033a8ae2cf38c8473edc7d3d074acb77c9fb124c906d2c1b083b1.js" data-turbolinks-track="reload"></script>
+  
+    <!-- favicon and home screen icons for iOS -->
+    <!-- standard browser -->
+    <!-- rendered @2x for retinas, HD tablets -->
+    <link rel="icon" type="image/png" href="/assets/favicon-0192693ecd43fcb87ad9f800382b84f286e4b9470a6cfe6b2783e6374372fb19.png" sizes="32x32" />
+    <!-- iOS set -->
+    <!-- Home screen on iPad with retina display-->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-76@2x-fe649a0a679d1548c208fd5fe60b48479d9deb624a38fe01633ab6f8f407ff6c.png" sizes="152x152" />
+    <!-- Home screen on iPads with higher DPR && iPad Pro(s) -->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-83.5@2x-f6dbea0bdf0839039ce7d04758f76cddf777f2d908498c783bd526f0a1a5d166.png" sizes="167x167" />
+    <!-- /favicon sets -->
+    
+    <!-- custom Google fonts for this app -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <!-- /Google fonts -->
+
+    <!-- don't let the mobile browser scale content at load w/o user getstures to do so 
+         users can still gesture to zoom, but switching from portrait to landscape causes no jumps or zooms (in Safari only:( ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <!-- mobile browser scale fix -->
+
+  </head>
+  
+  <!-- When we base presentations on a specific view, we use a body class. -->
+  <!-- the body classes are referenced in individual SASS files for specific styling of views -->
+  <body class="comments_show">
+    
+    <nav class="navbar fixed-top non-phone navbar-expand-lg navbar-light bg-light" style="height:83px;">
+      
+      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+        
+        <!-- basic flexed links/nav to appear on medium to large screens -->
+        <div class="med-device-navigation d-flex align-items-center">
+
+          <div class="inner-nav bg-light">
+
+            <div class="list-expander justify-content-between">
+
+            <!-- absolute CHEVRON -->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand">
+                <!--Brand-->
+                <!-- these images are @2x their original size to accmmodate for retina screens (the width and height attributes are constraining the images) -->
+                <!--<a class="brand brand-logo" href="/home">--><img alt="" width="166" height="103" src="/assets/logo-default-174x112@2x-dc721c2be12b46ca771fefb345cc4ee425d35432216d957f94cf7ea803014b1d.png" />
+                <!-- for a "reveal" effect on larger screens when scrolling/swiping --->
+                <!-- may be used later for this app -->
+                <!--<a class="brand brand-logo-stuck" href=""><img src="assets/logo-default-115x62-@2x.png" alt="" width="115" height="62"></a>-->
+                <!--<div class="rd-navbar-brand-triangle"></div>-->
+              </div>
+            
+            </div>
+            <!-- /absolute CHEVRON -->
+
+            <!-- this navbar-nav appears on the left -->
+            <ul class="navbar-nav d-flex left-nav-options">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/committees">Bills in Committee</a>
+              </li>
+            </ul>
+            <!-- /left navbar-nav -->
+
+          <!-- this navbar-nav appears on the right -->
+          <ul class="navbar-nav d-flex right-nav-options">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="publicDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meetings
+              </a>
+              <div class="dropdown-menu" aria-labelledby="publicDropdownMenuLink">
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+                <a class="dropdown-item" href="/past_meetings">Past Meetings</a>
+                <a class="dropdown-item" href="/upcoming_meetings">Upcoming Meetings</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov" target="_blank">virginia general assembly</a>
+              </div>
+            </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://whosmy.virginiageneralassembly.gov" target="_blank">
+                    Who's My Legislator?
+                  </a>
+                </li>
+          </ul>
+          <!-- /right navbar-nav -->           
+
+          </div>
+
+          </div>
+          <!-- /inner-nav -->
+        
+        </div>
+        <!-- flexed nav to appear on medium to large screens -->
+
+        <!-- hidden checkbox / <label> displays mobile nav via media query on small devices -->
+        <label for="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </label>
+        <input type="checkbox" id="nav-toggle">
+        <!-- /hidden checkbox / <label> -->
+        
+        <!-- exposed "mobile-nav" for use on small devices -->
+        <ul class="mobile-nav">
+        <!-- can be used to scroll hidden content on landscape xs or phone sizes -->
+        <div class="relativeNavWrap">
+          <li class="mobile-item"><a href="/about">About</a></li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Meetings
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <a class="sub-item" href="/past_meetings">Past Meetings</a>
+              <a class="sub-item" href="/upcoming_meetings">Upcoming Meetings</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+            </div>
+          </li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Additional Information
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <!--<a class="sub-item" href="#">Bills in Committees</a>-->
+              <a class="sub-item" href="/committees">Bills in Committees</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+              <a class="sub-item" href="https://whosmy.virginiageneralassembly.gov" target="_blank">Who's My Legislator</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov" target="_blank">Virginia General Assembly</a>
+              
+              
+            </div>
+          </li>
+          </div>
+        </ul>
+        <!-- /"mobile-nav" -->
+      </nav>
+
+      <!-- this wrapper is used in individual SASS files to control the look of each "page" / view -->
+      <div class="page-content">
+        <!-- output the view(s)' content -->
+        
+<div class="container-fluid admin-section w-auto">
+
+    <div class="header-band">
+      <h5 class="">Public Comments for: HB250 - Mining and processing of certain minerals and elements; work group to study. </h5>
+    </div>
+
+  <div class="container">
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">SEO</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Dietlikon</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Hello, 
+
+Greetings from Ranker SEO.
+
+Are you looking for a genuine SEO service to rank your website top on Google? Are you cheated by fake SEO companies? 
+
+You have found an affordable legitimate SEO agency to rank your website.
+
+We have ranked 100s of websites such as blogs, shopify stores, ecommerce websites, adult websites, saas websites, etc. You can reach more customers by utilizing our backlinks.
+
+For real proof, you can visit our website and check out. Contact us for more details.
+
+Our Skype ID: support@ranker.one
+Our Website: https://www.ranker.one
+
+Thanks &amp; Regards
+Ranker SEO
+
+If you don&#39;t like to receive our messages, you can unsubscribe by click here https://www.ranker.one/unsubscribe/?site=virginia.gov
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">SEO</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Worms Hochheim</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Hello, 
+
+Greetings from Ranker SEO.
+
+Are you looking for a genuine SEO service to rank your website top on Google? Are you cheated by fake SEO companies? 
+
+You have found an affordable legitimate SEO agency to rank your website.
+
+We have ranked 100s of websites such as blogs, shopify stores, ecommerce websites, adult websites, saas websites, etc. You can reach more customers by utilizing our backlinks.
+
+For real proof, you can visit our website and check out. Contact us for more details.
+
+Our Skype ID: support@ranker.one
+Our Website: https://www.ranker.one
+
+Thanks &amp; Regards
+Ranker SEO
+
+If you don&#39;t like to receive our messages, you can unsubscribe by click here https://www.ranker.one/unsubscribe/?site=virginia.gov
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Schaefer</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Boca Raton</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Let me introduce you to Nutritional Products International, a global brand management company based in Boca Raton, FL, which helps domestic and international health and wellness companies launch products in the U.S.
+
+As senior account executive for business development at NPI, I work with many health and wellness brands that are seeking to enter the U.S. market or expand their sales in America.
+
+After researching your brand and product line, I would like to discuss how we can expand your penetration in the world’s largest consumer market.
+
+At NPI, we work hard to make product launches as easy and smooth as possible. We are a one-stop, turnkey approach.
+
+For many brands, we become their U.S. headquarters because we offer all the services they need to sell products in America. NPI provides sales, logistics, regulatory compliance, and marketing expertise to our clients.
+
+We import, distribute, and promote your products.
+
+NPI for more than a decade has helped large and small health and wellness brands bring their products to the U.S. NPI is your fast track to the retail market.
+
+For more information, please reply to this email or contact me at MarkS@nutricompany.com.
+
+Respectfully,
+
+Mark
+
+Mark Schaeffer 
+Senior Account Executive for Business Development
+Nutritional Products International
+150 Palmetto Park Blvd., Suite 800
+Boca Raton, FL 33432
+Office: 561-544-071
+MarkS@nutricompany.com
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Southwick</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Dordrecht</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Hello Sir!
+
+I working for Bizcope SEO company in Bangladesh. My client needing backlinks urgently. So sir, I requesting that you give me a do follow, permanent backlink on your blog. When you are done, please sending me email to confirming. Here is my client website:
+
+https://www.discovermagazine.com/sponsored/25-best-cbd-gummies-on-the-market
+
+Plz also creating a 5 star GMB and Trust Pilot reviewings too.
+
+If I do not seeing a backlink in one week, I am create million toxic blog comment spam and redirect backlink to virginia.gov and you can saying goodbye to your Google rankings for 1 year or more.
+
+I trust you making correct decision Sir. I giving you 7 days. If I getting link from you, I will also add a back-link to virginia.gov on https://blessedcbd.co.uk/cbd-gummies/
+
+Best wishes from sunny Bangladesh
+
+Dusyanthan Balasubramanian
+
+Bizcope | SEO, Web Design &amp; Digital Marketing Company
+Address: 89/7 Gopibag Biswa Road, Nadian Tower, Level 3 Dhaka, 1203, Bangladesh
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Leyen</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia League of Conservation Voters</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The Virginia League of Conservation Voters supports this legislation because:
+- This legislation addresses the outdated regulatory framework for commercial metals mining of copper, zinc and lead.
+- As operations have not occurred in the Commonwealth for many decades, existing bonding, reclamation, closure, and monitoring regulations should be comprehensively evaluated and updated.
+- This bill does not impact other mining, such as aggregate.
+ 
+Specifically, the bill:
+- Analyzes current regulations regarding base metals, such as copper, zinc, and lead, that are mined and/or processed using similar techniques evaluated by the state agency committee established as a result of HB2213 (2021).
+- Requires review of potential factors which could lead to toxic contamination of our water supply, and for any impacts to public health.
+- Pauses permitting for any large-scale mining of gold, copper, lead, and zinc operations within the Commonwealth until the analysis of mining regulations is complete. 
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Turner</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia Conservation Network</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Members of the House Rules - Studies Subcommittee Committee, on behalf of the Virginia Conservation Network, I respectfully ask you to vote &quot;yes&quot; on HB250. This bill simple asks the Virginia Department of Energy to analyze current regulations regarding base metals, such as copper, zinc, and lead, that are mined and/or processed using similar techniques evaluated by the state agency committee established as a result of HB2213 (2021).  I am also attaching additional talking points for your convenience, thank you! 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Price</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Blacksburg</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Get the Commonwealth back on track!
+The US Constitution must be adhered to!
+No more Lobbyist intervention!
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">DeJesus III</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Loudon</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I support this bill.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Schaefer</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Boca Raton</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Many companies are known for their product development. That is their expertise.
+
+As senior account executive for business development at Nutritional Products International, I have worked with brands that have created and developed innovative products that consumers would want to buy.
+
+But these companies don’t have the staff or knowledge to successfully launch their products in the U.S. This is why many domestic and international health and wellness brands reach out to NPI.
+
+Launching products in the U.S. is our expertise.
+
+On a daily basis, I research companies in the health and wellness sectors, which is how I came across your brand.
+
+NPI, a global brand management company based in Boca Raton, FL., can help you.
+
+Through a one-stop, turnkey platform called the “Evolution of Distribution,” NPI gives you all the expertise and services you need when you launch your product line here. We become your headquarters in the United States.
+
+What does NPI do? We import, distribute, and market your product line.
+
+When you work with NPI, you don’t need to hire a U.S. sales and support team or contract with a high-priced Madison Avenue marketing agency.
+
+NPI, along with its sister company, InHealth Media, collaboratively work to market your products to consumers and retailers throughout the U.S. 
+
+For more information, please reply to this email or contact me at MarkS@nutricompany.com.
+
+Respectfully,
+
+Mark
+
+Mark Schaeffer 
+Senior Account Executive for Business Development
+Nutritional Products International
+150 Palmetto Park Blvd., Suite 800
+Boca Raton, FL 33432
+Office: 561-544-071
+MarkS@nutricompany.com
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Spellman</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Tarome</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Hi
+
+I found virginia.gov on Instagram
+
+My name is Marshall Spellman and I am the affiliate manager at justcbdstore.uk
+
+I am writing to invite virginia.gov to join JustCBD UK Affiliate Program.
+
+Unlock a steady stream of income by participating as an official affiliate with us. Our affiliates make 10% to 20% commission on each successful sale they refer to us. Each and every sale you refer is track and attributed to you, even if the visitor leaves and completes the sale at a later date. We make sure to meet and exceed industry averages on sales commissions.
+
+To learn more and sign up with the JustDelta Store Affiliate Program, visit https://justcbdstore.uk/affiliate-info-justcbduk/
+
+We look forward to seeing you on-board.
+
+Warm Regards
+Marshall Spellman
+Australia, QLD, Tarome, 4309, 2 Ageston Road, (07) 4580 6614
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Berthoud</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Friends of Buckingham, Virginia Community Rights Network</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Buckingham</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Thank you for supporting HB250. I see the other commenters have spoken well to this issue. Addressing one of your foremost concerns, there would be no additional funding required in order to incorporate the requests of this bill into the already funded project of HB2213, and the State Agency Committee. To pause permitting of the mining of gold, copper, lead and zinc while this study is conducted makes good common sense. Let&#39;s scrutinize what we have before allowing further problems into our state. We know the current regulations are not up to protecting us from modern large scale mining. 
+
+There are many concerns about large scale mining: dewatering, airborne toxic particulate matter, poisoning of the local groundwater &amp; drinking water downstream, catastrophic waste-holding dam failures, economic devastation to local communities due to the short term and boom &amp; bust nature of metallic mining. One of the most concerning aspects of mining, the use of very toxic chemicals such as cyanide and mercury to separate the metals from the ore - we find that there are no! regulations. That alone should cause an urgent pause. 
+
+Talk of well paying jobs unfortunately is not well founded. The large mining companies would bring in their own skilled peoples and  specialized equipment. Again, since funding may be your primary concern, to pause permitting could save the state from extensive externalized costs. Thanks for supporting HB250. Heidi Dhivya Berthoud, Secretary Friends of Buckingham, President Virginia Community Rights Network 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Calvert</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia Conservation Network</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Charlottesville</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+                <p class="card-text mt-1"><i class="far fa-paperclip commentPoint mr-1 fa-lg"></i>
+                  <a target="_blank" href="/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWHc9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--bfe929a6420e8430f68c1a82be3f3f12c90eb22c/HB-250.pdf">Comments Document</a>
+                </p>
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                SUPPORT HB250. Comments attached.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Schaefer</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Boca Raton</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Many companies are known for their product development. That is their expertise.
+
+As senior account executive for business development at Nutritional Products International, I have worked with brands that have created and developed innovative products that consumers would want to buy.
+
+But these companies don’t have the staff or knowledge to successfully launch their products in the U.S. This is why many domestic and international health and wellness brands reach out to NPI.
+
+Launching products in the U.S. is our expertise.
+
+On a daily basis, I research companies in the health and wellness sectors, which is how I came across your brand.
+
+NPI, a global brand management company based in Boca Raton, FL., can help you.
+
+Through a one-stop, turnkey platform called the “Evolution of Distribution,” NPI gives you all the expertise and services you need when you launch your product line here. We become your headquarters in the United States.
+
+What does NPI do? We import, distribute, and market your product line.
+
+When you work with NPI, you don’t need to hire a U.S. sales and support team or contract with a high-priced Madison Avenue marketing agency.
+
+NPI, along with its sister company, InHealth Media, collaboratively work to market your products to consumers and retailers throughout the U.S. 
+
+For more information, please reply to this email or contact me at MarkS@nutricompany.com.
+
+Respectfully,
+
+Mark
+
+Mark Schaeffer 
+Senior Account Executive for Business Development
+Nutritional Products International
+150 Palmetto Park Blvd., Suite 800
+Boca Raton, FL 33432
+Office: 561-544-071
+MarkS@nutricompany.com
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Holmes</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Piedmont Environmental Council</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Culpeper</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                On behalf of the Piedmont Environmental Council, we urge you to support HB250. The legislation adds copper, zinc and lead to the current study analyzing the impacts of industrial gold mining and places a temporary pause in permitting for this mining until the study is completed. The commonwealth must ensure our regulatory programs are protective of the public health and our natural resources, especially threats to water quality from acid mine drainage and other harmful pollutants associated with mining and processing. The pause is essential to ensure measures recommended for protection of the public health and environment are in place prior to the commencement of any mining activities. Thank you.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Hanuman</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Friends of Buckingham</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Buckingham</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                As you address HB 250 regarding Large-Scale Commercial Metals Mining  I urge you to consider the cost/benefit to the citizens of the Commonwealth, your constituents.
+Jim Kuipers,  a registered professional engineer in Colorado and Montana, reported to the National Academy of Sciences  on HB 2213 on  Jan. 19, 2022 that mining company bankruptcies, leaving states with the bill to clean up their pollution, and superfund site designations are the case in 2 out of 4 gold mines in South Carolina. 
+No significant fiscal impact would be anticipated if the  Bill utilizes the State Agency Committee formed to fulfill the requirements of HB 2213 (passed in 2021), keeping the Committee intact to review regulations for the additional metals of copper, lead, and zinc .
+Note the full cost to frontline Environmental Justice communities and everyone in the Commonwealth depending on Virginia waters and those living downstream. 
+Please vote in support of HB 250.  Thank you, Kenda Hanuman
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Heagney</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Neufelden</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Good Afternoon
+
+I found virginia.gov on Instagram
+
+My name is Kate Heagney and I am the affiliate manager at justcbdstore.uk
+
+I am writing to invite virginia.gov to join JustCBD UK Affiliate Program.
+
+Unlock a steady stream of income by participating as an official affiliate with us. Our affiliates make 10% to 20% commission on each successful sale they refer to us. Each and every sale you refer is track and attributed to you, even if the visitor leaves and completes the sale at a later date. We make sure to meet and exceed industry averages on sales commissions.
+
+For more information and enroll with the JustDelta Store Affiliate Program, visit https://justcbdstore.uk/affiliate-info-justcbduk/
+
+We look forward to seeing you on-board.
+
+Warm Regards
+Kate Heagney
+Austria, BURGENLAND, Neufelden, 4120, Welser Strasse 56, %rnd_phone%
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Rinaldi</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Press Pause Coalition</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Buckingham</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please vote in favor of HB250. This is a bill that promotes good governance and does not impact current business. HB250 capitalizes on work already being done by the Commonwealth in its study of the impacts of gold mining. Virginia can  utilize the state agency committee established for that study to accomplish the requirements of HB250, because copper, lead, and zinc are mined in a similar manner. This bill asks only that the Commonwealth take measures to prepare for a potential future industry of metal mining, which uses new and different techniques that were not practiced when the current regulations were written. Please vote in favor of this bill. Respectfully, Stephanie Rinaldi
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Oba</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Friends of Buckingham </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Buckingham </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                As president of Friends of Buckingham, I ask that you vote in support of HB250.  
+
+Industrial-scale mining of copper, lead, and zinc has not been done in Virginia in many decades, but exploration for these metals has recently begun in multiple Virginia counties.  HB250 gives Virginia the opportunity to review its regulations for large-scale copper, zinc, and lead mining operations, which could impact the drinking water sources of communities adjacent or downstream of a metals-containing geological belt that crosses the state – including our community in Buckingham. 
+
+It is crucial that Virginia be proactive in addressing these operations, which in a modern context are new to the Commonwealth.  HB250 allows for this by establishing a review of the regulations for industrial mining of copper, zinc, and lead while pausing permits for these metals and gold (whose regulations are currently being reviewed) until the analyses are complete.  The bill does not affect any other mining or any current or pending operations.
+
+Please vote in support of HB250.
+
+Chad Oba,
+
+President, Friends of Buckingham
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Fanning</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Chesapeake Bay Foundation </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">City of Richmond </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The Chesapeake Bay Foundation writes in support of HB250.  This bill will build upon ongoing work analyzing the sufficiency of Virginia&#39;s regulatory programs to protect the Commonwealth&#39;s natural resources from the effects of industrial gold mining to also address impacts related to commercial metals mining of copper, zinc and lead, for which exploratory efforts are underway.  While this study effort is ongoing, the bill would also provide for a temporary pause in permitting for large-scale mining of gold, copper, lead, and zinc until the study is completed. Studying the potential impacts from these sorts of mining operations will ensure sufficient regulatory programs are in place to protect our natural resources, including water quality, downstream drinking water sources, and the Chesapeake Bay. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Lovelace</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Press Pause Coalition</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Bedford County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I urge you to vote in support of HB250.  This bill gives Virginia the chance to employ best practice in regards to large-scale copper, lead, and zinc mining.  These operations have not been seen in Virginia for a very long time, and Virginia’s regulations have not been evaluated in light of modern mining techniques for these metals.  Further, the bill does not impact business in that it has no impact any other types of mining, and there are no current or pending operations that could be affected.  
+Potentially mineable areas are adjacent and downstream to the drinking water sources of countless Virginians across the state.  Metals mining often uses toxic chemicals, like cyanide, in processing the metals, and the impacts from these operations and resulting waste materials on water quality and resources are well-documented.  A review of regulations and impacts of large-scale copper, zinc, and lead mining, while pausing permitting until the analyses are complete, is critical.  It is also urgent, as exploration for these metals has begun in multiple localities.  Again, I ask that you please vote in support of HB250.
+Stacy Lovelace
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sims</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Appalachian Voices</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                On behalf of the organization Appalachian Voices, and our members across Virginia, including many of your constituents, I ask you to please support HB250.  Addressing the existing, and likely outdated regulatory framework for commercial metals mining of copper, zinc and lead is a crucial step in ensuring the safety of  Virginia&#39;s drinking water supplies.
+
+As exploratory efforts intended for large-scale processing of these metals are now occurring, HB250 would make sure existing bonding, reclamation, closure, and monitoring regulations are evaluated and updated. Of particular concern is the potential impacts from processing of these metals, which can include use of toxic materials, or result in large amounts of waste material. 
+
+HB250 also provides for a pause on permits for large-scale mining of gold, copper, lead, and zinc until those regulations are analyzed.  This does not impact other types of mining such as aggregate, and does not interfere with any current or pending permits. Gathering information and analyzing regulations that protect our drinking water before permits are permissible is good governance, and serves public health. 
+
+I respectfully ask you to please support HB250 from Delegate Shelly Simonds.
+
+Jessica Sims, Virginia Field Coordinator, Appalachian Voices
+
+              </p>
+            </div>
+          </div>
+            <div class="d-flex justify-content-center commentPoint mt-4">End of Comments</div>
+
+
+  </div>
+
+</div>
+
+        <!-- /view(s)' content -->
+      </div>
+      <!-- this wrapper for SASS files' context -->
+      
+      <footer class="navbar fixed-bottom d-flex justify-content-center py-0 d-print-none navbar-light bg-light">
+        <span class="navbar-text">&copy; 2022 
+        Commonwealth of Virginia - House of Delegates Clerk's Office | Version 1.3.10
+        </span>
+      </footer>
+
+    <script src="/packs/js/application-f8a0cd8719161541884f.js" data-turbolinks-eval="false"></script>
+    
+  </body>
+</html>

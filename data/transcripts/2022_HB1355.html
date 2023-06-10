@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>House of Delegates Speak</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="uqQKhTbm/09wRSKPjUYg72ogE9PH0JFiU/gmUlF//t1eBo7RL8oHJNcjSiKMaA1qoMarZU/GnkcqF7wls77n9A==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-5772dfc184486a3688555a6a0d690a965976b6836948ec530366cd17b4d0bb3b.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-77400b3ca15033a8ae2cf38c8473edc7d3d074acb77c9fb124c906d2c1b083b1.js" data-turbolinks-track="reload"></script>
+  
+    <!-- favicon and home screen icons for iOS -->
+    <!-- standard browser -->
+    <!-- rendered @2x for retinas, HD tablets -->
+    <link rel="icon" type="image/png" href="/assets/favicon-0192693ecd43fcb87ad9f800382b84f286e4b9470a6cfe6b2783e6374372fb19.png" sizes="32x32" />
+    <!-- iOS set -->
+    <!-- Home screen on iPad with retina display-->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-76@2x-fe649a0a679d1548c208fd5fe60b48479d9deb624a38fe01633ab6f8f407ff6c.png" sizes="152x152" />
+    <!-- Home screen on iPads with higher DPR && iPad Pro(s) -->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-83.5@2x-f6dbea0bdf0839039ce7d04758f76cddf777f2d908498c783bd526f0a1a5d166.png" sizes="167x167" />
+    <!-- /favicon sets -->
+    
+    <!-- custom Google fonts for this app -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <!-- /Google fonts -->
+
+    <!-- don't let the mobile browser scale content at load w/o user getstures to do so 
+         users can still gesture to zoom, but switching from portrait to landscape causes no jumps or zooms (in Safari only:( ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <!-- mobile browser scale fix -->
+
+  </head>
+  
+  <!-- When we base presentations on a specific view, we use a body class. -->
+  <!-- the body classes are referenced in individual SASS files for specific styling of views -->
+  <body class="comments_show">
+    
+    <nav class="navbar fixed-top non-phone navbar-expand-lg navbar-light bg-light" style="height:83px;">
+      
+      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+        
+        <!-- basic flexed links/nav to appear on medium to large screens -->
+        <div class="med-device-navigation d-flex align-items-center">
+
+          <div class="inner-nav bg-light">
+
+            <div class="list-expander justify-content-between">
+
+            <!-- absolute CHEVRON -->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand">
+                <!--Brand-->
+                <!-- these images are @2x their original size to accmmodate for retina screens (the width and height attributes are constraining the images) -->
+                <!--<a class="brand brand-logo" href="/home">--><img alt="" width="166" height="103" src="/assets/logo-default-174x112@2x-dc721c2be12b46ca771fefb345cc4ee425d35432216d957f94cf7ea803014b1d.png" />
+                <!-- for a "reveal" effect on larger screens when scrolling/swiping --->
+                <!-- may be used later for this app -->
+                <!--<a class="brand brand-logo-stuck" href=""><img src="assets/logo-default-115x62-@2x.png" alt="" width="115" height="62"></a>-->
+                <!--<div class="rd-navbar-brand-triangle"></div>-->
+              </div>
+            
+            </div>
+            <!-- /absolute CHEVRON -->
+
+            <!-- this navbar-nav appears on the left -->
+            <ul class="navbar-nav d-flex left-nav-options">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/committees">Bills in Committee</a>
+              </li>
+            </ul>
+            <!-- /left navbar-nav -->
+
+          <!-- this navbar-nav appears on the right -->
+          <ul class="navbar-nav d-flex right-nav-options">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="publicDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meetings
+              </a>
+              <div class="dropdown-menu" aria-labelledby="publicDropdownMenuLink">
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+                <a class="dropdown-item" href="/past_meetings">Past Meetings</a>
+                <a class="dropdown-item" href="/upcoming_meetings">Upcoming Meetings</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov" target="_blank">virginia general assembly</a>
+              </div>
+            </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://whosmy.virginiageneralassembly.gov" target="_blank">
+                    Who's My Legislator?
+                  </a>
+                </li>
+          </ul>
+          <!-- /right navbar-nav -->           
+
+          </div>
+
+          </div>
+          <!-- /inner-nav -->
+        
+        </div>
+        <!-- flexed nav to appear on medium to large screens -->
+
+        <!-- hidden checkbox / <label> displays mobile nav via media query on small devices -->
+        <label for="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </label>
+        <input type="checkbox" id="nav-toggle">
+        <!-- /hidden checkbox / <label> -->
+        
+        <!-- exposed "mobile-nav" for use on small devices -->
+        <ul class="mobile-nav">
+        <!-- can be used to scroll hidden content on landscape xs or phone sizes -->
+        <div class="relativeNavWrap">
+          <li class="mobile-item"><a href="/about">About</a></li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Meetings
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <a class="sub-item" href="/past_meetings">Past Meetings</a>
+              <a class="sub-item" href="/upcoming_meetings">Upcoming Meetings</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+            </div>
+          </li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Additional Information
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <!--<a class="sub-item" href="#">Bills in Committees</a>-->
+              <a class="sub-item" href="/committees">Bills in Committees</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+              <a class="sub-item" href="https://whosmy.virginiageneralassembly.gov" target="_blank">Who's My Legislator</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov" target="_blank">Virginia General Assembly</a>
+              
+              
+            </div>
+          </li>
+          </div>
+        </ul>
+        <!-- /"mobile-nav" -->
+      </nav>
+
+      <!-- this wrapper is used in individual SASS files to control the look of each "page" / view -->
+      <div class="page-content">
+        <!-- output the view(s)' content -->
+        
+<div class="container-fluid admin-section w-auto">
+
+    <div class="header-band">
+      <h5 class="">Public Comments for: HB1355 - Fossil fuel projects; establishes a moratorium. </h5>
+    </div>
+
+  <div class="container">
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Aileen</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Henrico County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Good afternoon members of the Commerce and Energy Subcommittee;
+I am asking you to please support the HB 1355 Fossil Fuel Moratorium bill that is front of you today.  Any serious effort to address the climate emergency we are facing must contain a full Moratorium on all new Fossil Fuel projects in Virginia.
+We need an environmental bill that protects transitioning workers. Delegate Kory’s bill includes the development of transition assistance programs for workers and communities associated with the fossil fuel industry.
+Our communities will be protected from unnecessary fossil fuel infrastructure while establishing a just energy transition
+Virginia takes pride in promoting moving towards a more sustainable economy.  A sustainable future is of great economic importance. 
+Fossil fuels have consequences on the three pillars of sustainable development. In a study  entitled &quot;the social and economic consequences of the fossil fuel supply chain: “Fuels are resources that can be used to ﬁll the needs of society. So it would intuitively follow that an abundance of these resources would lead to improved economies and more stable nations. But this is in fact clearly not the case for oil &amp; gas resources. Of the 34 countries who are able to derive more than 5% of their GDP from oil exports, only 9 are ranked as stable nations”
+https://link.springer.com/article/10.1557/mre.2016.7
+We can cite lots more cases of the instability that fossil fuel has proven to bring to our state.  
+While we figure out how to best serve and protect our citizens and our environment, a moratorium can serve to clear the vision for a sustainable and safe economy and environment.
+I am asking you to please support HB 1355 to protect the health and economy of all future generations. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Vassey</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia Manufacturers Association</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                VMA supports HB270 - modernizing the VEC is a necessity.
+
+VMA supports HB336, 337, 341- 51% approval is a near universal democratic standard for bargaining unit approval and union activities, including collecting dues, should be a cost of the union, not the taxpayer.
+
+VMA supports HB414 - the Commonwealth must have a reliable electric grid.  
+
+VMA opposes HB1355 - the Commonwealth must have a diversified energy portfolio that is affordable, reliable, secure, and sustainable.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Roberts</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Charles City County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I am a resident of Charles City County, a rural community that our local government approved two merchant fracked gas power plants.  The enormous lack of notification from our local government for over 10 years on these projects was addressed at the DEQ Air Board Hearing in 2019.  A subcommittee was formed to look into these issues.  A moratorium on Fossil Fuel projects are important for many reasons the most important to the residents of Charles City County and surrounding areas is to make sure that our local government and the State of VIrginia can not approve more power plants for this minority community or any community in the State of Virginia.  Sacrifice zones for profit off the backs of minorities is no longer acceptable.  Please do not let corporations destroy the health of the citizens of Virginia, the land, air and water in our beautiful state for out of state companies that give nothing back to Virginia.  VOTE for HB 1355
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Campblin</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Green New Deal VA Coalition </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                HB1355 is a crucial link necessary to transition Virginia to a new clean energy economy while protecting ratepayers and workers.  This bill presents a streamlined blueprint that incorporates the pro-active action to remove virginia from fuel dependency, and allocates resources to ensure workers are able to compete and not be left behind. Furthermore, it protects ratepayers from getting stuck with the bill (again) by having to pay for expensive fossil fuel infrastructure and experience environmental degradation, loss of farmland, and homesteads. 
+
+I urge you to vote YES today and then support HB1355 in full committee.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sims</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Henrico</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I am writing in my capacity as a private citizen, and ask the Committee to please support HB 1355. We are are a critical point in mitigating existing harms from climate emissions and must swiftly make a transition to a clean and equitable energy future for Virginia. This bill aptly considers both the present by establishing transitional assistance for workers within the fossil fuel industry, and the future by preventing harmful emissions that impact our Virginia communities.  The bill is reflective of both the public health risks associated with fossil fuel infrastructure, and the expanding renewable energy sector, a robust and thriving economic industry. Please support HB 1355.
+Thank you, Jessica Sims, Henrico, VA.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Lovelace</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">BEDFORD</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I urge you to support HB1355.  This bill is important for ratepayers - it prevents ratepayers having to pay for unnecessary and more expensive fossil fuel infrastructure.  This bill is important for our economy - renewable energy jobs are some of the fastest growing, and it would be a mistake for Virginia to buildout infrastructure that locks Virginia into decades of fossil fuel dependence and produces less jobs when we should be doing everything we can to tap into the better-paying, faster-growing jobs of the renewable energy industry; further, this bill provides assistance for workers transitioning out of the fossil fuel industry.  And this bill is important for communities - it prevents utilities and out-of-state companies from forcing unwanted and polluting infrastructure into Virginia communities.  Again, I urge you to vote in support of HB1355.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">McRoberts</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Front Royal </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Say NO to the bills that take away Collective Bargaining. Employees in the state of VA deserve Collective Bargaining.  Teachers, firefighters and Policeman deserve a position in determining what happens in their profession. For too long they have had to sit back and let others who are not part of their profession, decide what happens in their profession. Give them a voice to determine what  is in the best interest for their profession. Teachers work day and night to provide what is in the best interest of students- no one knows better then they do how to achieve this- they deserve a voice in the decision-making  We will lose the best  teachers, firefighters and policemen if we take away this critical opportunity for them to have a voice  in their professions.  Say NO to the bills that take away Collective Bargaining. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Brian McGovern </span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">York Education Association </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Gloucester</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Good morning honorable members of the Committee,
+
+Massachusetts is often said to have the strongest public schools in the nation.  Did you also know that Massachusetts Educators also have strong collective bargaining rights.  Massachusetts invests in education.  With the current staffing shortages,  show Virginia families and educators that you are in strong support of education by supporting collective bargaining rights.  Virginia educators earn 7k below the national average and many are abandoning the profession.  Can you blame them?
+
+Sincerely
+
+Brian McGovern 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Blose</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Select...</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Pulaski</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                We know what are students need more than anyone.     I work out Special Education students every day.  They always asking why do we have to do this or that.  They ask why people who don&#39;t know them make them take test they know that they will pass.  I want to speak for these students who fight a different type of battle every day.  Let us who know what to do have a say.  Most of you have no idea what special needs children fights every day because you have never been around my students.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Aguilar</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Food &amp; Water Watch</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Washington, DC</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                January 31, 2022
+
+SUPPORT HB 1355: Fossil fuel projects moratorium
+
+On behalf of Food &amp; Water Watch’s nearly 30,000 members, we want to urge the committee to vote in favor of passing HB 1355 so that a moratorium is put in place to stop the development of new fossil fuel projects in Virginia.
+
+Over the past several years, Virginia has continued to permit that buildout of fossil fuel power plants and infrastructure.  Natural gas powered facilities, pipelines, compressor stations and other infrastructure project, in particular, have been proposed across numerous communities in the state.  These projects have brought with them health and safety concerns, violation of property rights, and the degradation of the environment.
+
+A moratorium on new fossil fuel projects is needed now because Virginia has pledged to move to 100% clean energy in the next few decades and the state should be putting all of its emphasis on the development of truly clean options.  As the costs for renewables also continue to decrease, the continued development of fossil fuels would mean higher costs for Virginians and an exponential increase in utility rates in the long run. 
+
+A 2019 independent analysis written by Advanced Clean Energy Economy also found that an ambitious scenario for moving to 100% ‘carbon zero’ by 2030 in Virginia produces “the greatest benefits in terms of GDP, job growth,  and labor income” when compared with modeling for continued reliance on fossil fuels and other less ambitious clean energy options.
+
+Finally, state legislators need to address the climate crisis head on now and take on the fossil fuel industry that are the main drivers of climate change. Increasing our dependence on and use of fossil fuels with new dirty energy projects would only exacerbate the negative impacts of climate change. Virginia is already seeing these impacts regularly in the form of flooding, snow storms, aquifer depletion, and a host of other environmental disasters that are costing hundreds of millions in damages and in efforts to mitigate the scope of the problem.
+
+For all of these reasons, Food &amp; Water Watch urges you to vote to pass HB 1355 as favorable.
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Bradner</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Rev.</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Bath Township</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The price of energy affects the poor and working man much more than it does any rich politician or or entitled class.  The idiocy espoused by the Biden administration and the leftist politicians in America is it is not just laughable, it is anti-American and impacts impacts each one of us in a negative way.
+
+Stop the spread of communism in our country.  Put America First.  Let us together make America Great Again.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sullivan</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Loudoun Education Association</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Ashburn</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                These bills will repeal educators&#39; progress toward gaining collective bargaining. They will silence educators&#39; voices. School decisions will not be able to capitalize on the experiences and skills of their experts in their school systems, the educators. Why deny educators a seat at the table? Why squelch expert input? Educators are the experts in our schools. Bargaining with educators benefits our students&#39; learning conditions. It improves educator working conditions, and ultimately benefits our Virginia communities.
+
+Bring the experts to the table. 
+
+I urge you to vote no on these bills.
+Sincerely,
+
+              </p>
+            </div>
+          </div>
+            <div class="d-flex justify-content-center commentPoint mt-4">End of Comments</div>
+
+
+  </div>
+
+</div>
+
+        <!-- /view(s)' content -->
+      </div>
+      <!-- this wrapper for SASS files' context -->
+      
+      <footer class="navbar fixed-bottom d-flex justify-content-center py-0 d-print-none navbar-light bg-light">
+        <span class="navbar-text">&copy; 2022 
+        Commonwealth of Virginia - House of Delegates Clerk's Office | Version 1.3.10
+        </span>
+      </footer>
+
+    <script src="/packs/js/application-f8a0cd8719161541884f.js" data-turbolinks-eval="false"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>House of Delegates Speak</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="UDdsKug6K+OCAvkryQ/CO5ozHxUUAWjQK8Oi7yTjJXW0leh+8RbTiCVkkYbIIe++UNWno5wXZ/VSLDiYxiI8XA==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-5772dfc184486a3688555a6a0d690a965976b6836948ec530366cd17b4d0bb3b.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-77400b3ca15033a8ae2cf38c8473edc7d3d074acb77c9fb124c906d2c1b083b1.js" data-turbolinks-track="reload"></script>
+  
+    <!-- favicon and home screen icons for iOS -->
+    <!-- standard browser -->
+    <!-- rendered @2x for retinas, HD tablets -->
+    <link rel="icon" type="image/png" href="/assets/favicon-0192693ecd43fcb87ad9f800382b84f286e4b9470a6cfe6b2783e6374372fb19.png" sizes="32x32" />
+    <!-- iOS set -->
+    <!-- Home screen on iPad with retina display-->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-76@2x-fe649a0a679d1548c208fd5fe60b48479d9deb624a38fe01633ab6f8f407ff6c.png" sizes="152x152" />
+    <!-- Home screen on iPads with higher DPR && iPad Pro(s) -->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-83.5@2x-f6dbea0bdf0839039ce7d04758f76cddf777f2d908498c783bd526f0a1a5d166.png" sizes="167x167" />
+    <!-- /favicon sets -->
+    
+    <!-- custom Google fonts for this app -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <!-- /Google fonts -->
+
+    <!-- don't let the mobile browser scale content at load w/o user getstures to do so 
+         users can still gesture to zoom, but switching from portrait to landscape causes no jumps or zooms (in Safari only:( ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <!-- mobile browser scale fix -->
+
+  </head>
+  
+  <!-- When we base presentations on a specific view, we use a body class. -->
+  <!-- the body classes are referenced in individual SASS files for specific styling of views -->
+  <body class="comments_show">
+    
+    <nav class="navbar fixed-top non-phone navbar-expand-lg navbar-light bg-light" style="height:83px;">
+      
+      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+        
+        <!-- basic flexed links/nav to appear on medium to large screens -->
+        <div class="med-device-navigation d-flex align-items-center">
+
+          <div class="inner-nav bg-light">
+
+            <div class="list-expander justify-content-between">
+
+            <!-- absolute CHEVRON -->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand">
+                <!--Brand-->
+                <!-- these images are @2x their original size to accmmodate for retina screens (the width and height attributes are constraining the images) -->
+                <!--<a class="brand brand-logo" href="/home">--><img alt="" width="166" height="103" src="/assets/logo-default-174x112@2x-dc721c2be12b46ca771fefb345cc4ee425d35432216d957f94cf7ea803014b1d.png" />
+                <!-- for a "reveal" effect on larger screens when scrolling/swiping --->
+                <!-- may be used later for this app -->
+                <!--<a class="brand brand-logo-stuck" href=""><img src="assets/logo-default-115x62-@2x.png" alt="" width="115" height="62"></a>-->
+                <!--<div class="rd-navbar-brand-triangle"></div>-->
+              </div>
+            
+            </div>
+            <!-- /absolute CHEVRON -->
+
+            <!-- this navbar-nav appears on the left -->
+            <ul class="navbar-nav d-flex left-nav-options">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/committees">Bills in Committee</a>
+              </li>
+            </ul>
+            <!-- /left navbar-nav -->
+
+          <!-- this navbar-nav appears on the right -->
+          <ul class="navbar-nav d-flex right-nav-options">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="publicDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meetings
+              </a>
+              <div class="dropdown-menu" aria-labelledby="publicDropdownMenuLink">
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+                <a class="dropdown-item" href="/past_meetings">Past Meetings</a>
+                <a class="dropdown-item" href="/upcoming_meetings">Upcoming Meetings</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov" target="_blank">virginia general assembly</a>
+              </div>
+            </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://whosmy.virginiageneralassembly.gov" target="_blank">
+                    Who's My Legislator?
+                  </a>
+                </li>
+          </ul>
+          <!-- /right navbar-nav -->           
+
+          </div>
+
+          </div>
+          <!-- /inner-nav -->
+        
+        </div>
+        <!-- flexed nav to appear on medium to large screens -->
+
+        <!-- hidden checkbox / <label> displays mobile nav via media query on small devices -->
+        <label for="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </label>
+        <input type="checkbox" id="nav-toggle">
+        <!-- /hidden checkbox / <label> -->
+        
+        <!-- exposed "mobile-nav" for use on small devices -->
+        <ul class="mobile-nav">
+        <!-- can be used to scroll hidden content on landscape xs or phone sizes -->
+        <div class="relativeNavWrap">
+          <li class="mobile-item"><a href="/about">About</a></li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Meetings
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <a class="sub-item" href="/past_meetings">Past Meetings</a>
+              <a class="sub-item" href="/upcoming_meetings">Upcoming Meetings</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+            </div>
+          </li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Additional Information
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <!--<a class="sub-item" href="#">Bills in Committees</a>-->
+              <a class="sub-item" href="/committees">Bills in Committees</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+              <a class="sub-item" href="https://whosmy.virginiageneralassembly.gov" target="_blank">Who's My Legislator</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov" target="_blank">Virginia General Assembly</a>
+              
+              
+            </div>
+          </li>
+          </div>
+        </ul>
+        <!-- /"mobile-nav" -->
+      </nav>
+
+      <!-- this wrapper is used in individual SASS files to control the look of each "page" / view -->
+      <div class="page-content">
+        <!-- output the view(s)' content -->
+        
+<div class="container-fluid admin-section w-auto">
+
+    <div class="header-band">
+      <h5 class="">Public Comments for: HB1301 - Clean Energy and Community Flood Preparedness Act; repeals Act. </h5>
+    </div>
+
+  <div class="container">
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Rohn</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">McLean</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please email the above mentioned bills to me.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Lee-Vandell</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">American Red Cross, Chesapeake Bay Foundation, and the local government </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Charlottesville</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Dear Delegate,
+Please think about the many flood disasters Virginia stands to get and begin to protect our most vulnerable people in the flood plain with concrete infrastructure  and pumps..  Funding their recovery does not provide protection for everyone, for the community, and doesn’t change anything  about the flooding which will just come back again.  Do not vote for #5.
+Thank you.
+Sincerely,
+Frances Lee-Vandell 
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Patwardhan</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I OPPOSE HB 53 and 1301. 
+I SUPPORT HB 141, 508, 523, 715, 1266, and 1350. 
+I don&#39;t have a stance on HB 351 or 1267, but I do feel it necessary to point out that a zero-emissions vehicle still drives (no pun intended) horrifically unsustainable land use patters by perpetuating suburban sprawl and can still kill a human being if it collides at 35 miles per hour. There is entirely too much emphasis on electric cars when we need to be shifting our main method of getting around away from the car in favor of walking, cycling, rolling, bussing, and rail.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Kringer</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Accotink Unitarian Universalist Church</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax Station</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I strongly urge the committee to defeat HB 5, HB 1261, &amp; HB 1301.   HB 1261 would repeal Virginia residents’ participation in important environmental decisions. Public input and public participation in environmental discussions are critical to raising issues of safety, health, social and economic impact, and whether the siting of a project is suitable for the location in which it is proposed.   HB 1301 will hinder Virginia&#39;s progress toward a clean economy by repealing Virginia&#39;s participation in the Regional Greenhouse Gas Initiative (RGGI). Virginia&#39;s participation in RGGI is a successful effort to reduce pollution while directly helping communities on the front lines.   HB 5 diverts funding from the Community Flood Preparedness Fund (FUND) and creates a Flood Relief Fund. This is an inappropriate use of the RGGI funds. The existing FUND is already helping thousands of low-wealth families reduce energy bills and climate impacts, and localities deal with increasingly devastating floods.   As a person of conscience, it is essential to oppose bills like HB 5, HB 1261, &amp; HB 1301, which will set Virginians backward in our goal to address the impacts of climate change and reach carbon-free energy by 2050.&quot;
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Remick-Simkins</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax City</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I oppose the passage of these bills.  We again, face a political opposition to taking care of our own and our environment in these bills.  I am particularly dismayed when those proposing these laws claim to be Christians.  In fact, passing these bills will ensure that we do the very opposite of what is a truly moral or Christian act.  It brings to mind the passage in Matthew 25:34-45.  Indeed if we claim that we have a moral authority of any kind - then we will not rescind our participation in the Greenhouse Gas Initiative, will not ensure that our environmental aspirations of caring for not only the Earth but those living in it then what can we truly say of ourselves as a state and a country?  I do not want to hear about the economic costs.  That is only a smokescreen to protect the proponents of this law from having to live with the consequences of passing these laws.  It really does come down to having a commitment to something far greater and more important than ourselves as individuals or our investments and bank accounts.  It is a matter of irreversible damage that cannot be undone once we have stepped over the place of no return.  Lastly,  if any claim pro-life - these laws destroy any credibility of those who stand by that position.     
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Gebre</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia Interfaith Power &amp; Light</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                My name is Kidest Gebre and I am the Organizing Coordinator and Communicating Our Power Fellow for Virginia Interfaith Power &amp; Light, we collaborate among people of faith and conscience to grow healthy communities by advancing climate and environmental justice.  We urge you to oppose HB 5 &amp; HB 1301. HB 1301 will hinder Virginia&#39;s progress toward a clean economy by repealing Virginia&#39;s participation in the Regional Greenhouse Gas Initiative (RGGI). Virginia&#39;s participation in RGGI is a successful effort to reduce pollution while directly helping communities on the front lines. HB 5 diverts funding from the Community Flood Preparedness Fund (FUND) and creates a Flood Relief Fund. This is an inappropriate use of the RGGI funds. The existing FUND is a statewide program designed to help localities plan for, study, and design projects to protect against future flooding. The existing FUND is already helping thousands of low-wealth families reduce energy bills and climate impacts, and localities deal with increasingly devastating floods. As a person of conscience, it is important that we continue Virginia’s participation to not only reduce air pollution and improve public health but also to bring in critically needed funds for our frontline communities.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Vassey</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Virginia Manufacturers Association</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The VMA asserts that ENERGY POLICIES are essential to ensuring sustainable
+economic growth in manufacturing, with an emphasis on reliable supply at affordable prices, conservation, increased cost-effective energy efficiency technology and programs, cost-effective distributed generation, strengthened infrastructure and investments in new technologies.  We support HB1267 and HB1301.
+
+HB1267 repeals the LEV and ZEV emission program linking Virginia to the California Air Board and establishing a pathway to the regulatory moratorium on all internal combustion engines.
+
+HB1301 repeals the Clean Energy and Community Flood Preparedness Act that obfuscates its actual purpose - the participation in the Regional Greenhouse Gas Initiative - creating an estimated $280 million and growing annual tax on electricity.
+
+Further, the VMA asserts that CLIMATE CHANGE regulations must be exclusively addressed at the Federal level.  There is an inextricable linkage between environmental management and the making and moving of energy, products and people.  As such, economic prosperity, environmental protection, business consumption and human health are interdependent necessities of the U.S. economy. 
+
+Federal and state administered EPA programs and policies to regulate the economy in order to slow or stop global warming should carefully balance these competing necessities through
+rigorous scientific and economic standards.  Any regulation that would impair the U.S.
+economy or lacks empirical and transparent measurement leading to broad scientifically
+validated reductions in global temperatures as well as effective adaptation strategies
+should be opposed.
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Hamilton</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax County</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I would like to urge the committee to vote NO on HB 5 &amp; HB 1301.  Both bills will hinder Virginia&#39;s progress towards energy justice and a clean economy. Our entire commonwealth, especially SWVA, will benefit from a clean economy. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Mackin</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Ceres</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Business Sector</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Attached Virginia business opposition to to HB1267 and HB1301.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Throp</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Norfolk</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The Clean Energy and Community Flood Preparedness Act is doing what it was designed for and is needed more than ever. I strongly opposes its repeal.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Guloglu</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Falls Church</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please stop this cruelty 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Fritz</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Arlington</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Our lands and the animals that live on our lands should be protected at every cost. At a time when deforestation and the killing of animals in the U.S. and around the world  grows more and more, it is imperative to fight against this. If we do not take action and push legislation to protect our land and the animals that live on them, in the not to distant future they will become less and less until they are no more. Please think about this and help to do what you can to make positive change. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Workman</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Chesapeake </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I feel strongly about banning killing contests of foxes and coyotes along with banning snare traps which mph are cruel and not necessary.  Breeders and dealers should be banned from selling cats and dogs for any kind of scientific experiments due the fact that there is technology available that would work just as well.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Brancato</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Floyd</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                508 keep our history alive both the good and bad. We, our children need to be taught the truth about US history 
+479 removal of large and small damns improves  the quality of waterways
+323 local and sustainable farms are the key to the future of successful farming. Thomas Jefferson  believed this
+255 dogs and cats should never be used for inhumane research
+206 small renewal energy projects should have been implemented decades ago. We are so behind many countries in preserving our natural resources and increasing and implementing renewable energy sources
+140 African American gravesites when discovered should be restored and protected as should all of them
+1330 Companion animals should be allowed in more place’s especially on public transportation like Amtrak 
+1301 clean energy= clean air, water, soil, food and this is a human right
+1273 I would like to see hunting bears, deer, raccoons, rabbits, coyote, bobcat foxes completely eliminated. They only terrorize wildlife, there is no “sport” in that.
+1247 STOP killing contests of any wildlife!!! This is barbaric
+1228 Water quality needs to be of the highest standard. It’s a God-given right
+1224 if storm water is managed properly we could avoid massive pollution to our rivers and streams ,  Bays and Oceans
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Reeves</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Prince william county</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I support the Humane Society of the United States&#39; positions pertaining to your particular bill(s).  I do believe HSUS adheres to and promotes the highest standards of integrity in the issues of animal issues, the environment, human concerns, et. al.   I hope you can vote with that perspective in mind.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Hansen</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Support 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">El Hassani</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please stop animal cruelty!
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sakason</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Burke</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                “Kill contests” or otherwise hunting for sport should be outlawed.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">smith</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">self</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Williamsburg</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                pass all of the laws above
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Bicking </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Chesterfield </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protect our wildlife and water resources. Restrict hunting on sundays. No snares or trapping. No animals gor research. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Petras</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Verona </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The greatness of a nation and its MORAL PROGRESS can be judged by the way it treats its animals, its wilderness and its most vulnerable inhabitants.  
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Pellek</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Norfolk</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Good Afternoon,
+I am submitting my support of the above items. I strongly   feel that we need  to put more time and planning on what  we are doing to our animals, that are due the same respect as we all inhabits of our planet, and out planet. We only have one earth and we have not been responsible on how we treated her.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Harper</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond city</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protect Virginia&#39;s environment from Republiklans
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Hicks</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Stafford, Fredericksburg</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protection of Land, Water, Air, Soil and all animals is up to us  and for future generations a must. 
+              </p>
+            </div>
+          </div>
+            <div class="d-flex justify-content-center commentPoint mt-4">End of Comments</div>
+
+
+  </div>
+
+</div>
+
+        <!-- /view(s)' content -->
+      </div>
+      <!-- this wrapper for SASS files' context -->
+      
+      <footer class="navbar fixed-bottom d-flex justify-content-center py-0 d-print-none navbar-light bg-light">
+        <span class="navbar-text">&copy; 2022 
+        Commonwealth of Virginia - House of Delegates Clerk's Office | Version 1.3.10
+        </span>
+      </footer>
+
+    <script src="/packs/js/application-f8a0cd8719161541884f.js" data-turbolinks-eval="false"></script>
+    
+  </body>
+</html>

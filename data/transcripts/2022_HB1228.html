@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>House of Delegates Speak</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="R0ETS1ounYX0g4o8NLIQUlk6au+3DXYvmW/kbjVvGEqj45cfQwJl7lPl4pE1nD3Xk9zSWT8beQrggH4Z164BYw==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application-5772dfc184486a3688555a6a0d690a965976b6836948ec530366cd17b4d0bb3b.css" data-turbolinks-track="reload" />
+    <script src="/assets/application-77400b3ca15033a8ae2cf38c8473edc7d3d074acb77c9fb124c906d2c1b083b1.js" data-turbolinks-track="reload"></script>
+  
+    <!-- favicon and home screen icons for iOS -->
+    <!-- standard browser -->
+    <!-- rendered @2x for retinas, HD tablets -->
+    <link rel="icon" type="image/png" href="/assets/favicon-0192693ecd43fcb87ad9f800382b84f286e4b9470a6cfe6b2783e6374372fb19.png" sizes="32x32" />
+    <!-- iOS set -->
+    <!-- Home screen on iPad with retina display-->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-76@2x-fe649a0a679d1548c208fd5fe60b48479d9deb624a38fe01633ab6f8f407ff6c.png" sizes="152x152" />
+    <!-- Home screen on iPads with higher DPR && iPad Pro(s) -->
+    <link rel="apple-touch-icon" type="image/png" href="/assets/Icon-83.5@2x-f6dbea0bdf0839039ce7d04758f76cddf777f2d908498c783bd526f0a1a5d166.png" sizes="167x167" />
+    <!-- /favicon sets -->
+    
+    <!-- custom Google fonts for this app -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <!-- /Google fonts -->
+
+    <!-- don't let the mobile browser scale content at load w/o user getstures to do so 
+         users can still gesture to zoom, but switching from portrait to landscape causes no jumps or zooms (in Safari only:( ) -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <!-- mobile browser scale fix -->
+
+  </head>
+  
+  <!-- When we base presentations on a specific view, we use a body class. -->
+  <!-- the body classes are referenced in individual SASS files for specific styling of views -->
+  <body class="comments_show">
+    
+    <nav class="navbar fixed-top non-phone navbar-expand-lg navbar-light bg-light" style="height:83px;">
+      
+      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+        
+        <!-- basic flexed links/nav to appear on medium to large screens -->
+        <div class="med-device-navigation d-flex align-items-center">
+
+          <div class="inner-nav bg-light">
+
+            <div class="list-expander justify-content-between">
+
+            <!-- absolute CHEVRON -->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand">
+                <!--Brand-->
+                <!-- these images are @2x their original size to accmmodate for retina screens (the width and height attributes are constraining the images) -->
+                <!--<a class="brand brand-logo" href="/home">--><img alt="" width="166" height="103" src="/assets/logo-default-174x112@2x-dc721c2be12b46ca771fefb345cc4ee425d35432216d957f94cf7ea803014b1d.png" />
+                <!-- for a "reveal" effect on larger screens when scrolling/swiping --->
+                <!-- may be used later for this app -->
+                <!--<a class="brand brand-logo-stuck" href=""><img src="assets/logo-default-115x62-@2x.png" alt="" width="115" height="62"></a>-->
+                <!--<div class="rd-navbar-brand-triangle"></div>-->
+              </div>
+            
+            </div>
+            <!-- /absolute CHEVRON -->
+
+            <!-- this navbar-nav appears on the left -->
+            <ul class="navbar-nav d-flex left-nav-options">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/committees">Bills in Committee</a>
+              </li>
+            </ul>
+            <!-- /left navbar-nav -->
+
+          <!-- this navbar-nav appears on the right -->
+          <ul class="navbar-nav d-flex right-nav-options">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="publicDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Meetings
+              </a>
+              <div class="dropdown-menu" aria-labelledby="publicDropdownMenuLink">
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+                <a class="dropdown-item" href="/past_meetings">Past Meetings</a>
+                <a class="dropdown-item" href="/upcoming_meetings">Upcoming Meetings</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+                <a class="dropdown-item" href="https://virginiageneralassembly.gov" target="_blank">virginia general assembly</a>
+              </div>
+            </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://whosmy.virginiageneralassembly.gov" target="_blank">
+                    Who's My Legislator?
+                  </a>
+                </li>
+          </ul>
+          <!-- /right navbar-nav -->           
+
+          </div>
+
+          </div>
+          <!-- /inner-nav -->
+        
+        </div>
+        <!-- flexed nav to appear on medium to large screens -->
+
+        <!-- hidden checkbox / <label> displays mobile nav via media query on small devices -->
+        <label for="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </label>
+        <input type="checkbox" id="nav-toggle">
+        <!-- /hidden checkbox / <label> -->
+        
+        <!-- exposed "mobile-nav" for use on small devices -->
+        <ul class="mobile-nav">
+        <!-- can be used to scroll hidden content on landscape xs or phone sizes -->
+        <div class="relativeNavWrap">
+          <li class="mobile-item"><a href="/about">About</a></li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Meetings
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <a class="sub-item" href="/past_meetings">Past Meetings</a>
+              <a class="sub-item" href="/upcoming_meetings">Upcoming Meetings</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hs">House Meeting Schedule</a>
+            </div>
+          </li>
+          <li class="mobile-item">
+            <div class="sub-heading" href="#">
+              Additional Information
+            </div>
+            <div class="mobile-item sub-menu" aria-labelledby="subMenu">
+              <!--<a class="sub-item" href="#">Bills in Committees</a>-->
+              <a class="sub-item" href="/committees">Bills in Committees</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov/hcomvideo" target="_blank">Committee Video</a>
+              <a class="sub-item" href="https://whosmy.virginiageneralassembly.gov" target="_blank">Who's My Legislator</a>
+              <a class="sub-item" href="https://virginiageneralassembly.gov" target="_blank">Virginia General Assembly</a>
+              
+              
+            </div>
+          </li>
+          </div>
+        </ul>
+        <!-- /"mobile-nav" -->
+      </nav>
+
+      <!-- this wrapper is used in individual SASS files to control the look of each "page" / view -->
+      <div class="page-content">
+        <!-- output the view(s)' content -->
+        
+<div class="container-fluid admin-section w-auto">
+
+    <div class="header-band">
+      <h5 class="">Public Comments for: HB1228 - Water quality; baseline conditions. </h5>
+    </div>
+
+  <div class="container">
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Rohn</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">McLean</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please email the above mentioned bills to me.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Lovelace</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Bedford</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please vote in support of HB1228.  This bill provides for common sense policy regarding high-quality water resources.  HB1228 is basic science - it allows the collection of baseline data so that monitoring data can be compared to a control.  Again, I urge you to vote in support of HB1228.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sims</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Appalachian Voices</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I am writing on behalf of Appalachian Voices, and our members, many of whom are your constituents, in support of HB 1228. Currently, the Virginia Department of Environmental Quality cannot know whether water quality will be lowered by a proposed project—or by how much—because the “baseline” condition of the water is oftentimes unknown. HB 1228 adds a layer of data-based review that benefits the DEQ&#39;s overall processes, and is necessary tool for anti-degradation analysis.
+
+By requiring project applicants to submit information regarding the current condition of the water and their proposed projects’ potential impacts, HB 1228 will enable the DEQ to make better-informed decisions and comply with current law. This data requirement would only need to occur if the waterbody is not already impaired, or appropriate data is not already available. The bill will also help DEQ avoid additional water testing and provide water quality data for future reference.
+
+Please support HB 1228.
+
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sligh</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Wild Virginia</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Charlottesville</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Wild Virginia supports this bill. Virginia already has the duty to perform the kind of antidegradation analyses that are addressed in this proposal, under both state law and the Clean Water Act. No credible antidegradation analysis can be done without characterizing existing or &quot;baseline&quot; conditions in a waterbody that would be affected by a permitted discharge. The primary value of this bill would be to ensure that the baseline is documented to support the permitting decisions. Requiring that applicants seeking to possibly lower the quality of the waters that belong to us all, to provide data by which to judge the legality of their proposed discharges, is appropriate, given constraints on agency resources. It is important to note that the amended language need not present an undue burden on either DEQ or applicants. In many cases waterbodies are already impaired, so the changes would require no additional work or cost for either the agency or dischargers. In other cases DEQ has access to adequate data and can waive the requirement for further information on the same parameters from the applicant. 
+
+
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Goodrum</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">Wild Virginia </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Charlottesville, Virginia</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                My name is Jacqueline Goodrum and I am a resident of Albemarle County.  I comment today in my professional capacity as Conservation Policy Associate for Wild Virginia, a statewide non-profit organization seeking to protect Virginia&#39;s water quality.
+
+I urge you to support HB1228 because it ensures that DEQ/State Water Control Board will make data-based decisions when considering whether to authorize an activity that would lower water quality. Section 62.1-44.4 of the Virginia Code allows DEQ/Board to authorize an activity that would lower water quality, however DEQ/Board must know the baseline quality of a water body before DEQ/Board can say whether or not the proposed activity will lower water quality. DEQ/Board requires this data before it can make a decision because DEQ/Board must consider all relevant water quality data, including a water body&#39;s baseline condition. 
+
+HB1228 seeks to ensure DEQ/Board meet current legal requirements for agency decision-making concerning proposed activities that lower water quality by requiring DEQ to document baseline water quality for biological and chemical indicators. This not only protects water quality, but also helps DEQ/Board compile and acquire the data needed to support their decision. Importantly, HB1228 does not place the burden of data collection on DEQ; rather it authorizes the agency to require permit applicants to provide sufficient water quality related data and information to the agency for DEQ/Board to make their decision about the applicant&#39;s proposed activity. As such, HB1228 promises to save DEQ/Board precious agency resources while simultaneously providing the agency with quantitative water quality data and information that it can use for future reference. 
+
+
+
+
+d may authorize activities that would lower water quality if the activity is justified by “necessary economic or social development” and if other requirements are met. However, DEQ cannot know whether water quality will be lowered—or by how much—unless the agency knows what the underlying or “baseline” condition of the water is.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Guloglu</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Falls Church</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please stop this cruelty 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Fritz</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Arlington</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Our lands and the animals that live on our lands should be protected at every cost. At a time when deforestation and the killing of animals in the U.S. and around the world  grows more and more, it is imperative to fight against this. If we do not take action and push legislation to protect our land and the animals that live on them, in the not to distant future they will become less and less until they are no more. Please think about this and help to do what you can to make positive change. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Brancato</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Floyd</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                508 keep our history alive both the good and bad. We, our children need to be taught the truth about US history 
+479 removal of large and small damns improves  the quality of waterways
+323 local and sustainable farms are the key to the future of successful farming. Thomas Jefferson  believed this
+255 dogs and cats should never be used for inhumane research
+206 small renewal energy projects should have been implemented decades ago. We are so behind many countries in preserving our natural resources and increasing and implementing renewable energy sources
+140 African American gravesites when discovered should be restored and protected as should all of them
+1330 Companion animals should be allowed in more place’s especially on public transportation like Amtrak 
+1301 clean energy= clean air, water, soil, food and this is a human right
+1273 I would like to see hunting bears, deer, raccoons, rabbits, coyote, bobcat foxes completely eliminated. They only terrorize wildlife, there is no “sport” in that.
+1247 STOP killing contests of any wildlife!!! This is barbaric
+1228 Water quality needs to be of the highest standard. It’s a God-given right
+1224 if storm water is managed properly we could avoid massive pollution to our rivers and streams ,  Bays and Oceans
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Reeves</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Prince william county</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                I support the Humane Society of the United States&#39; positions pertaining to your particular bill(s).  I do believe HSUS adheres to and promotes the highest standards of integrity in the issues of animal issues, the environment, human concerns, et. al.   I hope you can vote with that perspective in mind.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">El Hassani</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Fairfax</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Please stop animal cruelty!
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Sakason</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Burke</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                “Kill contests” or otherwise hunting for sport should be outlawed.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">smith</span> 
+                <span class="heavyLabel ml-2">Organization:</span> <span class="infoText">self</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Williamsburg</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                pass all of the laws above
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Bicking </span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Chesterfield </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protect our wildlife and water resources. Restrict hunting on sundays. No snares or trapping. No animals gor research. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Petras</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Verona </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                The greatness of a nation and its MORAL PROGRESS can be judged by the way it treats its animals, its wilderness and its most vulnerable inhabitants.  
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Pellek</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Norfolk</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Good Afternoon,
+I am submitting my support of the above items. I strongly   feel that we need  to put more time and planning on what  we are doing to our animals, that are due the same respect as we all inhabits of our planet, and out planet. We only have one earth and we have not been responsible on how we treated her.
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Harper</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Richmond city</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protect Virginia&#39;s environment from Republiklans
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Hicks</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Stafford, Fredericksburg</span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                Protection of Land, Water, Air, Soil and all animals is up to us  and for future generations a must. 
+              </p>
+            </div>
+          </div>
+
+
+          <!-- Bs comment card -->
+          <div class="card mt-4 commentCard shadow-sm" style="width: 100%;">
+            <!-- header to hold main comment -->
+            <div class="card-header cardHighlight">
+              <!-- combination of spans that bold && subdue user information -->
+              <span class="heavyLabel">Last Name:</span> <span class="infoText">Schlessinger</span> 
+              <span class="heavyLabel ml-2">Locality:</span> <span class="infoText">Nellysford </span>
+            </div>
+            <!-- Bs card body holds users' topic typed and comments-->
+            <div class="card-body">
+              <p class="card-text mt-1"><i class="fad fa-feather commentPoint mr-1"></i>
+                HB523
+
+Research or experimentation of any kind should be prohibited with all animals especially dogs and cats
+              </p>
+            </div>
+          </div>
+            <div class="d-flex justify-content-center commentPoint mt-4">End of Comments</div>
+
+
+  </div>
+
+</div>
+
+        <!-- /view(s)' content -->
+      </div>
+      <!-- this wrapper for SASS files' context -->
+      
+      <footer class="navbar fixed-bottom d-flex justify-content-center py-0 d-print-none navbar-light bg-light">
+        <span class="navbar-text">&copy; 2022 
+        Commonwealth of Virginia - House of Delegates Clerk's Office | Version 1.3.10
+        </span>
+      </footer>
+
+    <script src="/packs/js/application-f8a0cd8719161541884f.js" data-turbolinks-eval="false"></script>
+    
+  </body>
+</html>
