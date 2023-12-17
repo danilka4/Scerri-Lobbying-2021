@@ -27,3 +27,4 @@ top_n_table_year <- function(csv) {
     colnames(consol_csv) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
     return(as.data.frame(t(consol_csv)))
 }
+setwd("/home/lizzy/Documents/Scerri-Lobbying/")

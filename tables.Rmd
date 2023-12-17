@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo=FALSE)
 
 ```{r}
 source("functions.R")
-source("functions_table.R")
+source("outdated/functions_table.R")
 library(data.table)
 library(formattable)
 
@@ -82,6 +82,7 @@ t1 <- (data.frame(t1_15, t1_16, t1_17, t1_18, t1_19, t1_20, t1_21, t1_22))
 colnames(t1) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
 rownames(t1) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
 formattable(t1)
+print(chisq.test(t1))
 #t1_22 <- c(nrow(csv22), sum(csv22$Pass.Com.1, na.rm = TRUE), sum(csv22$Pass.Floor.1, na.rm = TRUE), sum(csv22$Pass.Com.2, na.rm = TRUE), sum(csv22$Pass.Floor.2, na.rm = TRUE), sum(csv22$To.Gov, na.rm = TRUE), sum(csv22$Passed, na.rm = TRUE))
 ```
 # Table 2
@@ -168,35 +169,35 @@ tot <- cbind(t2pos, t2neut, t2neg) %>%
 tab <- gt(tot, rowname_col = "process") %>%
     tab_spanner(
                 label = "2015",
-                columns = vars(pos2015, neut2015, neg2015)
+                columns = c(pos2015, neut2015, neg2015)
     ) %>%
     tab_spanner(
                 label = "2016",
-                columns = vars(pos2016, neut2016, neg2016)
+                columns = c(pos2016, neut2016, neg2016)
     ) %>%
     tab_spanner(
                 label = "2017",
-                columns = vars(pos2017, neut2017, neg2017)
+                columns = c(pos2017, neut2017, neg2017)
     ) %>%
     tab_spanner(
                 label = "2018",
-                columns = vars(pos2018, neut2018, neg2018)
+                columns = c(pos2018, neut2018, neg2018)
     ) %>%
     tab_spanner(
                 label = "2019",
-                columns = vars(pos2019, neut2019, neg2019)
+                columns = c(pos2019, neut2019, neg2019)
     ) %>%
     tab_spanner(
                 label = "2020",
-                columns = vars(pos2020, neut2020, neg2020)
+                columns = c(pos2020, neut2020, neg2020)
     ) %>%
     tab_spanner(
                 label = "2021",
-                columns = vars(pos2021, neut2021, neg2021)
+                columns = c(pos2021, neut2021, neg2021)
     ) %>%
     tab_spanner(
                 label = "2022",
-                columns = vars(pos2022, neut2022, neg2022)
+                columns = c(pos2022, neut2022, neg2022)
     ) %>%
 cols_label(
            pos2015 = "",
@@ -230,40 +231,181 @@ tab_style(tab, style = list(
                             cell_fill(color = "rgba(154,205,50,1.0)")
                             ),
           locations = cells_body(
-                                 columns = vars(pos2015, pos2016, pos2017, pos2018, pos2019, pos2019, pos2020, pos2021, pos2022)
+                                 columns = c(pos2015, pos2016, pos2017, pos2018, pos2019, pos2019, pos2020, pos2021, pos2022)
           )
 ) %>%
 tab_style(style = list(
                             cell_fill(color = "rgba(176,224,230,1.0)")
                             ),
           locations = cells_body(
-                                 columns = vars(neut2015, neut2016, neut2017, neut2018, neut2019, neut2019, neut2020, neut2021, neut2022)
+                                 columns = c(neut2015, neut2016, neut2017, neut2018, neut2019, neut2019, neut2020, neut2021, neut2022)
           )
 ) %>%
 tab_style(style = list(
                             cell_fill(color = "rgba(255,69,0,1.0)")
                             ),
           locations = cells_body(
-                                 columns = vars(neg2015, neg2016, neg2017, neg2018, neg2019, neg2019, neg2020, neg2021, neg2022)
+                                 columns = c(neg2015, neg2016, neg2017, neg2018, neg2019, neg2019, neg2020, neg2021, neg2022)
           )
-)
+) %>%
+        as_latex()
 ```
 
 # Table 3
 
-Trajectory of randomized control
+Trajectory of education control
 ```{r}
-t3_15 <- c(nrow(null15), sum(null15$Pass.Com.1, na.rm = TRUE), sum(null15$Pass.Floor.1, na.rm = TRUE), sum(null15$Pass.Com.2, na.rm = TRUE), sum(null15$Pass.Floor.2, na.rm = TRUE), sum(null15$To.Gov, na.rm = TRUE), sum(null15$Passed, na.rm = TRUE))
-t3_16 <- c(nrow(null16), sum(null16$Pass.Com.1, na.rm = TRUE), sum(null16$Pass.Floor.1, na.rm = TRUE), sum(null16$Pass.Com.2, na.rm = TRUE), sum(null16$Pass.Floor.2, na.rm = TRUE), sum(null16$To.Gov, na.rm = TRUE), sum(null16$Passed, na.rm = TRUE))
-t3_17 <- c(nrow(null17), sum(null17$Pass.Com.1, na.rm = TRUE), sum(null17$Pass.Floor.1, na.rm = TRUE), sum(null17$Pass.Com.2, na.rm = TRUE), sum(null17$Pass.Floor.2, na.rm = TRUE), sum(null17$To.Gov, na.rm = TRUE), sum(null17$Passed, na.rm = TRUE))
-t3_18 <- c(nrow(null18), sum(null18$Pass.Com.1, na.rm = TRUE), sum(null18$Pass.Floor.1, na.rm = TRUE), sum(null18$Pass.Com.2, na.rm = TRUE), sum(null18$Pass.Floor.2, na.rm = TRUE), sum(null18$To.Gov, na.rm = TRUE), sum(null18$Passed, na.rm = TRUE))
-t3_19 <- c(nrow(null19), sum(null19$Pass.Com.1, na.rm = TRUE), sum(null19$Pass.Floor.1, na.rm = TRUE), sum(null19$Pass.Com.2, na.rm = TRUE), sum(null19$Pass.Floor.2, na.rm = TRUE), sum(null19$To.Gov, na.rm = TRUE), sum(null19$Passed, na.rm = TRUE))
-t3_20 <- c(nrow(null20), sum(null20$Pass.Com.1, na.rm = TRUE), sum(null20$Pass.Floor.1, na.rm = TRUE), sum(null20$Pass.Com.2, na.rm = TRUE), sum(null20$Pass.Floor.2, na.rm = TRUE), sum(null20$To.Gov, na.rm = TRUE), sum(null20$Passed, na.rm = TRUE))
-t3_21 <- c(nrow(null21), sum(null21$Pass.Com.1, na.rm = TRUE), sum(null21$Pass.Floor.1, na.rm = TRUE), sum(null21$Pass.Com.2, na.rm = TRUE), sum(null21$Pass.Floor.2, na.rm = TRUE), sum(null21$To.Gov, na.rm = TRUE), sum(null21$Passed, na.rm = TRUE))
-t3 <- (data.frame(t3_15, t3_16, t3_17, t3_18, t3_19, t3_20, t3_21))
-colnames(t3) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021)
-rownames(t3) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
-formattable(t3)
+pos15 <- filter(ed15, VEA.Support == 1)
+neut15 <- filter(ed15, VEA.Support == 0)
+neg15 <- filter(ed15, VEA.Support == -1)
+pos16 <- filter(ed16, VEA.Support == 1)
+neut16 <- filter(ed16, VEA.Support == 0)
+neg16 <- filter(ed16, VEA.Support == -1)
+pos17 <- filter(ed17, VEA.Support == 1)
+neut17 <- filter(ed17, VEA.Support == 0)
+neg17 <- filter(ed17, VEA.Support == -1)
+pos18 <- filter(ed18, VEA.Support == 1)
+neut18 <- filter(ed18, VEA.Support == 0)
+neg18 <- filter(ed18, VEA.Support == -1)
+pos19 <- filter(ed19, VEA.Support == 1)
+neut19 <- filter(ed19, VEA.Support == 0)
+neg19 <- filter(ed19, VEA.Support == -1)
+pos20 <- filter(ed20, VEA.Support == 1)
+neut20 <- filter(ed20, VEA.Support == 0)
+neg20 <- filter(ed20, VEA.Support == -1)
+pos21 <- filter(ed21, VEA.Support == 1)
+neut21 <- filter(ed21, VEA.Support == 0)
+neg21 <- filter(ed21, VEA.Support == -1)
+pos22 <- filter(ed22, VEA.Support == 1)
+neut22 <- filter(ed22, VEA.Support == 0)
+neg22 <- filter(ed22, VEA.Support == -1)
+
+t2_15 <- c(nrow(pos15), sum(pos15$Pass.Com.1, na.rm = TRUE), sum(pos15$Pass.Floor.1, na.rm = TRUE), sum(pos15$Pass.Com.2, na.rm = TRUE), sum(pos15$Pass.Floor.2, na.rm = TRUE), sum(pos15$To.Gov, na.rm = TRUE), sum(pos15$Passed, na.rm = TRUE))
+t2_16 <- c(nrow(pos16), sum(pos16$Pass.Com.1, na.rm = TRUE), sum(pos16$Pass.Floor.1, na.rm = TRUE), sum(pos16$Pass.Com.2, na.rm = TRUE), sum(pos16$Pass.Floor.2, na.rm = TRUE), sum(pos16$To.Gov, na.rm = TRUE), sum(pos16$Passed, na.rm = TRUE))
+t2_17 <- c(nrow(pos17), sum(pos17$Pass.Com.1, na.rm = TRUE), sum(pos17$Pass.Floor.1, na.rm = TRUE), sum(pos17$Pass.Com.2, na.rm = TRUE), sum(pos17$Pass.Floor.2, na.rm = TRUE), sum(pos17$To.Gov, na.rm = TRUE), sum(pos17$Passed, na.rm = TRUE))
+t2_18 <- c(nrow(pos18), sum(pos18$Pass.Com.1, na.rm = TRUE), sum(pos18$Pass.Floor.1, na.rm = TRUE), sum(pos18$Pass.Com.2, na.rm = TRUE), sum(pos18$Pass.Floor.2, na.rm = TRUE), sum(pos18$To.Gov, na.rm = TRUE), sum(pos18$Passed, na.rm = TRUE))
+t2_19 <- c(nrow(pos19), sum(pos19$Pass.Com.1, na.rm = TRUE), sum(pos19$Pass.Floor.1, na.rm = TRUE), sum(pos19$Pass.Com.2, na.rm = TRUE), sum(pos19$Pass.Floor.2, na.rm = TRUE), sum(pos19$To.Gov, na.rm = TRUE), sum(pos19$Passed, na.rm = TRUE))
+t2_20 <- c(nrow(pos20), sum(pos20$Pass.Com.1, na.rm = TRUE), sum(pos20$Pass.Floor.1, na.rm = TRUE), sum(pos20$Pass.Com.2, na.rm = TRUE), sum(pos20$Pass.Floor.2, na.rm = TRUE), sum(pos20$To.Gov, na.rm = TRUE), sum(pos20$Passed, na.rm = TRUE))
+t2_21 <- c(nrow(pos21), sum(pos21$Pass.Com.1, na.rm = TRUE), sum(pos21$Pass.Floor.1, na.rm = TRUE), sum(pos21$Pass.Com.2, na.rm = TRUE), sum(pos21$Pass.Floor.2, na.rm = TRUE), sum(pos21$To.Gov, na.rm = TRUE), sum(pos21$Passed, na.rm = TRUE))
+t2_22 <- c(nrow(pos22), sum(pos22$Pass.Com.1, na.rm = TRUE), sum(pos22$Pass.Floor.1, na.rm = TRUE), sum(pos22$Pass.Com.2, na.rm = TRUE), sum(pos22$Pass.Floor.2, na.rm = TRUE), sum(pos22$To.Gov, na.rm = TRUE), sum(pos22$Passed, na.rm = TRUE))
+t2a <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22))
+t2pos <- t2a
+colnames(t2pos) <-paste0("pos", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022))
+colnames(t2a) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+rownames(t2a) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+
+t2_15 <- c(nrow(neut15), sum(neut15$Pass.Com.1, na.rm = TRUE), sum(neut15$Pass.Floor.1, na.rm = TRUE), sum(neut15$Pass.Com.2, na.rm = TRUE), sum(neut15$Pass.Floor.2, na.rm = TRUE), sum(neut15$To.Gov, na.rm = TRUE), sum(neut15$Passed, na.rm = TRUE))
+t2_16 <- c(nrow(neut16), sum(neut16$Pass.Com.1, na.rm = TRUE), sum(neut16$Pass.Floor.1, na.rm = TRUE), sum(neut16$Pass.Com.2, na.rm = TRUE), sum(neut16$Pass.Floor.2, na.rm = TRUE), sum(neut16$To.Gov, na.rm = TRUE), sum(neut16$Passed, na.rm = TRUE))
+t2_17 <- c(nrow(neut17), sum(neut17$Pass.Com.1, na.rm = TRUE), sum(neut17$Pass.Floor.1, na.rm = TRUE), sum(neut17$Pass.Com.2, na.rm = TRUE), sum(neut17$Pass.Floor.2, na.rm = TRUE), sum(neut17$To.Gov, na.rm = TRUE), sum(neut17$Passed, na.rm = TRUE))
+t2_18 <- c(nrow(neut18), sum(neut18$Pass.Com.1, na.rm = TRUE), sum(neut18$Pass.Floor.1, na.rm = TRUE), sum(neut18$Pass.Com.2, na.rm = TRUE), sum(neut18$Pass.Floor.2, na.rm = TRUE), sum(neut18$To.Gov, na.rm = TRUE), sum(neut18$Passed, na.rm = TRUE))
+t2_19 <- c(nrow(neut19), sum(neut19$Pass.Com.1, na.rm = TRUE), sum(neut19$Pass.Floor.1, na.rm = TRUE), sum(neut19$Pass.Com.2, na.rm = TRUE), sum(neut19$Pass.Floor.2, na.rm = TRUE), sum(neut19$To.Gov, na.rm = TRUE), sum(neut19$Passed, na.rm = TRUE))
+t2_20 <- c(nrow(neut20), sum(neut20$Pass.Com.1, na.rm = TRUE), sum(neut20$Pass.Floor.1, na.rm = TRUE), sum(neut20$Pass.Com.2, na.rm = TRUE), sum(neut20$Pass.Floor.2, na.rm = TRUE), sum(neut20$To.Gov, na.rm = TRUE), sum(neut20$Passed, na.rm = TRUE))
+t2_21 <- c(nrow(neut21), sum(neut21$Pass.Com.1, na.rm = TRUE), sum(neut21$Pass.Floor.1, na.rm = TRUE), sum(neut21$Pass.Com.2, na.rm = TRUE), sum(neut21$Pass.Floor.2, na.rm = TRUE), sum(neut21$To.Gov, na.rm = TRUE), sum(neut21$Passed, na.rm = TRUE))
+t2_22 <- c(nrow(neut22), sum(neut22$Pass.Com.1, na.rm = TRUE), sum(neut22$Pass.Floor.1, na.rm = TRUE), sum(neut22$Pass.Com.2, na.rm = TRUE), sum(neut22$Pass.Floor.2, na.rm = TRUE), sum(neut22$To.Gov, na.rm = TRUE), sum(neut22$Passed, na.rm = TRUE))
+t2b <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22))
+t2neut <- t2b
+colnames(t2neut) <- paste0("neut", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022))
+colnames(t2b) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+rownames(t2b) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+
+t2_15 <- c(nrow(neg15), sum(neg15$Pass.Com.1, na.rm = TRUE), sum(neg15$Pass.Floor.1, na.rm = TRUE), sum(neg15$Pass.Com.2, na.rm = TRUE), sum(neg15$Pass.Floor.2, na.rm = TRUE), sum(neg15$To.Gov, na.rm = TRUE), sum(neg15$Passed, na.rm = TRUE))
+t2_16 <- c(nrow(neg16), sum(neg16$Pass.Com.1, na.rm = TRUE), sum(neg16$Pass.Floor.1, na.rm = TRUE), sum(neg16$Pass.Com.2, na.rm = TRUE), sum(neg16$Pass.Floor.2, na.rm = TRUE), sum(neg16$To.Gov, na.rm = TRUE), sum(neg16$Passed, na.rm = TRUE))
+t2_17 <- c(nrow(neg17), sum(neg17$Pass.Com.1, na.rm = TRUE), sum(neg17$Pass.Floor.1, na.rm = TRUE), sum(neg17$Pass.Com.2, na.rm = TRUE), sum(neg17$Pass.Floor.2, na.rm = TRUE), sum(neg17$To.Gov, na.rm = TRUE), sum(neg17$Passed, na.rm = TRUE))
+t2_18 <- c(nrow(neg18), sum(neg18$Pass.Com.1, na.rm = TRUE), sum(neg18$Pass.Floor.1, na.rm = TRUE), sum(neg18$Pass.Com.2, na.rm = TRUE), sum(neg18$Pass.Floor.2, na.rm = TRUE), sum(neg18$To.Gov, na.rm = TRUE), sum(neg18$Passed, na.rm = TRUE))
+t2_19 <- c(nrow(neg19), sum(neg19$Pass.Com.1, na.rm = TRUE), sum(neg19$Pass.Floor.1, na.rm = TRUE), sum(neg19$Pass.Com.2, na.rm = TRUE), sum(neg19$Pass.Floor.2, na.rm = TRUE), sum(neg19$To.Gov, na.rm = TRUE), sum(neg19$Passed, na.rm = TRUE))
+t2_20 <- c(nrow(neg20), sum(neg20$Pass.Com.1, na.rm = TRUE), sum(neg20$Pass.Floor.1, na.rm = TRUE), sum(neg20$Pass.Com.2, na.rm = TRUE), sum(neg20$Pass.Floor.2, na.rm = TRUE), sum(neg20$To.Gov, na.rm = TRUE), sum(neg20$Passed, na.rm = TRUE))
+t2_21 <- c(nrow(neg21), sum(neg21$Pass.Com.1, na.rm = TRUE), sum(neg21$Pass.Floor.1, na.rm = TRUE), sum(neg21$Pass.Com.2, na.rm = TRUE), sum(neg21$Pass.Floor.2, na.rm = TRUE), sum(neg21$To.Gov, na.rm = TRUE), sum(neg21$Passed, na.rm = TRUE))
+t2_22 <- c(nrow(neg22), sum(neg22$Pass.Com.1, na.rm = TRUE), sum(neg22$Pass.Floor.1, na.rm = TRUE), sum(neg22$Pass.Com.2, na.rm = TRUE), sum(neg22$Pass.Floor.2, na.rm = TRUE), sum(neg22$To.Gov, na.rm = TRUE), sum(neg22$Passed, na.rm = TRUE))
+t2c <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22))
+t2neg <- t2c
+colnames(t2neg) <- paste0("neg", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022))
+colnames(t2c) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+rownames(t2c) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+
+library(gt)
+tot <- cbind(t2pos, t2neut, t2neg) %>%
+    cbind("process" = rownames(t2a))
+tab <- gt(tot, rowname_col = "process") %>%
+    tab_spanner(
+                label = "2015",
+                columns = c(pos2015, neut2015, neg2015)
+    ) %>%
+    tab_spanner(
+                label = "2016",
+                columns = c(pos2016, neut2016, neg2016)
+    ) %>%
+    tab_spanner(
+                label = "2017",
+                columns = c(pos2017, neut2017, neg2017)
+    ) %>%
+    tab_spanner(
+                label = "2018",
+                columns = c(pos2018, neut2018, neg2018)
+    ) %>%
+    tab_spanner(
+                label = "2019",
+                columns = c(pos2019, neut2019, neg2019)
+    ) %>%
+    tab_spanner(
+                label = "2020",
+                columns = c(pos2020, neut2020, neg2020)
+    ) %>%
+    tab_spanner(
+                label = "2021",
+                columns = c(pos2021, neut2021, neg2021)
+    ) %>%
+    tab_spanner(
+                label = "2022",
+                columns = c(pos2022, neut2022, neg2022)
+    ) %>%
+cols_label(
+           pos2015 = "",
+           neut2015 = "",
+           neg2015 = "",
+           pos2016 = "",
+           neut2016 = "",
+           neg2016 = "",
+           pos2017 = "",
+           neut2017 = "",
+           neg2017 = "",
+           pos2018 = "",
+           neut2018 = "",
+           neg2018 = "",
+           pos2019 = "",
+           neut2019 = "",
+           neg2019 = "",
+           pos2020 = "",
+           neut2020 = "",
+           neg2020 = "",
+           pos2021 = "",
+           neut2021 = "",
+           neg2021 = "",
+           pos2022 = "",
+           neut2022 = "",
+           neg2022 = "",
+)
+
+tab_style(tab, style = list(
+                            cell_fill(color = "rgba(154,205,50,1.0)")
+                            ),
+          locations = cells_body(
+                                 columns = c(pos2015, pos2016, pos2017, pos2018, pos2019, pos2019, pos2020, pos2021, pos2022)
+          )
+) %>%
+tab_style(style = list(
+                            cell_fill(color = "rgba(176,224,230,1.0)")
+                            ),
+          locations = cells_body(
+                                 columns = c(neut2015, neut2016, neut2017, neut2018, neut2019, neut2019, neut2020, neut2021, neut2022)
+          )
+) %>%
+tab_style(style = list(
+                            cell_fill(color = "rgba(255,69,0,1.0)")
+                            ),
+          locations = cells_body(
+                                 columns = c(neg2015, neg2016, neg2017, neg2018, neg2019, neg2019, neg2020, neg2021, neg2022)
+          )
+)
 ```
 
 # Most/Least Controversial Bills
@@ -299,3 +441,4 @@ colnames(t4b) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
 rownames(t4b) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
 formattable(t4b)
 ```
+

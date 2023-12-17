@@ -126,7 +126,8 @@ data_creator <- function(csv, color_id, include_joint = TRUE) {
             Passed,
             Law
             ) %>%
-        na_if(0) %>%
+        mutate(across(contains("node"), ~ na_if(.x, 0))) %>%
+        #mutate(across(contains("x"), ~ na_if(.x, "0"))) %>%
         filter(!is.na(node))
     jrps_df <- jrps %>%
         make_long(Intro.Com,
@@ -137,7 +138,7 @@ data_creator <- function(csv, color_id, include_joint = TRUE) {
             Passed,
             Law
             ) %>%
-        na_if(0) %>%
+        mutate(across(contains("node"), ~ na_if(.x, 0))) %>%
         filter(!is.na(node))
 
     # Adds on joint resolutions if that is true
@@ -192,7 +193,7 @@ data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint =
             Passed,
             Law
             ) %>%
-        na_if(0) %>%
+        mutate(across(contains("node"), ~ na_if(.x, 0))) %>%
         filter(!is.na(node))
     jrps_df <- jrps %>%
         make_long(Intro.Com,
@@ -203,7 +204,7 @@ data_creator_dead <- function(csv, color_id, color_black = TRUE, include_joint =
             Passed,
             Law
             ) %>%
-        na_if(0) %>%
+        mutate(across(contains("node"), ~ na_if(.x, 0))) %>%
         filter(!is.na(node)) %>%
         select(x, next_x) %>%
         group_by(x, next_x) %>%
@@ -343,7 +344,7 @@ data_creator_shell <- function(csv, color_id, split = FALSE, jrp = TRUE) {
               To.Gov,
               Passed,
               Law) %>%
-    na_if(0) %>%
+        mutate(across(ends_with("node"), ~ na_if(.x, 0))) %>%
     filter(!is.na(node))
   
   one_df <- rbind(
@@ -359,7 +360,7 @@ data_creator_shell <- function(csv, color_id, split = FALSE, jrp = TRUE) {
               To.Gov,
               Passed,
               Law)) %>%
-    na_if(0) %>%
+        mutate(across(ends_with("node"), ~ na_if(.x, 0))) %>%
     filter(!is.na(node))
   two_df <- NULL
   both_df <- NULL
@@ -381,7 +382,7 @@ data_creator_shell <- function(csv, color_id, split = FALSE, jrp = TRUE) {
               Pass.Floor.2,
               Passed,
               Law)) %>% 
-    na_if(0) %>% 
+        mutate(across(ends_with("node"), ~ na_if(.x, 0))) %>%
     filter(!is.na(node)) 
   
   both_df <- rbind(
@@ -421,7 +422,7 @@ data_creator_shell <- function(csv, color_id, split = FALSE, jrp = TRUE) {
               Passed,
               Law)
     ) %>% 
-    na_if(0) %>% 
+        mutate(across(contains("node"), ~ na_if(.x, 0))) %>%
     filter(!is.na(node)) 
   
   both_df <- rbind(
@@ -628,7 +629,7 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
             Law,
             Passed
             ) %>%
-        na_if(0) %>%
+        mutate(across(contains("node"), ~ na_if(.x, "0"))) %>%
         filter(!is.na(node))
     # A bunch of code to reorder factors to correct order
     #   First line orders non-other committees in increasing order
@@ -648,7 +649,7 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
     # Fix amount of bills going from committee to floor
     subt <- filter(csv, Pass.Com.1 == 1) %>%
         group_by(Com.1) %>% summarize(n = n())
-    subt <- data.frame(x = subt$Com.1, next_x = "Pass.Floor.1", n = subt$n)
+    subt <- data.frame(x = subt$Com.1, n = subt$n) %>% mutate(next_x = "Pass.Floor.1")
 
     new_df <- filter(new_df, next_x != "Pass.Floor.1") %>%
         rbind(subt) %>%
@@ -675,7 +676,7 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
             Law,
             Passed
             ) %>%
-        na_if(0) %>%
+        mutate(across(ends_with("node"), ~ na_if(.x, "0"))) %>%
         filter(!is.na(node))
     jrps_df <- jrps %>%
         make_long(Intro.Com,
@@ -687,7 +688,7 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
             Law,
             Passed
             ) %>%
-        na_if(0) %>%
+        mutate(across(ends_with("node"), ~ na_if(.x, "0"))) %>%
         filter(!is.na(node))
 
     # Adds on joint resolutions if that is true
@@ -725,8 +726,8 @@ com_creator <- function (csv, color_id = "black", include_joint = TRUE, consol =
         group_by(Com.1) %>% summarize(n = n())
     subt_2 <- filter(csv, Pass.Com.2 == 1) %>%
         group_by(Com.2) %>% summarize(n = n())
-    subt <- data.frame(x = subt$Com.1, next_x = "Pass.Floor.1", n = subt$n)
-    subt_2 <- data.frame(x = subt_2$Com.2, next_x = "Pass.Floor.2", n = subt_2$n)
+    subt <- data.frame(x = subt$Com.1, n = subt$n) %>% mutate(next_x = "Pass.Floor.1")
+    subt_2 <- data.frame(x = subt_2$Com.2, n = subt_2$n) %>% mutate(next_x = "Pass.Floor.2")
 
 
     new_df <- filter(new_df, next_x != "Pass.Floor.1", next_x != "Pass.Floor.2") %>%
@@ -852,8 +853,9 @@ flow_names <- function(data) {
     return(expanded_names)
 }
 
-data_creator_vv <- function(csv, com = TRUE, second_com = TRUE) {
+data_creator_ed <- function(csv, com = TRUE, second_com = TRUE) {
     csv <- consolidate_com(csv)
+
     # Makes levels such that Other.Committee is last
     levs <- group_by(csv, Com.1) %>%
         summarize(n = n()) %>%
@@ -868,29 +870,19 @@ data_creator_vv <- function(csv, com = TRUE, second_com = TRUE) {
     levs_2 <- levs_2[!is.na(levs_2)]
     csv$Com.1  <- factor(csv$Com.1, levels = levs)
     csv$Com.2 <- factor(csv$Com.2, levels = levs_2)
-    if (second_com) {
     levs <- c("Intro.Com", levs, "Pass.Floor.1",
               levs_2, "Pass.Floor.2", "To.Gov", "Passed", "Law")
-    } else {
-    levs <- c("Intro.Com", levs, "Pass.Floor.1",
-              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed", "Law")
-    }
 
-    vv <- filter(csv, VV == 1)
-    not_vv <- filter(csv, VV == 0)
+    supported <- filter(csv, VEA.Support == 1)
+    neutral <- filter(csv, VEA.Support == 0)
+    opposed <- filter(csv, VEA.Support == -1)
+    not_available <- filter(csv, is.na(VEA.Support))
+    supported_df <- com_creator(supported, "rgba(154,205,50,1.0)", FALSE, FALSE)
+    neutral_df <- com_creator(neutral, "rgba(176,224,230,1.0)", FALSE, FALSE)
+    opposed_df <- com_creator(opposed, "rgba(255,69,0,1.0)", FALSE, FALSE)
+    not_available_df <- com_creator(not_available, "rgba(190,195,198, 1.0)", FALSE, FALSE)
 
-    df_total <- NULL
-    if (com) {
-
-        df_vv <- com_creator(vv, "rgba(123,149,91,1.0)", FALSE, FALSE, sep_second = second_com)
-        df_not <- com_creator(not_vv, "rgba(181,53,67,1.0)", FALSE, FALSE, sep_second = second_com)
-
-        # Makes levels check out
-        df_total <- rbind(df_vv, df_not) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
-    } else {
-        df_vv <- data_creator(vv, "rgba(123,149,91,1.0)")
-        df_not <- data_creator(not_vv, "rgba(181,53,67,1.0)")
-        df_total <- rbind(df_vv, df_not)
-    }
-    return(df_total)
+    # Makes levels check out
+    new_df <- rbind(supported_df, neutral_df, opposed_df, not_available_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+    return(new_df)
 }
