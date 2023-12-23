@@ -466,8 +466,8 @@ null_total_graph <- plot_ly(
   node = list(
     label = labs,
     customdata = node_names(labs),
-    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.32, 0.38, 0.42, 0.52, 0.5, 0.53, 0.5, 0.5),
+    x = c(0, 0.13, 0.2, 0.33, 0.5, 0.63, 0.81, 1, 1),
+    y = c(0.5, 0.49, 0.20, 0.20, 0.20, 0.20, 0.17, 0.17, 0),
     color = "gray",
     hovertemplate = node_hover,
     thickness = 10,
@@ -2121,6 +2121,24 @@ tab_style(style = list(
 ```
 
 ## Column 2
+
+### Education per Year
+
+```{r}
+t1_15 <- c(nrow(ed15), sum(ed15$Pass.Com.1, na.rm = TRUE), sum(ed15$Pass.Floor.1, na.rm = TRUE), sum(ed15$Pass.Com.2, na.rm = TRUE), sum(ed15$Pass.Floor.2, na.rm = TRUE), sum(ed15$To.Gov, na.rm = TRUE), sum(ed15$Passed, na.rm = TRUE))
+t1_16 <- c(nrow(ed16), sum(ed16$Pass.Com.1, na.rm = TRUE), sum(ed16$Pass.Floor.1, na.rm = TRUE), sum(ed16$Pass.Com.2, na.rm = TRUE), sum(ed16$Pass.Floor.2, na.rm = TRUE), sum(ed16$To.Gov, na.rm = TRUE), sum(ed16$Passed, na.rm = TRUE))
+t1_17 <- c(nrow(ed17), sum(ed17$Pass.Com.1, na.rm = TRUE), sum(ed17$Pass.Floor.1, na.rm = TRUE), sum(ed17$Pass.Com.2, na.rm = TRUE), sum(ed17$Pass.Floor.2, na.rm = TRUE), sum(ed17$To.Gov, na.rm = TRUE), sum(ed17$Passed, na.rm = TRUE))
+t1_18 <- c(nrow(ed18), sum(ed18$Pass.Com.1, na.rm = TRUE), sum(ed18$Pass.Floor.1, na.rm = TRUE), sum(ed18$Pass.Com.2, na.rm = TRUE), sum(ed18$Pass.Floor.2, na.rm = TRUE), sum(ed18$To.Gov, na.rm = TRUE), sum(ed18$Passed, na.rm = TRUE))
+t1_19 <- c(nrow(ed19), sum(ed19$Pass.Com.1, na.rm = TRUE), sum(ed19$Pass.Floor.1, na.rm = TRUE), sum(ed19$Pass.Com.2, na.rm = TRUE), sum(ed19$Pass.Floor.2, na.rm = TRUE), sum(ed19$To.Gov, na.rm = TRUE), sum(ed19$Passed, na.rm = TRUE))
+t1_20 <- c(nrow(ed20), sum(ed20$Pass.Com.1, na.rm = TRUE), sum(ed20$Pass.Floor.1, na.rm = TRUE), sum(ed20$Pass.Com.2, na.rm = TRUE), sum(ed20$Pass.Floor.2, na.rm = TRUE), sum(ed20$To.Gov, na.rm = TRUE), sum(ed20$Passed, na.rm = TRUE))
+t1_21 <- c(nrow(ed21), sum(ed21$Pass.Com.1, na.rm = TRUE), sum(ed21$Pass.Floor.1, na.rm = TRUE), sum(ed21$Pass.Com.2, na.rm = TRUE), sum(ed21$Pass.Floor.2, na.rm = TRUE), sum(ed21$To.Gov, na.rm = TRUE), sum(ed21$Passed, na.rm = TRUE))
+t1_22 <- c(nrow(ed22), sum(ed22$Pass.Com.1, na.rm = TRUE), sum(ed22$Pass.Floor.1, na.rm = TRUE), sum(ed22$Pass.Com.2, na.rm = TRUE), sum(ed22$Pass.Floor.2, na.rm = TRUE), sum(ed22$To.Gov, na.rm = TRUE), sum(ed22$Passed, na.rm = TRUE))
+t1 <- (data.frame(t1_15, t1_16, t1_17, t1_18, t1_19, t1_20, t1_21, t1_22))
+colnames(t1) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+rownames(t1) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+formattable(t1)
+```
+
 ### Table 3
 
 Trajectory of education control
