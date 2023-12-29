@@ -536,13 +536,12 @@ Column
 
 ### Introduction
 
-This dashboard will attempt to qualitatively demonstrate the existence of an abuse by lobbyists and politicians of an opaque political process where committee hearings and votes are not public.
-This dashboard was created in collaboration with the Climate Social Science Network as an extension of a project to demonstrate the need for a more transparent state legislative process that is more open to the public.
-The previous studies have focused on Massachusetts and Connecticut, while this dashboard will be a part of a study trying to replicate the findings in Virginia.
-This will be the first of several dashboards that will accompany the project as Dr. Andy Scerri expands it into other states.
+This dashboard visualizes the routes taken by pieces of climate and education legislation in the state of Virginia between 2015 and 2022.
+This is a part of a general project looking at the patterns and potential causes of bill death within the legislative process in Virginia.
+The project itself is a continuation of similar projects that look at the main causes of climate bill death in the legislature of [Massachusetts](https://cssn.org/wp-content/uploads/2021/01/MA-CSSN-Report-1.20.2021-Corrected-text.pdf) and [Connecticut](https://cssn.org/wp-content/uploads/2021/12/CT-CSSN-Research-Report.pdf).
 
 Looking at the contents of the dashboard, the data has been separated by year to allow for an annual analysis.
-There have been several sankey diagrams created that emphasize different parts of the data.
+There have been several sankey diagrams created that emphasize different parts of the data and graphs to give overall statistics per committee.
 
 "Joint" sankey diagrams look at the specific committees that each bill goes through and separates the three that received the most amount of climate bills into separate nodes, so the reader can easily identify the most influential committees.
 
@@ -553,15 +552,19 @@ Specifically, a bill can be passed back from the second to the first chamber for
 Similarly, the governor can send a bill back through the state congress with revisions.
 The return sankey demonstrates this by creating a flow that goes from Floor 2 to Floor 1, and by creating a flow from the governor through both floors, at which point it is signed into law.
 
-A "control sankey" takes 200 random non-climate, non-unanimous bills from the respective time period and creates a sankey diagram of the legislative flows colored by whether the vote was voiced or recorded.
-This was created to determine whether legislation in general follows a pattern similar to climate-specific legislation.
+An "education sankey" looks at the legislative paths for identified education bills.
+This is to create a comparison between climate legislation and non-climate legislation to make sure patterns we find in one can be found in the other.
+
+"Voiced" sankeys look at  the differences between bills that had their votes counted via voiced vote versus not.
 Voiced votes are not written down, which makes it impossible to determine who voted for or against a bill.
+This idea was shut down after [2017](https://www.seattletimes.com/nation-world/virginia-house-ends-secrecy-in-committee-votes/), so the graphs will be available only for before then.
 
 There is also a line graph present in each year that shows the proportion of bills that make it through each step of the process, just so there is a general idea of what is going on each year.
 
 For this project, we have collaborated with the nonprofit organization Sierra Club.
 It provided us with their opinion on various bills and whether they were deemed pro-climate or not.
-Unfortunately, the Virginia chapter did not have the opinions on file for 2015 and 2016, so that data will be missing from the analysis.
+Unfortunately, due to technical circumstances, the Virginia chapter did not have the opinions on file for 2015 and 2016, so we substituted using the priorities set up by the Metropolitan Washington Council of Local Governments.
+Education bills were gathered using a list of key terms and their progressiveness determined using a list of priorities from the Virginia Education Association.
 
 # 2015 {data-orientation=rows}
 
@@ -574,6 +577,7 @@ dead15 <- sierra_data_dead(csv15)
 labs_dead <- c("Introduced", "Passed Committee 1", "Passed Floor 1",
           "Passed Committee 2", "Passed Floor 2",
           "Delivered to Governor", "Signed by Governor", "Law", "Dead")
+
 ```
 
 Row {.tabset data-height=550}
@@ -693,6 +697,38 @@ plot_ly(
     line = list(color = "black", width = 0.5)
     )) %>%
   layout(title = "Control Sankey for 2015",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Voiced Sankey
+
+```{r}
+voiced15 <- data_creator_vv(null15)
+labels_15 <- c("Introduced", levels(voiced15$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_ed_15,
+    customdata = node_names(labels_ed_15),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.32, 0.38, 0.42, 0.52, 0.5, 0.53, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10),
+  link = list(
+    source = as.numeric(voiced15$x) - 1,
+    target = as.numeric(voiced15$next_x),
+    customdata = flow_names(voiced15),
+    value = voiced15$n,
+    color = ~as.factor(voiced15$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Voiced Votes for Education in 2015",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -868,6 +904,38 @@ plot_ly(
          showlegend = T)
 ```
 
+### Voiced Sankey
+
+```{r}
+voiced16 <- data_creator_vv(null16)
+labels_16 <- c("Introduced", levels(voiced16$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_ed_16,
+    customdata = node_names(labels_ed_16),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.32, 0.38, 0.42, 0.52, 0.5, 0.53, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10),
+  link = list(
+    source = as.numeric(voiced16$x) - 1,
+    target = as.numeric(voiced16$next_x),
+    customdata = flow_names(voiced16),
+    value = voiced16$n,
+    color = ~as.factor(voiced16$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Voiced Votes for Education in 2016",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
 ### Line Graph
 
 ```{r}
@@ -1006,6 +1074,7 @@ plot_ly(
 ### Education Sankey
 
 ```{r}
+voiced17 <- data_creator_vv(null17)
 labels_17 <- c("Introduced", levels(vv_17$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
 plot_ly(
   type = "sankey",
@@ -1029,6 +1098,38 @@ plot_ly(
     line = list(color = "black", width = 0.5)
     )) %>%
   layout(title = "Control Sankey for 2017",
+         xaxis = list(showgrid = F, zeroline = F),
+         yaxis = list(showgrid = F, zeroline = F),
+         showlegend = T)
+```
+
+### Voiced Sankey
+
+```{r}
+voiced17 <- data_creator_vv(null17)
+labels_17 <- c("Introduced", levels(voiced17$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
+plot_ly(
+  type = "sankey",
+  arrangement = "snap",
+  node = list(
+    label = labels_ed_17,
+    customdata = node_names(labels_ed_17),
+    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
+    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.32, 0.38, 0.42, 0.52, 0.5, 0.53, 0.5, 0.5),
+    color = "gray",
+    hovertemplate = node_hover,
+    thickness = 10,
+    pad = 10),
+  link = list(
+    source = as.numeric(voiced17$x) - 1,
+    target = as.numeric(voiced17$next_x),
+    customdata = flow_names(voiced17),
+    value = voiced17$n,
+    color = ~as.factor(voiced17$color),
+    hovertemplate = link_hover,
+    line = list(color = "black", width = 0.5)
+    )) %>%
+  layout(title = "Voiced Votes for Education in 2017",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)

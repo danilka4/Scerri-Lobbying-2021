@@ -886,3 +886,46 @@ data_creator_ed <- function(csv, com = TRUE, second_com = TRUE) {
     new_df <- rbind(supported_df, neutral_df, opposed_df, not_available_df) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
     return(new_df)
 }
+
+data_creator_vv <- function(csv, com = TRUE, second_com = TRUE) {
+    csv <- consolidate_com(csv)
+    # Makes levels such that Other.Committee is last
+    levs <- group_by(csv, Com.1) %>%
+        summarize(n = n()) %>%
+        arrange(desc(n))
+    levs_2 <- group_by(csv, Com.2) %>%
+        summarize(n = n()) %>%
+        arrange(desc(n)) %>% filter(!is.na(Com.2))
+    levs$Com.1 <- as.character(levs$Com.1)
+    levs_2$Com.2 <- as.character(levs_2$Com.2)
+    levs <- c(levs$Com.1[levs$Com.1 != "Other.Committee"], "Other.Committee")
+    levs_2 <- c(levs_2$Com.2[levs_2$Com.2 != "Other.Committee.2"], "Other.Committee.2")
+    levs_2 <- levs_2[!is.na(levs_2)]
+    csv$Com.1  <- factor(csv$Com.1, levels = levs)
+    csv$Com.2 <- factor(csv$Com.2, levels = levs_2)
+    if (second_com) {
+    levs <- c("Intro.Com", levs, "Pass.Floor.1",
+              levs_2, "Pass.Floor.2", "To.Gov", "Passed", "Law")
+    } else {
+    levs <- c("Intro.Com", levs, "Pass.Floor.1",
+              "Pass.Com.2", "Pass.Floor.2", "To.Gov", "Passed", "Law")
+    }
+
+    vv <- filter(csv, VV == 1)
+    not_vv <- filter(csv, VV == 0)
+
+    df_total <- NULL
+    if (com) {
+
+        df_vv <- com_creator(vv, "rgba(123,149,91,1.0)", FALSE, FALSE, sep_second = second_com)
+        df_not <- com_creator(not_vv, "rgba(181,53,67,1.0)", FALSE, FALSE, sep_second = second_com)
+
+        # Makes levels check out
+        df_total <- rbind(df_vv, df_not) %>% mutate(x = factor(x, levels = levs[1:(length(levs) - 1)]), next_x = factor(next_x, levels = levs[2:length(levs)]))
+    } else {
+        df_vv <- data_creator(vv, "rgba(123,149,91,1.0)")
+        df_not <- data_creator(not_vv, "rgba(181,53,67,1.0)")
+        df_total <- rbind(df_vv, df_not)
+    }
+    return(df_total)
+}
