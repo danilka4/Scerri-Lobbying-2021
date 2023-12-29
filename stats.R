@@ -131,20 +131,33 @@ for (c in unique(csv_total$Com.1)) {
     print(chisq.test(tab, B=99999))
 }
 
+# TODO
+for (i in 2015:2022) {
+    print(i)
+    cl <- filter(ed_total, Disposition != "JRP") %>%
+        filter(prog != 0) %>%
+        # mutate(prog = prog == 1) %>%
+        mutate(Disposition = if_else(Disposition %in% c("DIC", "PIL"), Disposition, "DIO")) %>%
+        filter(Year == i)
+    cl_dis_prog <- table(cl$prog, cl$Disposition)
+    print(cl_dis_prog)
+    print(chisq.test(cl_dis_prog, simulate.p.value = TRUE))
+}
+
 # Comparison of progressiveness
 ed <- filter(ed_total, Disposition != "JRP") %>%
-    #filter(prog != 0) %>%
+    filter(prog != 0) %>%
     mutate(prog = prog == 1) %>%
     mutate(Disposition = if_else(Disposition %in% c("DIC", "PIL"), Disposition, "DIO"))
+(ed_dis_prog <- table(ed$prog, ed$Disposition))
+chisq.test(ed_dis_prog)
 
 cl <- filter(csv_total, Disposition != "JRP") %>%
-    # filter(prog != 0) %>%
-    mutate(prog = prog == 1) %>%
+    filter(prog != 0) %>%
+    # mutate(prog = prog == 1) %>%
     mutate(Disposition = if_else(Disposition %in% c("DIC", "PIL"), Disposition, "DIO"))
 (cl_dis_prog <- table(cl$prog, cl$Disposition))
 chisq.test(cl_dis_prog)
-(ed_dis_prog <- table(ed$prog, ed$Disposition))
-chisq.test(ed_dis_prog)
 
 (clim_ed_prog <- table(rbind(data.frame(type = "Climate", prog = cl$prog), data.frame(type = "Education", prog = ed$prog))))
 chisq.test(clim_ed_prog)
@@ -174,6 +187,15 @@ com_comparison <- function(df, list_of_committees) {
     out_fail <- 0
     for (i in seq_len(nrow(df))) {
         row <- df[i, ]
+
+        if (is.na(row["Pass.Com.1"])) {
+            if (row["Com.1"] %in% list_of_committees) {
+                in_fail <- in_fail + 1
+            } else {
+                out_fail <- out_fail + 1
+            }
+            next
+        }
 
         if (row["Pass.Com.1"] == 1) {
             if (row["Com.1"] %in% list_of_committees) {
@@ -333,9 +355,23 @@ com_comparison <- function(df, list_of_committees) {
     tab <- as.table(rbind(c(in_pass, in_fail), c(out_pass, out_fail)))
     dimnames(tab) <- list(committee = c("in", "out"), pass_fail = c("pass", "fail"))
     print(tab)
-    chisq.test(tab)
+    print(chisq.test(tab))
 }
 
 
 
-com_comparison(csv_total, "H-CL")
+com_comparison(ed_total, "H-R")
+
+for (com in unique(csv_total$Com.1)) {
+    if (com %in% c("H-ACNR", "H-CL", "S-CL", "S-ACNR")) {
+        print(com)
+        com_comparison(csv_total, com)
+    }
+}
+
+
+for (com in unique(ed_total$Com.1)) {
+        print(com)
+        com_comparison(ed_total, com)
+}
+filter(ed_total, is.na(Pass.Com.2))
