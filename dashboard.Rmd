@@ -1103,38 +1103,6 @@ plot_ly(
          showlegend = T)
 ```
 
-### Voiced Sankey
-
-```{r}
-voiced17 <- data_creator_vv(null17)
-labels_17 <- c("Introduced", levels(voiced17$x)[2:4], "Other Committee",  "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed by Governor", "Law")
-plot_ly(
-  type = "sankey",
-  arrangement = "snap",
-  node = list(
-    label = labels_ed_17,
-    customdata = node_names(labels_ed_17),
-    x = c(0, 0.15, 0.15, 0.15, 0.15, 0.25, 0.4, 0.4, 0.4, 0.4, 0.5, 0.65, 0.8, 1),
-    y = c(0, -0.2, 0.18, 0.22, 0.6, 0.5, 0.32, 0.38, 0.42, 0.52, 0.5, 0.53, 0.5, 0.5),
-    color = "gray",
-    hovertemplate = node_hover,
-    thickness = 10,
-    pad = 10),
-  link = list(
-    source = as.numeric(voiced17$x) - 1,
-    target = as.numeric(voiced17$next_x),
-    customdata = flow_names(voiced17),
-    value = voiced17$n,
-    color = ~as.factor(voiced17$color),
-    hovertemplate = link_hover,
-    line = list(color = "black", width = 0.5)
-    )) %>%
-  layout(title = "Voiced Votes for Education in 2017",
-         xaxis = list(showgrid = F, zeroline = F),
-         yaxis = list(showgrid = F, zeroline = F),
-         showlegend = T)
-```
-
 ### Line Graph
 
 ```{r}
