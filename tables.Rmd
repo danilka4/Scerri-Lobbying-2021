@@ -82,7 +82,7 @@ t1 <- (data.frame(t1_15, t1_16, t1_17, t1_18, t1_19, t1_20, t1_21, t1_22))
 colnames(t1) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
 rownames(t1) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
 formattable(t1)
-print(chisq.test(t1))
+# print(chisq.test(t1))
 #t1_22 <- c(nrow(csv22), sum(csv22$Pass.Com.1, na.rm = TRUE), sum(csv22$Pass.Floor.1, na.rm = TRUE), sum(csv22$Pass.Com.2, na.rm = TRUE), sum(csv22$Pass.Floor.2, na.rm = TRUE), sum(csv22$To.Gov, na.rm = TRUE), sum(csv22$Passed, na.rm = TRUE))
 ```
 # Table 2
@@ -252,6 +252,23 @@ tab_style(style = list(
 ```
 
 # Table 3
+
+```{r}
+t1_15 <- c(nrow(ed15), sum(ed15$Pass.Com.1, na.rm = TRUE), sum(ed15$Pass.Floor.1, na.rm = TRUE), sum(ed15$Pass.Com.2, na.rm = TRUE), sum(ed15$Pass.Floor.2, na.rm = TRUE), sum(ed15$To.Gov, na.rm = TRUE), sum(ed15$Passed, na.rm = TRUE))
+t1_16 <- c(nrow(ed16), sum(ed16$Pass.Com.1, na.rm = TRUE), sum(ed16$Pass.Floor.1, na.rm = TRUE), sum(ed16$Pass.Com.2, na.rm = TRUE), sum(ed16$Pass.Floor.2, na.rm = TRUE), sum(ed16$To.Gov, na.rm = TRUE), sum(ed16$Passed, na.rm = TRUE))
+t1_17 <- c(nrow(ed17), sum(ed17$Pass.Com.1, na.rm = TRUE), sum(ed17$Pass.Floor.1, na.rm = TRUE), sum(ed17$Pass.Com.2, na.rm = TRUE), sum(ed17$Pass.Floor.2, na.rm = TRUE), sum(ed17$To.Gov, na.rm = TRUE), sum(ed17$Passed, na.rm = TRUE))
+t1_18 <- c(nrow(ed18), sum(ed18$Pass.Com.1, na.rm = TRUE), sum(ed18$Pass.Floor.1, na.rm = TRUE), sum(ed18$Pass.Com.2, na.rm = TRUE), sum(ed18$Pass.Floor.2, na.rm = TRUE), sum(ed18$To.Gov, na.rm = TRUE), sum(ed18$Passed, na.rm = TRUE))
+t1_19 <- c(nrow(ed19), sum(ed19$Pass.Com.1, na.rm = TRUE), sum(ed19$Pass.Floor.1, na.rm = TRUE), sum(ed19$Pass.Com.2, na.rm = TRUE), sum(ed19$Pass.Floor.2, na.rm = TRUE), sum(ed19$To.Gov, na.rm = TRUE), sum(ed19$Passed, na.rm = TRUE))
+t1_20 <- c(nrow(ed20), sum(ed20$Pass.Com.1, na.rm = TRUE), sum(ed20$Pass.Floor.1, na.rm = TRUE), sum(ed20$Pass.Com.2, na.rm = TRUE), sum(ed20$Pass.Floor.2, na.rm = TRUE), sum(ed20$To.Gov, na.rm = TRUE), sum(ed20$Passed, na.rm = TRUE))
+t1_21 <- c(nrow(ed21), sum(ed21$Pass.Com.1, na.rm = TRUE), sum(ed21$Pass.Floor.1, na.rm = TRUE), sum(ed21$Pass.Com.2, na.rm = TRUE), sum(ed21$Pass.Floor.2, na.rm = TRUE), sum(ed21$To.Gov, na.rm = TRUE), sum(ed21$Passed, na.rm = TRUE))
+t1_22 <- c(nrow(ed22), sum(ed22$Pass.Com.1, na.rm = TRUE), sum(ed22$Pass.Floor.1, na.rm = TRUE), sum(ed22$Pass.Com.2, na.rm = TRUE), sum(ed22$Pass.Floor.2, na.rm = TRUE), sum(ed22$To.Gov, na.rm = TRUE), sum(ed22$Passed, na.rm = TRUE))
+t1 <- (data.frame(t1_15, t1_16, t1_17, t1_18, t1_19, t1_20, t1_21, t1_22))
+colnames(t1) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+rownames(t1) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+formattable(t1)
+```
+
+# Table 4
 
 Trajectory of education control
 ```{r}

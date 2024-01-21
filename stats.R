@@ -180,6 +180,7 @@ for (c in unique(ed_total$Com.1)) {
     print(chisq.test(tab, B=99999))
 }
 
+# TODO: Make this easier to read
 com_comparison <- function(df, list_of_committees) {
     in_pass <- 0
     out_pass <- 0
@@ -229,8 +230,10 @@ com_comparison <- function(df, list_of_committees) {
             if (is.na(row["Com.1.2"])) {
                 if (row["Com.1"] %in% list_of_committees) {
                     in_fail  <- in_fail + 1
+                    next
                 } else {
                     out_fail <- out_fail + 1
+                    next
                 }
             } else {
                 if (row["Com.1"] %in% list_of_committees) {
@@ -241,8 +244,10 @@ com_comparison <- function(df, list_of_committees) {
                 if (is.na(row["Com.1.3"])) {
                     if (row["Com.1.2"] %in% list_of_committees) {
                         in_fail <- in_fail + 1
+                        next
                     } else {
                         out_fail <- out_fail + 1
+                        next
                     }
                 } else {
                     if (row["Com.1.2"] %in% list_of_committees) {
@@ -253,8 +258,10 @@ com_comparison <- function(df, list_of_committees) {
                     if (is.na(row["Com.1.4"])) {
                         if (row["Com.1.3"] %in% list_of_committees) {
                             in_fail <- in_fail + 1
+                            next
                         } else {
                             out_fail <- out_fail + 1
+                            next
                         }
                     } else {
                         if (row["Com.1.3"] %in% list_of_committees) {
@@ -264,8 +271,10 @@ com_comparison <- function(df, list_of_committees) {
                         }
                         if (row["Com.1.4"] %in% list_of_committees) {
                             in_fail <- in_fail + 1
+                            next
                         } else {
                             out_fail <- out_fail + 1
+                            next
                         }
                     }
                 }
@@ -273,7 +282,9 @@ com_comparison <- function(df, list_of_committees) {
         }
 
         if (!is.na(row["Pass.Floor.1"])) {
-            if (row["Pass.Floor.1"] == 1) {
+            if (row["Pass.Floor.1"] == 0) {
+                next
+            }
         if (row["Pass.Com.2"] == 1) {
             if (row["Com.2"] %in% list_of_committees) {
                 in_pass <- in_pass + 1
@@ -306,8 +317,10 @@ com_comparison <- function(df, list_of_committees) {
             if (is.na(row["Com.2.2"])) {
                 if (row["Com.2"] %in% list_of_committees) {
                     in_fail  <- in_fail + 1
+                        next
                 } else {
                     out_fail <- out_fail + 1
+                        next
                 }
             } else {
                 if (row["Com.2"] %in% list_of_committees) {
@@ -318,8 +331,10 @@ com_comparison <- function(df, list_of_committees) {
                 if (is.na(row["Com.2.3"])) {
                     if (row["Com.2.2"] %in% list_of_committees) {
                         in_fail <- in_fail + 1
+                            next
                     } else {
                         out_fail <- out_fail + 1
+                            next
                     }
                 } else {
                     if (row["Com.2.2"] %in% list_of_committees) {
@@ -341,37 +356,269 @@ com_comparison <- function(df, list_of_committees) {
                         }
                         if (row["Com.2.4"] %in% list_of_committees) {
                             in_fail <- in_fail + 1
+                                next
                         } else {
                             out_fail <- out_fail + 1
+                                next
                         }
                     }
                 }
             }
         }
+        }
+    }
+
+    tab <- as.table(rbind(c(in_pass, in_fail), c(out_pass, out_fail)))
+    dimnames(tab) <- list(committee = c("in", "out"), pass_fail = c("pass", "fail"))
+    # print(tab)
+    # print(chisq.test(tab))
+    return(c(in_pass, in_fail))
+}
+
+
+com_comparison_readable <- function(df, list_of_committees, print_table=FALSE) {
+    in_pass <- 0
+    out_pass <- 0
+    in_fail <- 0
+    out_fail <- 0
+    df[df==""]<-NA
+    for (i in seq_len(nrow(df))) {
+        row <- df[i, ]
+        if (row$Disposition %in% c("PIL", "DIF", "V")) {
+            if (!is.na(row$Com.1)) {
+                if (row$Com.1 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.1.2)) {
+                if (row$Com.1.2 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.1.3)) {
+                if (row$Com.1.3 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.1.4)) {
+                if (row$Com.1.4 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+
+            if (!is.na(row$Com.2)) {
+                if (row$Com.2 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.2.2)) {
+                if (row$Com.2.2 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.2.3)) {
+                if (row$Com.2.3 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.2.4)) {
+                if (row$Com.2.4 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+        } else {
+            # Failed somewhere in the committees
+            if (!is.na(row$Com.1)) {
+                if (is.na(row$Com.1.2) && is.na(row$Com.2)) {
+                    if (row$Com.1 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.1.2)) {
+                if (is.na(row$Com.1.3) && is.na(row$Com.2)) {
+                    if (row$Com.1.2 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1.2 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.1.3)) {
+                if (is.na(row$Com.1.4) && is.na(row$Com.2)) {
+                    if (row$Com.1.3 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1.3 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.1.4)) {
+                if (is.na(row$Com.2)) {
+                    if (row$Com.1.4 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1.4 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.2)) {
+                if (is.na(row$Com.2.2)) {
+                    if (row$Com.2 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.2 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.2.2)) {
+                if (is.na(row$Com.2.3)) {
+                    if (row$Com.2.2 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.2.2 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+            if (!is.na(row$Com.2.3)) {
+                if (is.na(row$Com.2.4)) {
+                    if (row$Com.2.3 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.2.3 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.2.4)) {
+                if (row$Com.2.4 %in% list_of_committees) {
+                    in_fail <- in_fail + 1
+                } else {
+                    out_fail <- out_fail + 1
+                }
             }
         }
     }
 
     tab <- as.table(rbind(c(in_pass, in_fail), c(out_pass, out_fail)))
     dimnames(tab) <- list(committee = c("in", "out"), pass_fail = c("pass", "fail"))
-    print(tab)
-    print(chisq.test(tab))
+    if (print_table) {
+        print(tab)
+        print(chisq.test(tab))
+    }
+    return(c(in_pass, in_fail))
 }
-
 
 
 com_comparison(ed_total, "H-R")
 
-for (com in unique(csv_total$Com.1)) {
-    if (com %in% c("H-ACNR", "H-CL", "S-CL", "S-ACNR")) {
-        print(com)
-        com_comparison(csv_total, com)
+set_committees <- na.omit(unique(c(csv_total$Com.1, csv_total$Com.1.2, csv_total$Com.1.3, csv_total$Com.1.4, csv_total$Com.2, csv_total$Com.2.2, csv_total$Com.2.3, csv_total$Com.2.4))) %>% .[. != ""]
+for (com in set_committees) {
+    print(com)
+    out <- com_comparison_readable(csv_total, com, TRUE)
+    if (out[1] + out[2] > 100) {
+        print(c(com, as.character(out[1] / (out[1] + out[2])), '%'))
     }
 }
 
 
+set_committees_ed <- na.omit(unique(c(ed_total$Com.1, ed_total$Com.1.2, ed_total$Com.1.3, ed_total$Com.1.4, ed_total$Com.2, ed_total$Com.2.2, ed_total$Com.2.3, ed_total$Com.2.4))) %>% .[. != ""]
 for (com in unique(ed_total$Com.1)) {
         print(com)
-        com_comparison(ed_total, com)
+        com_comparison_readable(ed_total, com)
 }
 filter(ed_total, is.na(Pass.Com.2))
+
+# TODO: Create comparison for congresspeople
+df <- data.frame(matrix(ncol = 4, nrow = 127))
+colnames(df) <- c("year", "committee", "pass", "fail")
+i <- 1
+for (year in 2015:2022) {
+    subset <- filter(csv_total, Year == year)
+
+    set_committees <- na.omit(unique(c(csv_total$Com.1, csv_total$Com.1.2, csv_total$Com.1.3, csv_total$Com.1.4, csv_total$Com.2, csv_total$Com.2.2, csv_total$Com.2.3, csv_total$Com.2.4))) %>% .[. != ""]
+    for (com in set_committees) {
+        result <- com_comparison_readable(subset, com)
+        df[i,] <- c(year, com, result[1], result[2])
+        i = i + 1
+    }
+}
+df$year <- as.numeric(as.character(df$year))
+df$pass <- as.numeric(as.character(df$pass))
+df$fail <- as.numeric(as.character(df$fail))
+
+com_comparison_readable(csv_total, "H-CL", TRUE)
+
+write.csv(df, "com_pass_fail_year.csv", row.names = FALSE)
