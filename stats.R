@@ -44,8 +44,9 @@ csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identi
 csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% manipulate(Year = 2020) %>% rename(prog = SC.Position)
 csv21 <- read.csv("data/csv_2021.csv", nrows = 84) %>% col_care() %>% add_identifiers() %>% manipulate(Year = 2021) %>% rename(prog = SC.Position)
 csv22 <- read.csv("data/csv_2022.csv", nrows = 132) %>% col_care() %>% add_identifiers() %>% manipulate(Year = 2022) %>% rename(prog = SC.Position)
+csv23 <- read.csv("data/csv_2023.csv", nrows = 76) %>% col_care() %>% add_identifiers() %>% manipulate(Year = 2023) %>% rename(prog = SC.Position)
 
-csv_total <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21, csv22) %>%
+csv_total <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21, csv22, csv23) %>%
     mutate(Disposition = if_else(Disposition == "", "INC", str_to_upper(Disposition))) %>%
     mutate(Disposition = if_else(Disposition %in% c("DIH", "DIS"), "DIF", Disposition))
 
@@ -605,7 +606,7 @@ filter(ed_total, is.na(Pass.Com.2))
 df <- data.frame(matrix(ncol = 4, nrow = 127))
 colnames(df) <- c("year", "committee", "pass", "fail")
 i <- 1
-for (year in 2015:2022) {
+for (year in 2015:2023) {
     subset <- filter(csv_total, Year == year)
 
     set_committees <- na.omit(unique(c(csv_total$Com.1, csv_total$Com.1.2, csv_total$Com.1.3, csv_total$Com.1.4, csv_total$Com.2, csv_total$Com.2.2, csv_total$Com.2.3, csv_total$Com.2.4))) %>% .[. != ""]
@@ -621,4 +622,25 @@ df$fail <- as.numeric(as.character(df$fail))
 
 com_comparison_readable(csv_total, "H-CL", TRUE)
 
-write.csv(df, "com_pass_fail_year.csv", row.names = FALSE)
+write.csv(df, "climate_com_pass_fail_year.csv", row.names = FALSE)
+
+
+
+df_ed <- data.frame(matrix(ncol = 4, nrow = 257))
+colnames(df_ed) <- c("year", "committee", "pass", "fail")
+i <- 1
+for (year in 2015:2022) {
+    subset <- filter(ed_total, Year == year)
+
+    set_committees <- na.omit(unique(c(ed_total$Com.1, ed_total$Com.1.2, ed_total$Com.1.3, ed_total$Com.1.4, ed_total$Com.2, ed_total$Com.2.2, ed_total$Com.2.3, ed_total$Com.2.4))) %>% .[. != ""]
+    for (com in set_committees) {
+        result <- com_comparison_readable(subset, com)
+        df_ed[i,] <- c(year, com, result[1], result[2])
+        i = i + 1
+    }
+}
+df_ed$year <- as.numeric(as.character(df_ed$year))
+df_ed$pass <- as.numeric(as.character(df_ed$pass))
+df_ed$fail <- as.numeric(as.character(df_ed$fail))
+
+write.csv(df_ed, "education_com_pass_fail_year.csv", row.names = FALSE)

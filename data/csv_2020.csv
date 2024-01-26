@@ -55,7 +55,7 @@ SJ32 ,1,S-R,0,0,,,,,,,,0,DiC
 SJ56 ,1,S-R,0,0,,,,,,,,0,DiC
 SB25  ,1,S-PE,0,0,,,,,,,,0,DiC
 SB94  ,1,S-CL,1,0,1,H-LC; H-A,1,1,1,1,0,1,PiL
-SB106,1,S-ACNR,1,0,1,H-ACNR  ,1,1,1,1,0,1,PiL
+SB106,1,S-ACNR,1,0,1,H-ACNR,1,1,1,1,0,1,PiL
 SB320  ,1,S-ACNR; S-FA,1,0,1,H-ACNR,1,1,0,1,1,1,PiL
 SB354  ,1,S-CL ,0,0,,,,,,,,0,DiC
 SB376 ,1,S-CL ,0,0,,,,,,,,0,DiC
@@ -76,15 +76,15 @@ SB1061 ,1,S-GLT,0,0,,,,,,,,0,DiC
 HB166  ,-1,H-CCT,1,0,1,S-LG,1,1,1,1,0,1,PiL
 HB205 ,-1,H-ACNR; H-LC ,0,0,,,,,,,,0,DiC
 HB461  ,-1,H-F ,0,0,,,,,,,,0,DiC
-HB705 ,-1,H-ACNR ,0,0,,,,,,,,0,DiC
-HB1170  ,-1,H-ACNR ,0,0,,,,,,,,0,DiC
-HB1171 ,-1,H-ACNR ,0,0,,,,,,,,0,DiC
+HB705 ,-1,H-ACNR,0,0,,,,,,,,0,DiC
+HB1170  ,-1,H-ACNR,0,0,,,,,,,,0,DiC
+HB1171 ,-1,H-ACNR,0,0,,,,,,,,0,DiC
 HB1360  ,-1,H-ACNR; H-LC ,0,0,,,,,,,,0,DiC
 HB1628  ,-1,H-LC ,0,0,,,,,,,,0,DiC
 HB1629 ,-1,H-LC ,0,0,,,,,,,,0,DiC
 HB1636  ,-1,H-ACNR; H-A ,1,0,,,,,,,,0,DiC
-SB769  ,-1,S-ACNR,1,0,1,H-ACNR  ,0,,,,,0,DiC
-SB992 ,-1,S-ACNR; S-CL,0,0,1,H-ACNR  ,0,,,,,0,DiC
+SB769  ,-1,S-ACNR,1,0,1,H-ACNR,0,,,,,0,DiC
+SB992 ,-1,S-ACNR; S-CL,0,0,1,H-ACNR,0,,,,,0,DiC
 HB1607  ,0,H-LC ,0,1,,,,,,,,0,Inc
 HB1664 ,0,H-LC,1,0,1,S-CL,1,1,1,1,1,1,PiL
 SB817  ,0,S-CL ,1,0,1,H-LC,1,1,0,1,0,1,PiL
