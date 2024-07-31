@@ -174,7 +174,7 @@ vv_total <- com_sierra(null_total)
 # plot_grid(legend_year, legend_sierra, legend_vv, nrow = 3, ncol = 1, rel_heights = c(0.6,0.33,0.2))
 # ggsave("legend.png", bg = "transparent")
 ```
-![](legend.png){#id .class width=80% height=80%}
+![](legend.png){#id .class width=110% height=110%}
 
 # General Overview {data-orientation=columns}
 
