@@ -519,4 +519,25 @@ df$fail <- as.numeric(as.character(df$fail))
 com_comparison_readable(csv_total, "H-CL", TRUE)
 com_comparison(csv_total, "H-CL")
 
-write.csv(df, "com_pass_fail_year.csv", row.names = FALSE)
+write.csv(df, "climate_com_pass_fail_year.csv", row.names = FALSE)
+
+
+
+df_ed <- data.frame(matrix(ncol = 4, nrow = 257))
+colnames(df_ed) <- c("year", "committee", "pass", "fail")
+i <- 1
+for (year in 2015:2022) {
+    subset <- filter(ed_total, Year == year)
+
+    set_committees <- na.omit(unique(c(ed_total$Com.1, ed_total$Com.1.2, ed_total$Com.1.3, ed_total$Com.1.4, ed_total$Com.2, ed_total$Com.2.2, ed_total$Com.2.3, ed_total$Com.2.4))) %>% .[. != ""]
+    for (com in set_committees) {
+        result <- com_comparison_readable(subset, com)
+        df_ed[i,] <- c(year, com, result[1], result[2])
+        i = i + 1
+    }
+}
+df_ed$year <- as.numeric(as.character(df_ed$year))
+df_ed$pass <- as.numeric(as.character(df_ed$pass))
+df_ed$fail <- as.numeric(as.character(df_ed$fail))
+
+write.csv(df_ed, "education_com_pass_fail_year.csv", row.names = FALSE)
