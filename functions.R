@@ -481,7 +481,7 @@ sierra_data_shell <- function(csv) {
 }
 
 # Helper function that will isolate all committees with 10+ Primary bills
-consolidate_com <- function(csv) {
+consolidate_com <- function(csv, n=3) {
     isolated_first <- separate(csv, Com.1, into = c("Committee", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>%
         group_by(Committee) %>% summarize(n = n()) %>% arrange(desc(n))
     isolated_second <- separate(csv, Com.2, into = c("Committee", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>%
@@ -489,9 +489,9 @@ consolidate_com <- function(csv) {
         group_by(Committee) %>% summarize(n = n()) %>% arrange(desc(n))
     csv <- separate(csv, Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")  %>%
         separate(Com.2, into = c("Com.2", "Com.2.2", "Com.2.3", "Com.2.4"), sep = ";")
-    new_csv <- mutate(csv, Com.1 = if_else(Com.1 %in% isolated_first$Committee[1:3], Com.1, "Other.Committee"),
+    new_csv <- mutate(csv, Com.1 = if_else(Com.1 %in% isolated_first$Committee[1:n], Com.1, "Other.Committee"),
                       Com.2 = case_when(
-                                        Com.2 %in% isolated_second$Committee[1:3] ~ paste(Com.2, "2", sep = "."),
+                                        Com.2 %in% isolated_second$Committee[1:n] ~ paste(Com.2, "2", sep = "."),
                                         is.na(Com.2) ~ NA_character_,
                                         Com.2 == "" ~ NA_character_,
                                         TRUE ~ "Other.Committee.2"
