@@ -2063,7 +2063,7 @@ Row
 ### Table {data-width=600}
 
 ```{r}
-rtable(csv22)
+rtable(csv23)
 
 ```
 ### Description
