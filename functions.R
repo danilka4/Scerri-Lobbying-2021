@@ -513,7 +513,8 @@ x %>% mutate(Dis = factor(if_else(Disposition == "DiC", "Died in Committee", if_
 col_care <- function(x) {
     x$Com.1 <- gsub('\\s+', '', x$Com.1)
     x$Com.2 <- gsub('\\s+', '', x$Com.2)
-  x %>% select(Bill, SC.Position, Com.1, Pass.Com.1, Pass.Floor.1, Com.2, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
+  # x %>% select(Bill, Year, SC.Position, Com.1, Pass.Com.1, Pass.Floor.1, Com.2, Pass.Com.2, Pass.Floor.2, To.Gov, Passed, Disposition, Amended, Returned)
+    return(x)
 }
 
 # ggplot + line graph helper function

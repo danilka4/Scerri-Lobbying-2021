@@ -7,64 +7,509 @@ knitr::opts_chunk$set(echo=FALSE)
 ```
 
 ```{r}
+options(warn = -1)
+
+# Performs Chi-Squared tests on the different outcomes
+source("functions.R")
+library(stringr)
+
+annual_fish <- function(climate, education, year = 2015) {
+    cl <- filter(climate, Year == year)
+    cl <- filter(cl, Disposition != "JRP") %>%
+        mutate(Disposition = if_else(Disposition %in% c("DIC", "PIL"), Disposition, "DIO"))
+    cl <- data.frame(dis = cl$Disposition, type = "Climate")
+    e <- filter(education, Year == year) %>%
+        mutate(Disposition = if_else(Disposition %in% c("DIC", "PIL"), Disposition, "DIO"))
+    e <- data.frame(dis = e$Disposition, type = "Education")
+    comb <- table(rbind(cl, e))
+    print(comb)
+    print(chisq.test(comb))
+    return(comb)
+}
+
+sub <- function(column) {
+    return(case_match(column,
+            c("H-LC", "H-CE") ~ "H-CL",
+            "S-CE" ~ "S-CL",
+            "H-CTI" ~ "H-ST",
+            "H-PS" ~ "H-MPPS",
+            "S-FA" ~ "S-F",
+            "S-GLT" ~ "S-GL",
+            .default = column
+        ))
+}
+
+manipulate <- function(df, Year) {
+    return(df %>%
+        mutate(Year = Year)  %>%
+        separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>%
+        separate(Com.2, into = c("Com.2", "Com.2.2", "Com.2.3", "Com.2.4"), sep = ";") %>%
+        mutate(Disposition = if_else(Disposition == "JRP", "PIL", Disposition)) %>%
+        # filter(Disposition != "JRP") %>%
+        mutate(
+            Com.1 = sub(Com.1),
+            Com.1.2 = sub(Com.1.2),
+            Com.1.3 = sub(Com.1.3),
+            Com.1.4 = sub(Com.1.4),
+            Com.2 = sub(Com.2),
+            Com.2.2 = sub(Com.2.2),
+            Com.2.3 = sub(Com.2.3),
+            Com.2.4 = sub(Com.2.4)
+        )
+
+    )
+}
+
+com_comparison <- function(df, list_of_committees) {
+    in_pass <- 0
+    out_pass <- 0
+    in_fail <- 0
+    out_fail <- 0
+    for (i in seq_len(nrow(df))) {
+        row <- df[i, ]
+
+        if (is.na(row["Pass.Com.1"])) {
+            if (row["Com.1"] %in% list_of_committees) {
+                in_fail <- in_fail + 1
+            } else {
+                out_fail <- out_fail + 1
+            }
+            next
+        }
+
+        if (row["Pass.Com.1"] == 1) {
+            if (row["Com.1"] %in% list_of_committees) {
+                in_pass <- in_pass + 1
+            } else {
+                out_pass <- out_pass + 1
+            }
+            if (!is.na(row["Com.1.2"])) {
+                if (row["Com.1.2"] %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+            if (!is.na(row["Com.1.3"])) {
+                if (row["Com.1.3"] %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+            if (!is.na(row["Com.1.4"])) {
+                if (row["Com.1.4"] %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+        } else {
+            # Doesn't pass committee 1
+            if (is.na(row["Com.1.2"])) {
+                if (row["Com.1"] %in% list_of_committees) {
+                    in_fail  <- in_fail + 1
+                    next
+                } else {
+                    out_fail <- out_fail + 1
+                    next
+                }
+            } else {
+                if (row["Com.1"] %in% list_of_committees) {
+                    in_pass  <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+                if (is.na(row["Com.1.3"])) {
+                    if (row["Com.1.2"] %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                        next
+                    } else {
+                        out_fail <- out_fail + 1
+                        next
+                    }
+                } else {
+                    if (row["Com.1.2"] %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                    if (is.na(row["Com.1.4"])) {
+                        if (row["Com.1.3"] %in% list_of_committees) {
+                            in_fail <- in_fail + 1
+                            next
+                        } else {
+                            out_fail <- out_fail + 1
+                            next
+                        }
+                    } else {
+                        if (row["Com.1.3"] %in% list_of_committees) {
+                            in_pass <- in_pass + 1
+                        } else {
+                            out_pass <- out_pass + 1
+                        }
+                        if (row["Com.1.4"] %in% list_of_committees) {
+                            in_fail <- in_fail + 1
+                            next
+                        } else {
+                            out_fail <- out_fail + 1
+                            next
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!is.na(row["Pass.Floor.1"])) {
+            if (row["Pass.Floor.1"] == 0) {
+                next
+            }
+        if (row["Pass.Com.2"] == 1) {
+            if (row["Com.2"] %in% list_of_committees) {
+                in_pass <- in_pass + 1
+            } else {
+                out_pass <- out_pass + 1
+            }
+            if (!is.na(row["Com.2.2"])) {
+                if (row["Com.2.2"] %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+            if (!is.na(row["Com.2.3"])) {
+                if (row["Com.2.3"] %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+            if (!is.na(row["Com.2.4"])) {
+                if (row["Com.2.4"] %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+        } else {
+            # Doesn't pass committee 1
+            if (is.na(row["Com.2.2"])) {
+                if (row["Com.2"] %in% list_of_committees) {
+                    in_fail  <- in_fail + 1
+                        next
+                    } else {
+                        out_fail <- out_fail + 1
+                        next
+                    }
+                } else {
+                    if (row["Com.2"] %in% list_of_committees) {
+                        in_pass  <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                    if (is.na(row["Com.2.3"])) {
+                        if (row["Com.2.2"] %in% list_of_committees) {
+                            in_fail <- in_fail + 1
+                                next
+                        } else {
+                            out_fail <- out_fail + 1
+                            next
+                        }
+                    } else {
+                        if (row["Com.2.2"] %in% list_of_committees) {
+                            in_pass <- in_pass + 1
+                        } else {
+                            out_pass <- out_pass + 1
+                        }
+                        if (is.na(row["Com.2.4"])) {
+                            if (row["Com.2.3"] %in% list_of_committees) {
+                                in_fail <- in_fail + 1
+                            } else {
+                                out_fail <- out_fail + 1
+                            }
+                        } else {
+                            if (row["Com.2.3"] %in% list_of_committees) {
+                                in_pass <- in_pass + 1
+                            } else {
+                                out_pass <- out_pass + 1
+                            }
+                            if (row["Com.2.4"] %in% list_of_committees) {
+                                in_fail <- in_fail + 1
+                                next
+                            } else {
+                                out_fail <- out_fail + 1
+                                next
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    tab <- as.table(rbind(c(in_pass, in_fail), c(out_pass, out_fail)))
+    dimnames(tab) <- list(committee = c("in", "out"), pass_fail = c("pass", "fail"))
+    # print(tab)
+    # print(chisq.test(tab))
+    return(c(in_pass, in_fail))
+}
+com_comparison_readable <- function(df, list_of_committees, print_table = FALSE) {
+    in_pass <- 0
+    out_pass <- 0
+    in_fail <- 0
+    out_fail <- 0
+    df[df == ""] <- NA
+    for (i in seq_len(nrow(df))) {
+        # print(i)
+        row <- df[i, ]
+        if (row$Disposition %in% c("PIL", "DIF", "V")) {
+            if (!is.na(row$Com.1)) {
+                if (row$Com.1 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.1.2)) {
+                if (row$Com.1.2 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.1.3)) {
+                if (row$Com.1.3 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.1.4)) {
+                if (row$Com.1.4 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+
+            if (!is.na(row$Com.2)) {
+                if (row$Com.2 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.2.2)) {
+                if (row$Com.2.2 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.2.3)) {
+                if (row$Com.2.3 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+
+            if (!is.na(row$Com.2.4)) {
+                if (row$Com.2.4 %in% list_of_committees) {
+                    in_pass <- in_pass + 1
+                } else {
+                    out_pass <- out_pass + 1
+                }
+            }
+        } else {
+            # Failed somewhere in the committees
+            if (!is.na(row$Com.1)) {
+                if (is.na(row$Com.1.2) && is.na(row$Com.2)) {
+                    if (row$Com.1 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.1.2)) {
+                if (is.na(row$Com.1.3) && is.na(row$Com.2)) {
+                    if (row$Com.1.2 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1.2 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.1.3)) {
+                if (is.na(row$Com.1.4) && is.na(row$Com.2)) {
+                    if (row$Com.1.3 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1.3 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.1.4)) {
+                if (is.na(row$Com.2)) {
+                    if (row$Com.1.4 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.1.4 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.2)) {
+                if (is.na(row$Com.2.2)) {
+                    if (row$Com.2 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.2 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.2.2)) {
+                if (is.na(row$Com.2.3)) {
+                    if (row$Com.2.2 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.2.2 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+            if (!is.na(row$Com.2.3)) {
+                if (is.na(row$Com.2.4)) {
+                    if (row$Com.2.3 %in% list_of_committees) {
+                        in_fail <- in_fail + 1
+                    } else {
+                        out_fail <- out_fail + 1
+                    }
+                } else {
+                    if (row$Com.2.3 %in% list_of_committees) {
+                        in_pass <- in_pass + 1
+                    } else {
+                        out_pass <- out_pass + 1
+                    }
+                }
+            }
+
+            if (!is.na(row$Com.2.4)) {
+                if (row$Com.2.4 %in% list_of_committees) {
+                    in_fail <- in_fail + 1
+                } else {
+                    out_fail <- out_fail + 1
+                }
+            }
+        }
+    }
+
+    tab <- as.table(rbind(c(in_pass, in_fail), c(out_pass, out_fail)))
+    dimnames(tab) <- list(committee = c("in", "out"), pass_fail = c("pass", "fail"))
+    if (print_table) {
+        print(tab)
+        print(chisq.test(tab))
+    }
+    return(c(in_pass, in_fail))
+}
+```
+
+```{r}
 source("functions.R")
 source("outdated/functions_table.R")
 library(data.table)
 library(formattable)
+library(xtable)
 
-csv15 <- read.csv("data/csv_2015.csv") %>% col_care() %>% add_identifiers() %>% mutate(Year = 2015) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>% filter(Disposition != "JRP")
-csv16 <- read.csv("data/csv_2016.csv", nrows = 74) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2016) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>% filter(Disposition != "JRP")
-csv17 <- read.csv("data/csv_2017.csv", nrows = 89) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2017) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>% filter(Disposition != "JRP")
-csv18 <- read.csv("data/csv_2018.csv", nrows = 111) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2018) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>% filter(Disposition != "JRP")
-csv19 <- read.csv("data/csv_2019.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2019) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>% filter(Disposition != "JRP")
-csv20 <- read.csv("data/csv_2020.csv", nrows = 92) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2020) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>% filter(Disposition != "JRP")
-csv21 <- read.csv("data/csv_2021.csv", nrows = 84) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2021) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";") %>% filter(Disposition != "JRP")
-csv22 <- read.csv("data/csv_2022.csv", nrows = 132) %>% col_care() %>% add_identifiers() %>% mutate(Year = 2022) %>%
-    separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
+overall <- read.csv("data/overall.csv")
+csv15 <- filter(overall, Session == 2015) %>% col_care() %>% manipulate(Year = 2015) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv16 <- filter(overall, Session == 2016) %>% col_care() %>% manipulate(Year = 2016) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv17 <- filter(overall, Session == 2017) %>% col_care() %>% manipulate(Year = 2017) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv18 <- filter(overall, Session == 2018) %>% col_care() %>% manipulate(Year = 2018) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv19 <- filter(overall, Session == 2019) %>% col_care() %>% manipulate(Year = 2019) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv20 <- filter(overall, Session == 2020) %>% col_care() %>% manipulate(Year = 2020) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv21 <- filter(overall, Session == 2021) %>% col_care() %>% manipulate(Year = 2021) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv22 <- filter(overall, Session == 2022) %>% col_care() %>% manipulate(Year = 2022) %>% add_identifiers() %>% rename(prog = SC.Position)
+csv23 <- filter(overall, Session == 2023) %>% col_care() %>% manipulate(Year = 2023) %>% add_identifiers() %>% rename(prog = SC.Position)
 
-csv_total <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21, csv22) %>%
+csv_total <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21, csv22, csv23) %>%
+    mutate(Com.1 = if_else(Com.1 == "H-CL" | Com.1 == "H-LC" | Com.1 == "H-CE", "H-CL/LC/CE", Com.1),
+        Com.2 = if_else(Com.2 == "H-CL" | Com.2 == "H-LC" | Com.2 == "H-CE", "H-CL/LC/CE", Com.2))
+csv <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21, csv22, csv23) %>%
     mutate(Com.1 = if_else(Com.1 == "H-CL" | Com.1 == "H-LC", "H-CL/LC", Com.1),
-    Com.2 = if_else(Com.2 == "H-CL" | Com.2 == "H-LC", "H-CL/LC", Com.2))
-csv <- rbind(csv15, csv16, csv17, csv18, csv19, csv20, csv21, csv22) %>%
-    mutate(Com.1 = if_else(Com.1 == "H-CL" | Com.1 == "H-LC", "H-CL/LC", Com.1),
-    Com.2 = if_else(Com.2 == "H-CL" | Com.2 == "H-LC", "H-CL/LC", Com.2))
+        Com.2 = if_else(Com.2 == "H-CL" | Com.2 == "H-LC", "H-CL/LC", Com.2))
 
-null15 <- read.csv("data/null_2015.csv") %>% mutate(Year = 2015) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-null16 <- read.csv("data/null_2016.csv") %>% mutate(Year = 2016) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-null17 <- read.csv("data/null_2017.csv") %>% mutate(Year = 2017) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-null18 <- read.csv("data/null_2018.csv") %>% mutate(Year = 2018) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-null19 <- read.csv("data/null_2019.csv") %>% mutate(Year = 2019) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-null20 <- read.csv("data/null_2020.csv") %>% mutate(Year = 2020) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-null21 <- read.csv("data/null_2021.csv") %>% mutate(Year = 2021) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-#null22 <- read.csv("data/null_2022.csv") %>% mutate(Year = 2022) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-null_total <- rbind(null15, null16, null17, null18, null19, null20, null21)
-
-ed15 <- read.csv("data/null_ed_2015.csv") %>% mutate(Year = 2015) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed16 <- read.csv("data/null_ed_2016.csv") %>% mutate(Year = 2016) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed17 <- read.csv("data/null_ed_2017.csv") %>% mutate(Year = 2017) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed18 <- read.csv("data/null_ed_2018.csv") %>% mutate(Year = 2018) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed19 <- read.csv("data/null_ed_2019.csv") %>% mutate(Year = 2019) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed20 <- read.csv("data/null_ed_2020.csv") %>% mutate(Year = 2020) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed21 <- read.csv("data/null_ed_2021.csv") %>% mutate(Year = 2021) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed22 <- read.csv("data/null_ed_2022.csv") %>% mutate(Year = 2022) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-ed_total <- rbind(ed15, ed16, ed17, ed18, ed19, ed20, ed21, ed22)
-
-tr15 <- read.csv("data/null_tr_2015.csv") %>% mutate(Year = 2015) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr16 <- read.csv("data/null_tr_2016.csv") %>% mutate(Year = 2016) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr17 <- read.csv("data/null_tr_2017.csv") %>% mutate(Year = 2017) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr18 <- read.csv("data/null_tr_2018.csv") %>% mutate(Year = 2018) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr19 <- read.csv("data/null_tr_2019.csv") %>% mutate(Year = 2019) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr20 <- read.csv("data/null_tr_2020.csv") %>% mutate(Year = 2020) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr21 <- read.csv("data/null_tr_2021.csv") %>% mutate(Year = 2021) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr22 <- read.csv("data/null_tr_2022.csv") %>% mutate(Year = 2022) %>% separate(Com.1, into = c("Com.1", "Com.1.2", "Com.1.3", "Com.1.4"), sep = ";")
-tr_total <- rbind(tr15, tr16, tr17, tr18, tr19, tr20, tr21, tr22)
+#' Export a Formattable as PNG, PDF, or JPEG
+#'
+#' @param f A formattable.
+#' @param file Export path with extension .png, .pdf, or .jpeg.
+#' @param width Width specification of the html widget being exported.
+#' @param height Height specification of the html widget being exported.
+#' @param background Background color specification.
+#' @param delay Time to wait before taking webshot, in seconds.
+#'
+#' @importFrom formattable as.htmlwidget
+#' @importFrom htmltools html_print
+#' @importFrom webshot webshot
+#'
+#' @export
+export_formattable <- function(f, file, width = "100%", height = NULL, 
+                               background = "white", delay = 0.2)
+{
+  w <- as.htmlwidget(f, width = width, height = height)
+  path <- html_print(w, background = background, viewer = NULL)
+  url <- paste0("file:///", gsub("\\\\", "/", normalizePath(path)))
+  webshot(url,
+          file = file,
+          selector = ".formattable_widget",
+          delay = delay)
+}
 ```
 
 # Table 1
@@ -78,41 +523,65 @@ t1_19 <- c(nrow(csv19), sum(csv19$Pass.Com.1, na.rm = TRUE), sum(csv19$Pass.Floo
 t1_20 <- c(nrow(csv20), sum(csv20$Pass.Com.1, na.rm = TRUE), sum(csv20$Pass.Floor.1, na.rm = TRUE), sum(csv20$Pass.Com.2, na.rm = TRUE), sum(csv20$Pass.Floor.2, na.rm = TRUE), sum(csv20$To.Gov, na.rm = TRUE), sum(csv20$Passed, na.rm = TRUE))
 t1_21 <- c(nrow(csv21), sum(csv21$Pass.Com.1, na.rm = TRUE), sum(csv21$Pass.Floor.1, na.rm = TRUE), sum(csv21$Pass.Com.2, na.rm = TRUE), sum(csv21$Pass.Floor.2, na.rm = TRUE), sum(csv21$To.Gov, na.rm = TRUE), sum(csv21$Passed, na.rm = TRUE))
 t1_22 <- c(nrow(csv22), sum(csv22$Pass.Com.1, na.rm = TRUE), sum(csv22$Pass.Floor.1, na.rm = TRUE), sum(csv22$Pass.Com.2, na.rm = TRUE), sum(csv22$Pass.Floor.2, na.rm = TRUE), sum(csv22$To.Gov, na.rm = TRUE), sum(csv22$Passed, na.rm = TRUE))
-t1 <- (data.frame(t1_15, t1_16, t1_17, t1_18, t1_19, t1_20, t1_21, t1_22))
-colnames(t1) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+t1_23 <- c(nrow(csv23), sum(csv23$Pass.Com.1, na.rm = TRUE), sum(csv23$Pass.Floor.1, na.rm = TRUE), sum(csv23$Pass.Com.2, na.rm = TRUE), sum(csv23$Pass.Floor.2, na.rm = TRUE), sum(csv23$To.Gov, na.rm = TRUE), sum(csv23$Passed, na.rm = TRUE))
+t1 <- (data.frame(t1_15, t1_16, t1_17, t1_18, t1_19, t1_20, t1_21, t1_22, t1_23))
+colnames(t1) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023)
 rownames(t1) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
-formattable(t1)
+out <- t1
+for (col in colnames(t1)) {
+    out[, col] <- paste0(out[, col], " (", as.integer(out[, col] / out["Bill Introduced", col] * 100), "%)")
+}
+formattable(out) %>%
+    xtable(type = "tex")
 # print(chisq.test(t1))
 #t1_22 <- c(nrow(csv22), sum(csv22$Pass.Com.1, na.rm = TRUE), sum(csv22$Pass.Floor.1, na.rm = TRUE), sum(csv22$Pass.Com.2, na.rm = TRUE), sum(csv22$Pass.Floor.2, na.rm = TRUE), sum(csv22$To.Gov, na.rm = TRUE), sum(csv22$Passed, na.rm = TRUE))
 ```
+
+## Table 1.2
+How many bills die per thing?
+
+```{r}
+out <- -t1 + lag(t1)
+out <- out[-c(1), ]
+
+for (col in colnames(t1)) {
+    out[, col] <- paste0(out[, col], " (", round(out[, col] / t1["Bill Introduced", col] * 100), "%)")
+}
+formattable(out) %>%
+    xtable(type = "tex")
+```
+
 # Table 2
 Trajectory of bills per Sierra Club position
 
 ```{r}
-pos15 <- filter(csv15, SC.Position == 1)
-neut15 <- filter(csv15, SC.Position == 0)
-neg15 <- filter(csv15, SC.Position == -1)
-pos16 <- filter(csv16, SC.Position == 1)
-neut16 <- filter(csv16, SC.Position == 0)
-neg16 <- filter(csv16, SC.Position == -1)
-pos17 <- filter(csv17, SC.Position == 1)
-neut17 <- filter(csv17, SC.Position == 0)
-neg17 <- filter(csv17, SC.Position == -1)
-pos18 <- filter(csv18, SC.Position == 1)
-neut18 <- filter(csv18, SC.Position == 0)
-neg18 <- filter(csv18, SC.Position == -1)
-pos19 <- filter(csv19, SC.Position == 1)
-neut19 <- filter(csv19, SC.Position == 0)
-neg19 <- filter(csv19, SC.Position == -1)
-pos20 <- filter(csv20, SC.Position == 1)
-neut20 <- filter(csv20, SC.Position == 0)
-neg20 <- filter(csv20, SC.Position == -1)
-pos21 <- filter(csv21, SC.Position == 1)
-neut21 <- filter(csv21, SC.Position == 0)
-neg21 <- filter(csv21, SC.Position == -1)
-pos22 <- filter(csv22, SC.Position == 1)
-neut22 <- filter(csv22, SC.Position == 0)
-neg22 <- filter(csv22, SC.Position == -1)
+pos15 <- filter(csv15, prog == 1)
+neut15 <- filter(csv15, prog == 0)
+neg15 <- filter(csv15, prog == -1)
+pos16 <- filter(csv16, prog == 1)
+neut16 <- filter(csv16, prog == 0)
+neg16 <- filter(csv16, prog == -1)
+pos17 <- filter(csv17, prog == 1)
+neut17 <- filter(csv17, prog == 0)
+neg17 <- filter(csv17, prog == -1)
+pos18 <- filter(csv18, prog == 1)
+neut18 <- filter(csv18, prog == 0)
+neg18 <- filter(csv18, prog == -1)
+pos19 <- filter(csv19, prog == 1)
+neut19 <- filter(csv19, prog == 0)
+neg19 <- filter(csv19, prog == -1)
+pos20 <- filter(csv20, prog == 1)
+neut20 <- filter(csv20, prog == 0)
+neg20 <- filter(csv20, prog == -1)
+pos21 <- filter(csv21, prog == 1)
+neut21 <- filter(csv21, prog == 0)
+neg21 <- filter(csv21, prog == -1)
+pos22 <- filter(csv22, prog == 1)
+neut22 <- filter(csv22, prog == 0)
+neg22 <- filter(csv22, prog == -1)
+pos23 <- filter(csv23, prog == 1)
+neut23 <- filter(csv23, prog == 0)
+neg23 <- filter(csv23, prog == -1)
 ```
 ```{r}
 #daf <- group_by(csv_total, Year, Dis) %>%
@@ -126,11 +595,18 @@ t2_19 <- c(nrow(pos19), sum(pos19$Pass.Com.1, na.rm = TRUE), sum(pos19$Pass.Floo
 t2_20 <- c(nrow(pos20), sum(pos20$Pass.Com.1, na.rm = TRUE), sum(pos20$Pass.Floor.1, na.rm = TRUE), sum(pos20$Pass.Com.2, na.rm = TRUE), sum(pos20$Pass.Floor.2, na.rm = TRUE), sum(pos20$To.Gov, na.rm = TRUE), sum(pos20$Passed, na.rm = TRUE))
 t2_21 <- c(nrow(pos21), sum(pos21$Pass.Com.1, na.rm = TRUE), sum(pos21$Pass.Floor.1, na.rm = TRUE), sum(pos21$Pass.Com.2, na.rm = TRUE), sum(pos21$Pass.Floor.2, na.rm = TRUE), sum(pos21$To.Gov, na.rm = TRUE), sum(pos21$Passed, na.rm = TRUE))
 t2_22 <- c(nrow(pos22), sum(pos22$Pass.Com.1, na.rm = TRUE), sum(pos22$Pass.Floor.1, na.rm = TRUE), sum(pos22$Pass.Com.2, na.rm = TRUE), sum(pos22$Pass.Floor.2, na.rm = TRUE), sum(pos22$To.Gov, na.rm = TRUE), sum(pos22$Passed, na.rm = TRUE))
-t2a <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22))
+t2_23 <- c(nrow(pos23), sum(pos23$Pass.Com.1, na.rm = TRUE), sum(pos23$Pass.Floor.1, na.rm = TRUE), sum(pos23$Pass.Com.2, na.rm = TRUE), sum(pos23$Pass.Floor.2, na.rm = TRUE), sum(pos23$To.Gov, na.rm = TRUE), sum(pos23$Passed, na.rm = TRUE))
+t2a <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22, t2_23))
 t2pos <- t2a
-colnames(t2pos) <-paste0("pos", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022))
-colnames(t2a) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+colnames(t2pos) <-paste0("pos", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023))
+colnames(t2a) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023)
 rownames(t2a) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+out <- t2a
+for (col in colnames(t2a)) {
+    out[, col] <- paste0(out[, col], " (", as.integer(out[, col] / out["Bill Introduced", col] * 100), "%)")
+}
+formattable(out) %>%
+    xtable(type = "tex")
 ```
 ```{r}
 t2_15 <- c(nrow(neut15), sum(neut15$Pass.Com.1, na.rm = TRUE), sum(neut15$Pass.Floor.1, na.rm = TRUE), sum(neut15$Pass.Com.2, na.rm = TRUE), sum(neut15$Pass.Floor.2, na.rm = TRUE), sum(neut15$To.Gov, na.rm = TRUE), sum(neut15$Passed, na.rm = TRUE))
@@ -141,11 +617,18 @@ t2_19 <- c(nrow(neut19), sum(neut19$Pass.Com.1, na.rm = TRUE), sum(neut19$Pass.F
 t2_20 <- c(nrow(neut20), sum(neut20$Pass.Com.1, na.rm = TRUE), sum(neut20$Pass.Floor.1, na.rm = TRUE), sum(neut20$Pass.Com.2, na.rm = TRUE), sum(neut20$Pass.Floor.2, na.rm = TRUE), sum(neut20$To.Gov, na.rm = TRUE), sum(neut20$Passed, na.rm = TRUE))
 t2_21 <- c(nrow(neut21), sum(neut21$Pass.Com.1, na.rm = TRUE), sum(neut21$Pass.Floor.1, na.rm = TRUE), sum(neut21$Pass.Com.2, na.rm = TRUE), sum(neut21$Pass.Floor.2, na.rm = TRUE), sum(neut21$To.Gov, na.rm = TRUE), sum(neut21$Passed, na.rm = TRUE))
 t2_22 <- c(nrow(neut22), sum(neut22$Pass.Com.1, na.rm = TRUE), sum(neut22$Pass.Floor.1, na.rm = TRUE), sum(neut22$Pass.Com.2, na.rm = TRUE), sum(neut22$Pass.Floor.2, na.rm = TRUE), sum(neut22$To.Gov, na.rm = TRUE), sum(neut22$Passed, na.rm = TRUE))
-t2b <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22))
+t2_23 <- c(nrow(neut23), sum(neut23$Pass.Com.1, na.rm = TRUE), sum(neut23$Pass.Floor.1, na.rm = TRUE), sum(neut23$Pass.Com.2, na.rm = TRUE), sum(neut23$Pass.Floor.2, na.rm = TRUE), sum(neut23$To.Gov, na.rm = TRUE), sum(neut23$Passed, na.rm = TRUE))
+t2b <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22, t2_23))
 t2neut <- t2b
-colnames(t2neut) <- paste0("neut", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022))
-colnames(t2b) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+colnames(t2neut) <- paste0("neut", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023))
+colnames(t2b) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023)
 rownames(t2b) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+out <- t2b
+for (col in colnames(t2b)) {
+    out[, col] <- paste0(out[, col], " (", as.integer(out[, col] / out["Bill Introduced", col] * 100), "%)")
+}
+formattable(out) %>%
+    xtable(type = "tex")
 ```
 ```{r}
 t2_15 <- c(nrow(neg15), sum(neg15$Pass.Com.1, na.rm = TRUE), sum(neg15$Pass.Floor.1, na.rm = TRUE), sum(neg15$Pass.Com.2, na.rm = TRUE), sum(neg15$Pass.Floor.2, na.rm = TRUE), sum(neg15$To.Gov, na.rm = TRUE), sum(neg15$Passed, na.rm = TRUE))
@@ -156,11 +639,19 @@ t2_19 <- c(nrow(neg19), sum(neg19$Pass.Com.1, na.rm = TRUE), sum(neg19$Pass.Floo
 t2_20 <- c(nrow(neg20), sum(neg20$Pass.Com.1, na.rm = TRUE), sum(neg20$Pass.Floor.1, na.rm = TRUE), sum(neg20$Pass.Com.2, na.rm = TRUE), sum(neg20$Pass.Floor.2, na.rm = TRUE), sum(neg20$To.Gov, na.rm = TRUE), sum(neg20$Passed, na.rm = TRUE))
 t2_21 <- c(nrow(neg21), sum(neg21$Pass.Com.1, na.rm = TRUE), sum(neg21$Pass.Floor.1, na.rm = TRUE), sum(neg21$Pass.Com.2, na.rm = TRUE), sum(neg21$Pass.Floor.2, na.rm = TRUE), sum(neg21$To.Gov, na.rm = TRUE), sum(neg21$Passed, na.rm = TRUE))
 t2_22 <- c(nrow(neg22), sum(neg22$Pass.Com.1, na.rm = TRUE), sum(neg22$Pass.Floor.1, na.rm = TRUE), sum(neg22$Pass.Com.2, na.rm = TRUE), sum(neg22$Pass.Floor.2, na.rm = TRUE), sum(neg22$To.Gov, na.rm = TRUE), sum(neg22$Passed, na.rm = TRUE))
-t2c <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22))
+t2_23 <- c(nrow(neg23), sum(neg23$Pass.Com.1, na.rm = TRUE), sum(neg23$Pass.Floor.1, na.rm = TRUE), sum(neg23$Pass.Com.2, na.rm = TRUE), sum(neg23$Pass.Floor.2, na.rm = TRUE), sum(neg23$To.Gov, na.rm = TRUE), sum(neg23$Passed, na.rm = TRUE))
+t2c <- (data.frame(t2_15, t2_16, t2_17, t2_18, t2_19, t2_20, t2_21, t2_22, t2_23))
 t2neg <- t2c
-colnames(t2neg) <- paste0("neg", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022))
-colnames(t2c) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+colnames(t2neg) <- paste0("neg", c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023))
+colnames(t2c) <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023)
 rownames(t2c) <- c("Bill Introduced", "Passed Committee 1", "Passed Floor 1", "Passed Committee 2", "Passed Floor 2", "Delivered to Governor", "Signed into Law")
+
+out <- t2c
+for (col in colnames(t2c)) {
+    out[, col] <- paste0(out[, col], " (", as.integer(out[, col] / out["Bill Introduced", col] * 100), "%)")
+}
+formattable(out) %>%
+    xtable(type = "tex")
 ```
 ```{r}
 library(gt)
