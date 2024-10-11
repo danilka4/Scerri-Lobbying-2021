@@ -489,7 +489,7 @@ null_total_graph <- plot_ly(
     hovertemplate = link_hover,
     line = list(color = "black", width = 0.5)
     )) %>%
-  layout(title = "Sankey Diagrams Sampling All Non-Climate Bills 2015-2022",
+  layout(title = "Sankey Diagrams Sampling All Non-Climate Bills 2015-2023",
          xaxis = list(showgrid = F, zeroline = F),
          yaxis = list(showgrid = F, zeroline = F),
          showlegend = T)
@@ -544,7 +544,7 @@ Column
 
 ### Introduction
 
-This dashboard visualizes the routes taken by pieces of climate and education legislation in the state of Virginia between 2015 and 2022.
+This dashboard visualizes the routes taken by pieces of climate and education legislation in the state of Virginia between 2015 and 2023.
 This is a part of a general project looking at the patterns and potential causes of bill death within the legislative process in Virginia.
 The project itself is a continuation of similar projects that look at the main causes of climate bill death in the legislature of [Massachusetts](https://cssn.org/wp-content/uploads/2021/01/MA-CSSN-Report-1.20.2021-Corrected-text.pdf) and [Connecticut](https://cssn.org/wp-content/uploads/2021/12/CT-CSSN-Research-Report.pdf).
 
@@ -1293,11 +1293,9 @@ rtable(csv18)
 
 This year is more drastic than 2017.
 Control over congress and governorship has not changed, but there was a bit of reshuffling done through house elections, losing republicans their supermajority from the previous year.
-In addition, there was the election of Governor Northam, who presided over all future legislature we are currently analyzing.
+In addition, there was the election of Governor Northam, who presided over the next few years of bills.
 A higher proportion of bills ended up dying in their initial committees, with barely any dying afterwards.
-The difference in procedure between the initial committee hearings and debate held elsewhere is that committee hearings are public.
-This means it is impossible, through public means, to determine what exactly occured that caused the bill to die.
-The votes are secret, as well as the conversation that occurs between congresspeople.
+This death count is centered around the Commerce and Labor committees of both houses, a pattern that is apparent in other years but is most visible here.
 
 # 2019 {data-orientation=rows}
 
@@ -1618,14 +1616,10 @@ This appears to have lead to sizably more pro-climate bills making it through th
 There were still proportionally the same amount of pro-climate bills being introduced compared to other years (with the exception of 2017) at ~80% positive.
 This demonstrates a strong correlation between control of the legislative bodies and whether those bodies choose to take advantage of the opaqueness of the committees to have bills thrown out in the initial committee overview.
 
-That aside, a lot of the bills still end up dying within that unaccountable committee.
-We have no public way of knowing the specific reason for why that is the case.
-We can only see that bills have been passing in a less discriminatory manner and make inferences from that.
-One inference that we cannot make is that the bills are simply just problematic and not worth considering on the floor.
-If that were the case, the bills this year would have been targetted much more in the committee level.
-As a result, a more likely inference is that the legislative structure is being taken advantage of to varying degrees depending on the party control.
+That aside, a lot of the bills still end up dying within the committees than anywhere else.
 
-In addition, there was a lot more action with various bills (amendments/recommendations, close votes, etc.) that cannot be shown within the restraints of the current graphic and will be shown in more detail in the "Other graphic forms" tab.
+In addition, there was a lot more action with various bills (amendments/recommendations, close votes, etc.) that can be seen in the "return sankey" tab. Few bills are passed in their original form.
+
 
 
 # 2021 {data-orientation=rows}
@@ -1782,17 +1776,10 @@ rtable(csv21)
 This year was exceptional for Sierra Club-supported legislation.
 Not only were ~90% of the bills supported by the organization, but an unprecedented amount of bills ended up passing the initial hurdle of the first committee.
 In addition, there are a sizable amount of joint resolutions this year, which as stated are not laws but still abide by a legislative process and are included as such.
-
 That congratulatory news aside, it is even in this favored environment still has most dead bills die in the committee.
-There are no public voting records, not much in general to go off why they were rejected.
-This becomes problematic within a democratic society where an active citizen would want to know which congresspeople voted for what and what their specific opinion on a bill was.
-Sure, the amount killed off this year has been smaller, but we still do not know the reason why or much of anything.
 
-An interesting note to be made is that the control sankey diagram does not have any bills that get past the second committee.
-This is strange for a couple of reasons: 
-1. There was a democratic trifecta present, which would have increased the amount of passed bills, and
-2. 2020 had a democratic trifecta as well and the control sankey there reflected the climate legislation passed that year, with more control bills passing through.
-There was an issue with random bill generation for this particular year that resulted in non-passed bills being more influential than usual, so take this year's control sankey with caution.
+Of note, the sessions this year occur during covid and had many measures taken to ensure electronic access to hearings.
+Also, very few regressive bills are proposed this year, even compared to 2020.
 
 # 2022 {data-orientation=rows}
 
@@ -1947,6 +1934,8 @@ rtable(csv22)
 
 This year is the first year in almost a decade when a Republican governor took office in Virginia.
 Aside from that, bill-passing levels have regressed back to pre-2020 levels.
+The House, having been retaken by Republicans, passed more regressive legislation.
+These bills would make their way to be passed into law.
 
 # 2023 {data-orientation=rows}
 
@@ -2068,7 +2057,12 @@ rtable(csv23)
 <span style="color:red">Governor: Glenn Youngkin </span> - <span style="color:blue">Senate Composition: 21D:18R </span> - <span style="color:red">House Composition: 48D:52R </span>
 </center>
 
-
+This is the last year of our study.
+Governmental partisan composition remains the same as 2022.
+The House still proposes a lot of regressive legislation.
+However, the Senate, despite being held by Democrats, has more regressive legislation proposed at this time.
+A lot of it does not make it out of the committee, but this is a surprising development.
+All in all, similar amounts of progressive and regressive legislation gets passed this year.
 
 # Charts
 
